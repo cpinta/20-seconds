@@ -8,11 +8,13 @@ var state: PlayerState = PlayerState.FREE
 var invulnerable: bool = false
 
 var imgBody: Sprite2D
+var imgHead: Sprite2D
 var imgFace: Sprite2D
 var imgEars: Sprite2D
 var imgScarf: Sprite2D
 var scarfParent: Node2D
 var imgHand: Sprite2D
+var imgLegs: Sprite2D
 var gun: Gun
 
 var SCARF_POS_LEFT_X: float = -112
@@ -67,6 +69,11 @@ const IMG_SPEED_MIN: float = 0.1
 
 const INPUT_DEADZONE: float = 0.25
 
+var STEP_ANGLE = 10
+var STEP_SPEED: float = 3
+var curStepAngle: float = 0
+var stepDirection: int = -1
+
 var groundDetect: Area2D
 var groundRayR: RayCast2D
 var audio: AudioStreamPlayer2D
@@ -93,8 +100,10 @@ func _ready():
 	audio = $audio
 	
 	imgBody = $body
-	imgEars = $body/ears
-	imgFace = $body/face
+	imgEars = $body/head/ears
+	imgFace = $body/head/face
+	imgHead = $body/head
+	imgLegs = $body/legs
 	imgScarf = $"body/scarf parent/scarf back"
 	scarfParent = $"body/scarf parent"
 	scarfParent.visible = false
@@ -117,18 +126,49 @@ func _process(delta):
 		scarfParent.rotation_degrees = lerp(scarfParent.rotation_degrees, SCARF_ROTAT_MIN, IMG_SPEED_LERP * delta)
 	
 	if abs(inputVector.y) > INPUT_DEADZONE:
-		if inputVector.y > 0:
-			imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, HANDS_ANGLE_MIN * direction, HANDS_ANGLE_LERP * delta)
-		else:
-			imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, HANDS_ANGLE_MAX * direction, HANDS_ANGLE_LERP * delta)
 		pass
 	else:
-			imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, 0.0, HANDS_ANGLE_LERP * delta)
+		imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, 0.0, HANDS_ANGLE_LERP * delta)
 	
 	var scarfDest: float = SCARF_ROTAT_MIN
 	
-	if abs(inputVector.x) > INPUT_DEADZONE:
-		scarfDest = SCARF_ROTAT_MAX_X
+	
+	if abs(inputVector.x) > INPUT_DEADZONE and isOnGround:
+		if abs(velocity.x) > IMG_SPEED_MIN:
+			if abs(curStepAngle) < abs(stepDirection * STEP_ANGLE):
+				curStepAngle += stepDirection * STEP_SPEED * abs(velocity.x) * delta
+				pass
+			else:
+				curStepAngle = stepDirection * STEP_ANGLE + (stepDirection * -1)
+				if stepDirection == 1:
+					stepDirection = -1
+				else:
+					stepDirection = 1
+			pass
+	else:
+		if isOnGround:
+			if abs(curStepAngle) > 0.1:
+				if curStepAngle > 0:
+					curStepAngle -= STEP_SPEED * delta
+					pass
+				else:
+					curStepAngle += STEP_SPEED * delta
+					pass
+				pass
+			else:
+				curStepAngle = 0
+				pass
+			pass
+		else:
+			stepDirection = direction * sign(velocity.y)
+			if abs(curStepAngle) < abs(stepDirection * STEP_ANGLE):
+				curStepAngle += stepDirection * STEP_SPEED * abs(velocity.x) * delta
+				pass
+			else:
+				curStepAngle = stepDirection * STEP_ANGLE + (stepDirection * -1)
+	
+	imgLegs.rotation_degrees = curStepAngle
+			
 	if velocity.y < 0:
 		if not isOnGround:
 			scarfDest = SCARF_ROTAT_MAX_Y
@@ -156,17 +196,23 @@ func _process(delta):
 	
 	if abs(inputVector.y) > INPUT_DEADZONE:
 		if inputVector.y < 0:
+			imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, HANDS_ANGLE_MAX * direction, HANDS_ANGLE_LERP * delta)
 			imgFace.position.y = lerp(imgFace.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * FACE_OFFSET_Y_MAX, IMG_SPEED_LERP * delta)
 			imgHand.position.y = lerp(imgHand.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * GUN_OFFSET_Y_MAX, IMG_SPEED_LERP * delta)
 			imgEars.position.y = lerp(imgEars.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * EARS_OFFSET_Y_MAX, IMG_SPEED_LERP * delta)
 			pass
 		else:
+			if not isOnGround:
+				imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, HANDS_ANGLE_MIN * direction, HANDS_ANGLE_LERP * delta)
+			else:
+				imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, 0.0, HANDS_ANGLE_LERP * delta)
 			imgFace.position.y = lerp(imgFace.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * FACE_OFFSET_Y_MIN, IMG_SPEED_LERP * delta)
 			imgHand.position.y = lerp(imgHand.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * GUN_OFFSET_Y_MIN, IMG_SPEED_LERP * delta)
 			imgEars.position.y = lerp(imgEars.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * EARS_OFFSET_Y_MIN, IMG_SPEED_LERP * delta)
 			pass
 		pass
 	else:
+		imgHand.rotation_degrees = lerp(imgHand.rotation_degrees, 0.0, HANDS_ANGLE_LERP * delta)
 		if isOnGround:
 			imgFace.position.y = lerp(imgFace.position.y, 0.0, IMG_SPEED_LERP * delta)
 			imgEars.position.y = lerp(imgEars.position.y, 0.0, IMG_SPEED_LERP * delta)
