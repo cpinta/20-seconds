@@ -1,0 +1,170 @@
+[gd_scene load_steps=11 format=3 uid="uid://wwfhpeosv5a8"]
+
+[ext_resource type="Script" uid="uid://cuehpdbgph7ck" path="res://scripts/player.gd" id="1_gsrtp"]
+[ext_resource type="Texture2D" uid="uid://ba78108ij5rgx" path="res://sprites/bear body.png" id="2_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://br6ocpjyl2xf5" path="res://sprites/bear eyes nose.png" id="3_tuyoq"]
+[ext_resource type="Texture2D" uid="uid://cbjtkea6uv35x" path="res://sprites/bear ears.png" id="4_fjrip"]
+[ext_resource type="Texture2D" uid="uid://dsctv2u3ft8e8" path="res://sprites/bear back scarf.png" id="5_smehm"]
+[ext_resource type="Texture2D" uid="uid://cw4gkaramqcy2" path="res://sprites/bear hands.png" id="6_fjrip"]
+[ext_resource type="Texture2D" uid="uid://b1tr187lef0yg" path="res://sprites/bear gun.png" id="7_smehm"]
+[ext_resource type="Script" uid="uid://ldlo0dxfiog2" path="res://scenes/gun.gd" id="8_smehm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qlg0r"]
+radius = 4.0
+height = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hlhl"]
+size = Vector2(7.135, 3)
+
+[node name="player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 57
+script = ExtResource("1_gsrtp")
+
+[node name="collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_qlg0r")
+
+[node name="body" type="Sprite2D" parent="."]
+position = Vector2(0, -7.5)
+rotation = -3.1415927
+scale = Vector2(-0.025, -0.025)
+texture = ExtResource("2_qlg0r")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="face" type="Sprite2D" parent="body"]
+position = Vector2(10, 0)
+texture = ExtResource("3_tuyoq")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="ears" type="Sprite2D" parent="body"]
+z_index = -1
+texture = ExtResource("4_fjrip")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="scarf parent" type="Node2D" parent="body"]
+position = Vector2(-112, 24)
+
+[node name="scarf back" type="Sprite2D" parent="body/scarf parent"]
+z_index = -1
+position = Vector2(112, -24)
+texture = ExtResource("5_smehm")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="hands" type="Sprite2D" parent="body"]
+z_index = 1
+texture = ExtResource("6_fjrip")
+
+[node name="gun" type="CharacterBody2D" parent="body/hands"]
+script = ExtResource("8_smehm")
+
+[node name="gun" type="Sprite2D" parent="body/hands/gun"]
+z_index = -1
+scale = Vector2(0.99999976, 0.99999976)
+texture = ExtResource("7_smehm")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="gunPoint" type="Node2D" parent="body/hands/gun/gun"]
+position = Vector2(248.42538, 76.018135)
+scale = Vector2(40.000004, 40.000004)
+
+[node name="groundDetect" type="Area2D" parent="."]
+position = Vector2(0, -8)
+collision_layer = 0
+collision_mask = 33
+
+[node name="shape" type="CollisionShape2D" parent="groundDetect"]
+position = Vector2(0.2, 7.5)
+shape = SubResource("RectangleShape2D_2hlhl")
+
+[node name="audio" type="AudioStreamPlayer2D" parent="."]
