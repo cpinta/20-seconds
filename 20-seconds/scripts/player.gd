@@ -59,10 +59,13 @@ const GUN_OFFSET_Y_BASE: float = 0
 const GUN_OFFSET_Y_MIN: float = 45
 
 const GUN_RECOIL: Vector2 = Vector2(-5, 20)
-const GUN_RECOIL_HEAVY: Vector2 = Vector2(-100, 80)
+const GUN_RECOIL_HEAVY: Vector2 = Vector2(-150, 200)
 const GUN_HAND_RECOIL_X: float = 100
 const GUN_EAR_RECOIL_X: float = 50
-const GUN_CHARGE_TIME: float = 2
+const GUN_CHARGE_TIME: float = 1
+const GUN_CHARGE_SHAKE_Y: float = 10
+const GUN_CHARGE_SHAKE_SPEED: float = 1000
+var gunChargeShakeDir: int = 1
 var isChargingGun: bool = false
 var gunChargeTimer: float = 0
 
@@ -281,6 +284,25 @@ func _process(delta):
 				pass
 			pass
 
+	if isChargingGun:
+		imgFace.position.x = FACE_OFFSET_X_MAX * -direction
+		if gunChargeTimer > GUN_CHARGE_TIME:
+			print(gun.position.y)
+			var pos: float = gun.position.y
+			if abs(pos) < GUN_CHARGE_SHAKE_Y:
+				var change: float = delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
+				pos += delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
+				pass
+			else:
+				gunChargeShakeDir = -gunChargeShakeDir
+				pos = (GUN_CHARGE_SHAKE_Y * gunChargeShakeDir) - gunChargeShakeDir
+				pass
+			gun.position.y = pos
+	else:
+		gun.position.y = 0
+		pass
+	pass
+
 func _cast_ray(direction: Vector2, length: float):
 	var space_state = get_world_2d().direct_space_state
 	# use global coordinates, not local to node
@@ -308,7 +330,8 @@ func _physics_process(delta):
 					isDucking = false
 				if not isOnGroundOld:
 					if isDucking:
-						velocity.x = sign(velocity.x) * CROUCH_LAND_BOOST
+						if abs(velocity.x) > CROUCH_LAND_BOOST/2:
+							velocity.x = sign(velocity.x) * CROUCH_LAND_BOOST
 			else:
 				isDucking = false
 				
@@ -359,6 +382,7 @@ func _physics_process(delta):
 				imgHand.position.x = GUN_HAND_RECOIL_X * -direction
 				
 				faceBaseTimer = FACE_BASE_IDLE_TIME
+				gunChargeTimer = 0
 					
 				
 			
