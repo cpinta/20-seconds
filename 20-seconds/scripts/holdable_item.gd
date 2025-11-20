@@ -13,5 +13,5 @@ func _process(delta: float) -> void:
 func interact():
 	pass
 
-func use_item(direction: Vector2):
+func use_item(direction: Vector2, isCharged: bool):
 	pass

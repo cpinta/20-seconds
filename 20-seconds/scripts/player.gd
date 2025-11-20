@@ -58,9 +58,13 @@ const GUN_OFFSET_Y_MAX: float = -50
 const GUN_OFFSET_Y_BASE: float = 0
 const GUN_OFFSET_Y_MIN: float = 45
 
-const GUN_RECOIL: Vector2 = Vector2(-5, 80)
+const GUN_RECOIL: Vector2 = Vector2(-5, 20)
+const GUN_RECOIL_HEAVY: Vector2 = Vector2(-100, 80)
 const GUN_HAND_RECOIL_X: float = 100
 const GUN_EAR_RECOIL_X: float = 50
+const GUN_CHARGE_TIME: float = 2
+var isChargingGun: bool = false
+var gunChargeTimer: float = 0
 
 const HANDS_ANGLE_MAX: float = -90
 const HANDS_ANGLE_MIN: float = 90
@@ -304,7 +308,7 @@ func _physics_process(delta):
 					isDucking = false
 				if not isOnGroundOld:
 					if isDucking:
-						velocity.x = direction * CROUCH_LAND_BOOST
+						velocity.x = sign(velocity.x) * CROUCH_LAND_BOOST
 			else:
 				isDucking = false
 				
@@ -321,31 +325,49 @@ func _physics_process(delta):
 				if leftWallRay.is_colliding():
 					velocity.y = WALL_JUMP_VELOCITY.y
 					velocity.x = WALL_JUMP_VELOCITY.x
-					set_direction(-direction)
+					set_direction(1)
 					pass
 				if rightWallRay.is_colliding():
 					velocity.y = WALL_JUMP_VELOCITY.y
 					velocity.x = -WALL_JUMP_VELOCITY.x
-					set_direction(-direction)
+					set_direction(-1)
 					pass
 				
 
 			if Input.is_action_just_pressed("shoot"):
+				isChargingGun = true
+				pass
+			if Input.is_action_just_released("shoot"):
+				isChargingGun = false
+				var aim: Vector2 = get_gun_aim_vector()
+				var recoilVec: Vector2
+				if gunChargeTimer > GUN_CHARGE_TIME:
+					recoilVec = GUN_RECOIL_HEAVY
+					gun.shoot_bullet(aim, true)
+				else:
+					recoilVec = GUN_RECOIL
+					gun.shoot_bullet(aim, false)
+				if aim.y < 0:
+					velocity.y += recoilVec.y * inputVector.y
+				elif aim.y > 0:
+					velocity.y = recoilVec.y * inputVector.y
+				else:
+					velocity.x += recoilVec.x * direction
+				
 				imgEars.position.x = GUN_EAR_RECOIL_X * -direction
 				imgFace.position.x = FACE_OFFSET_X_MAX * -direction
 				imgHand.position.x = GUN_HAND_RECOIL_X * -direction
 				
 				faceBaseTimer = FACE_BASE_IDLE_TIME
-				if abs(inputVector.y) > INPUT_DEADZONE:
-					gun.shoot_bullet(Vector2(0, inputVector.y))
-					if inputVector.y < 0:
-						velocity.y += GUN_RECOIL.y * inputVector.y
-					else:
-						velocity.y = GUN_RECOIL.y * inputVector.y
+					
+				
+			
+			if isChargingGun:
+				if gunChargeTimer < GUN_CHARGE_TIME:
+					gunChargeTimer += delta
+					pass
 				else:
-					gun.shoot_bullet(Vector2(direction, 0))
-					velocity.x += GUN_RECOIL.x * direction
-				pass
+					pass
 
 			if inputVector.x != 0 and not isDucking:
 				#velocity.x = inputVector.x * SPEED
@@ -361,6 +383,12 @@ func _physics_process(delta):
 			
 			publicVelocity = velocity
 			isOnGroundOld = isOnGround
+
+func get_gun_aim_vector() -> Vector2:
+	if abs(inputVector.y) > INPUT_DEADZONE:
+		return Vector2(0, inputVector.y)
+	else:
+		return Vector2(direction, 0)
 
 func collide(delta: float):
 	var collision_count := 0

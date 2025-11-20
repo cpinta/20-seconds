@@ -6,6 +6,7 @@ var sprite: Sprite2D
 var gunPoint: Node2D
 var gunPointPos: Vector2
 var bulletScene: PackedScene = preload("res://scenes/base_bullet.tscn")
+var bulletHeavyScene: PackedScene = preload("res://scenes/base_bullet_heavy.tscn")
 
 var gunPointScale: float = 0.01
 
@@ -20,12 +21,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func use_item(direction: Vector2):
-	super.use_item(direction)
-	shoot_bullet(direction)
+func use_item(direction: Vector2, isCharged: bool):
+	super.use_item(direction, isCharged)
+	shoot_bullet(direction, isCharged)
 
-func shoot_bullet(direction: Vector2):
-	var bullet: Bullet = await G.spawn(bulletScene)
+func shoot_bullet(direction: Vector2, isCharged: bool):
+	var bullet: Bullet = null
+	if isCharged:
+		bullet = await G.spawn(bulletHeavyScene)
+	else:
+		bullet = await G.spawn(bulletScene)
 	bullet.initialize(direction)
 	bullet.global_position = gunPoint.global_position
 	bullet.rotation = direction.angle()

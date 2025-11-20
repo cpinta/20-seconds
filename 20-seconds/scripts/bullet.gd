@@ -7,6 +7,7 @@ var damage: float = 0
 var knockback: float = 0
 var speed: float = 0
 var direction: Vector2
+var health: int = 1
 
 var dist_traveled: float = 0
 const MAX_DIST: float = 300

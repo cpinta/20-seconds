@@ -10,6 +10,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func use_item(direction: Vector2):
-	super.use_item(direction)
+func use_item(direction: Vector2, isCharged: bool):
+	super.use_item(direction, isCharged)
 	pass
