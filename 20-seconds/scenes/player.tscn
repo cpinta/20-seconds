@@ -27,10 +27,11 @@ script = ExtResource("1_gsrtp")
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_qlg0r")
 
-[node name="body" type="Sprite2D" parent="."]
-position = Vector2(0, -7.5)
-rotation = -3.1415927
-scale = Vector2(-0.025, -0.025)
+[node name="sprites" type="Node2D" parent="."]
+position = Vector2(0, -7)
+scale = Vector2(0.025, 0.025)
+
+[node name="body" type="Sprite2D" parent="sprites"]
 texture = ExtResource("2_qlg0r")
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
@@ -52,78 +53,11 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
 
-[node name="head" type="Sprite2D" parent="body"]
-z_index = -1
-texture = ExtResource("3_y4r1p")
-metadata/_aseprite_wizard_interface_config_ = {
-"animation_section": false,
-"layer_section": true,
-"output_section": true,
-"pending_changes": {},
-"slice_section": false
-}
-metadata/_aseprite_wizard_config_ = {
-"embed_tex": true,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": true,
-"should_round_fps": true,
-"slice": "",
-"source": "res://sprites/player.aseprite"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+[node name="scarf parent" type="Node2D" parent="sprites/body"]
+position = Vector2(-111.999985, 24)
+scale = Vector2(0.99999994, 0.99999994)
 
-[node name="ears" type="Sprite2D" parent="body/head"]
-z_index = -1
-texture = ExtResource("4_fjrip")
-metadata/_aseprite_wizard_interface_config_ = {
-"animation_section": false,
-"layer_section": true,
-"output_section": true,
-"pending_changes": {},
-"slice_section": false
-}
-metadata/_aseprite_wizard_config_ = {
-"embed_tex": true,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": true,
-"should_round_fps": true,
-"slice": "",
-"source": "res://sprites/player.aseprite"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
-
-[node name="face" type="Sprite2D" parent="body/head"]
-texture = ExtResource("3_tuyoq")
-metadata/_aseprite_wizard_interface_config_ = {
-"animation_section": false,
-"layer_section": true,
-"output_section": true,
-"pending_changes": {},
-"slice_section": false
-}
-metadata/_aseprite_wizard_config_ = {
-"embed_tex": true,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": true,
-"should_round_fps": true,
-"slice": "",
-"source": "res://sprites/player.aseprite"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
-
-[node name="scarf parent" type="Node2D" parent="body"]
-position = Vector2(-112, 24)
-
-[node name="scarf back" type="Sprite2D" parent="body/scarf parent"]
+[node name="scarf back" type="Sprite2D" parent="sprites/body/scarf parent"]
 z_index = -1
 position = Vector2(112, -24)
 texture = ExtResource("5_smehm")
@@ -147,14 +81,84 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
 
-[node name="hands" type="Sprite2D" parent="body"]
+[node name="head" type="Sprite2D" parent="sprites/body"]
+z_index = -1
+scale = Vector2(0.99999994, 0.99999994)
+texture = ExtResource("3_y4r1p")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="ears" type="Sprite2D" parent="sprites/body/head"]
+z_index = -1
+texture = ExtResource("4_fjrip")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="face" type="Sprite2D" parent="sprites/body/head"]
+texture = ExtResource("3_tuyoq")
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"pending_changes": {},
+"slice_section": false
+}
+metadata/_aseprite_wizard_config_ = {
+"embed_tex": true,
+"layers": [],
+"o_ex_p": "",
+"o_folder": "",
+"o_name": "",
+"only_visible": true,
+"should_round_fps": true,
+"slice": "",
+"source": "res://sprites/player.aseprite"
+}
+metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
+
+[node name="hands" type="Sprite2D" parent="sprites/body"]
 z_index = 1
+scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("6_fjrip")
 
-[node name="gun" type="CharacterBody2D" parent="body/hands"]
+[node name="gun" type="CharacterBody2D" parent="sprites/body/hands"]
 script = ExtResource("8_smehm")
 
-[node name="gun" type="Sprite2D" parent="body/hands/gun"]
+[node name="gun" type="Sprite2D" parent="sprites/body/hands/gun"]
 z_index = -1
 scale = Vector2(0.99999976, 0.99999976)
 texture = ExtResource("7_smehm")
@@ -178,11 +182,11 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
 
-[node name="gunPoint" type="Node2D" parent="body/hands/gun/gun"]
+[node name="gunPoint" type="Node2D" parent="sprites/body/hands/gun/gun"]
 position = Vector2(248.42538, 76.018135)
 scale = Vector2(40.000004, 40.000004)
 
-[node name="legs" type="Sprite2D" parent="body"]
+[node name="legs" type="Sprite2D" parent="sprites"]
 z_index = -1
 texture = ExtResource("10_d2wvv")
 metadata/_aseprite_wizard_interface_config_ = {

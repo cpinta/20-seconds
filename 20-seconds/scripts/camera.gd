@@ -18,7 +18,14 @@ func _process(delta: float) -> void:
 			target = get_tree().get_nodes_in_group("player")[0]
 		pass
 	else:
-		global_position = lerp(global_position, target.global_position + (Vector2(target.direction, target.inputVector.y) * TARGET_LEAD), TARGET_LERP * delta)
+		var vertical: float = 0
+		if target.isDucking:
+			vertical = 0
+			pass
+		else:
+			vertical = target.inputVector.y
+			pass
+		global_position = lerp(global_position, target.global_position + (Vector2(target.direction, vertical) * TARGET_LEAD), TARGET_LERP * delta)
 		
 		pass
 	pass
