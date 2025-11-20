@@ -62,9 +62,16 @@ func _area_entered(body: Node2D):
 		if !entity.invulnerable:
 			entity.get_hit(damage, knockback)
 			pass
-		die()
+		get_hit()
 	else:
 		pass
+
+
+func get_hit():
+	health -= damage
+	if health <= 0:
+		die()
+	pass
 
 func die():
 	queue_free()
