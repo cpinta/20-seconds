@@ -219,3 +219,11 @@ position = Vector2(0.2, 7.5)
 shape = SubResource("RectangleShape2D_2hlhl")
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
+
+[node name="leftwallray" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(-10, 0)
+
+[node name="rightwallray" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(10, 0)

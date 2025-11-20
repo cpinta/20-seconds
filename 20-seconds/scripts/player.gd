@@ -17,6 +17,9 @@ var imgHand: Sprite2D
 var imgLegs: Sprite2D
 var gun: Gun
 
+var leftWallRay: RayCast2D
+var rightWallRay: RayCast2D
+
 var SCARF_POS_LEFT_X: float = -112
 var SCARF_POS_RIGHT_X: float = 140
 var SCARF_CUR_BASE_ANGLE: float = 0
@@ -72,6 +75,7 @@ const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_LEGS_Y: float = 1
 const SLIDE_FRICTION_MULT: float = 0.1
 const FRICTION_MULT: float = 1
+const CROUCH_LAND_BOOST: float = 120
 
 const INPUT_DEADZONE: float = 0.25
 
@@ -89,6 +93,7 @@ var audio: AudioStreamPlayer2D
 const ACCELERATION = 80.0
 const MAX_SPEED = 80.0
 const JUMP_VELOCITY = 160.0
+const WALL_JUMP_VELOCITY: Vector2 = Vector2(120, 160)
 const MAX_COLLISIONS = 6
 
 var spikeDestination: Vector2
@@ -97,6 +102,7 @@ var spikeDestination: Vector2
 
 var inputVector: Vector2
 var isOnGround: bool
+var isOnGroundOld: bool
 var isDucking: bool
 
 
@@ -114,6 +120,9 @@ func _ready():
 	scarfParent.visible = false
 	imgHand = $sprites/body/hands
 	gun = $sprites/body/hands/gun
+	
+	leftWallRay = $leftwallray
+	rightWallRay = $rightwallray
 	
 	pass
 
@@ -267,11 +276,18 @@ func _process(delta):
 				imgEars.position.y = lerp(imgEars.position.y, (min(abs(velocity.y), IMG_SPEED_MAX)/IMG_SPEED_MAX) * EARS_OFFSET_Y_MIN, IMG_SPEED_LERP * delta)
 				pass
 			pass
-	
-	#
-	#if anim.animation.get_basename() == "walk":
-		#if anim.frame != leftStep:
-			
+
+func _cast_ray(direction: Vector2, length: float):
+	var space_state = get_world_2d().direct_space_state
+	# use global coordinates, not local to node
+	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + (direction * length))
+	var result = space_state.intersect_ray(query)
+	if result:
+		if result["collider"] is Player:
+			pass
+		else:
+			pass
+	pass
 
 func _physics_process(delta):
 	match state:
@@ -286,8 +302,12 @@ func _physics_process(delta):
 					isDucking = true
 				else:
 					isDucking = false
+				if not isOnGroundOld:
+					if isDucking:
+						velocity.x = direction * CROUCH_LAND_BOOST
 			else:
 				isDucking = false
+				
 			
 			# Add the gravity.
 			if not is_on_floor():
@@ -296,6 +316,19 @@ func _physics_process(delta):
 			# Handle jump.
 			if Input.is_action_just_pressed("jump") && isOnGround:
 				velocity.y = JUMP_VELOCITY
+			# Handle walljump
+			if Input.is_action_just_pressed("jump") && not isOnGround:
+				if leftWallRay.is_colliding():
+					velocity.y = WALL_JUMP_VELOCITY.y
+					velocity.x = WALL_JUMP_VELOCITY.x
+					set_direction(-direction)
+					pass
+				if rightWallRay.is_colliding():
+					velocity.y = WALL_JUMP_VELOCITY.y
+					velocity.x = -WALL_JUMP_VELOCITY.x
+					set_direction(-direction)
+					pass
+				
 
 			if Input.is_action_just_pressed("shoot"):
 				imgEars.position.x = GUN_EAR_RECOIL_X * -direction
@@ -327,6 +360,7 @@ func _physics_process(delta):
 			pass
 			
 			publicVelocity = velocity
+			isOnGroundOld = isOnGround
 
 func collide(delta: float):
 	var collision_count := 0
