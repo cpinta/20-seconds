@@ -1,6 +1,8 @@
 extends Node2D
 class_name Bullet
 
+var sender: Entity
+
 var area: Area2D
 
 var damage: float = 0
@@ -28,7 +30,8 @@ func destroy():
 	queue_free()
 	pass
 
-func initialize(direction: Vector2):
+func initialize(sender: Entity, direction: Vector2):
+	self.sender = sender
 	self.direction = direction
 	pass
 
@@ -54,5 +57,15 @@ func _process(delta: float) -> void:
 func _area_entered(body: Node2D):
 	if body is Entity:
 		var entity = body as Entity
+		if entity == sender:
+			return
 		if !entity.invulnerable:
+			entity.get_hit(damage, knockback)
 			pass
+		die()
+	else:
+		pass
+
+func die():
+	queue_free()
+	pass

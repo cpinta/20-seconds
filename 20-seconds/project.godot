@@ -13,6 +13,7 @@ config_version=5
 config/name="20seconds"
 run/main_scene="uid://b6nei6swwijxr"
 config/features=PackedStringArray("4.5", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -70,6 +71,8 @@ dash={
 
 2d_physics/layer_1="ground"
 2d_physics/layer_2="player"
+2d_physics/layer_3="targets"
+2d_physics/layer_4="bullet"
 
 [physics]
 

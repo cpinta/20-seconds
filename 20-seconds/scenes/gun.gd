@@ -31,7 +31,7 @@ func shoot_bullet(direction: Vector2, isCharged: bool):
 		bullet = await G.spawn(bulletHeavyScene)
 	else:
 		bullet = await G.spawn(bulletScene)
-	bullet.initialize(direction)
+	bullet.initialize(holder, direction)
 	bullet.global_position = gunPoint.global_position
 	bullet.rotation = direction.angle()
 	pass

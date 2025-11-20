@@ -5,8 +5,6 @@ enum PlayerState {FREE=0, MOVED_BY_SPIKE=1}
 
 var state: PlayerState = PlayerState.FREE
 
-var invulnerable: bool = false
-
 var imgBody: Sprite2D
 var imgHead: Sprite2D
 var imgFace: Sprite2D
@@ -83,6 +81,7 @@ const CROUCH_LEGS_Y: float = 1
 const SLIDE_FRICTION_MULT: float = 0.1
 const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
+const CROUCH_SPEED: float = 300
 
 const INPUT_DEADZONE: float = 0.25
 
@@ -130,6 +129,8 @@ func _ready():
 	
 	leftWallRay = $leftwallray
 	rightWallRay = $rightwallray
+	
+	gun.holder = self
 	
 	pass
 
@@ -204,22 +205,30 @@ func _process(delta):
 			imgBody.position.y = lerp(imgBody.position.y, CROUCH_BODY_Y, IMG_SPEED_LERP * delta)
 			imgLegs.z_index = 0
 			if abs(velocity.x) > IMG_SPEED_MIN:
-				if imgBody.rotation_degrees < direction * CROUCH_BODY_ANGLE:
+				if round(imgBody.rotation_degrees) < direction * CROUCH_BODY_ANGLE:
+					print("6:",imgBody.rotation_degrees)
 					imgBody.rotation_degrees += -direction * STEP_SPEED * LEG_AIR_SWING * delta
+					print("6:",imgBody.rotation_degrees)
 				else:
 					imgBody.rotation_degrees = direction * CROUCH_BODY_ANGLE
+					print("5:",imgBody.rotation_degrees)
 					pass
 				if abs(curStepAngle) < abs(CROUCH_LEG_ANGLE):
 					curStepAngle += -direction * STEP_SPEED * LEG_AIR_SWING * delta
 				else:
 					curStepAngle = direction * CROUCH_LEG_ANGLE
 			else:
-				if abs(imgBody.rotation_degrees) > 1:
-					imgBody.rotation_degrees -= sign(imgBody.rotation_degrees) * IMG_SPEED_LERP
+				if abs(imgBody.rotation_degrees) > 4:
+					print("4:",imgBody.rotation_degrees)
+					imgBody.rotation_degrees -= sign(imgBody.rotation_degrees) * CROUCH_SPEED * delta
 				else:
 					imgBody.rotation_degrees = 0
 					pass
 				pass
+				if abs(curStepAngle) > 4:
+					curStepAngle -= -direction * STEP_SPEED * LEG_AIR_SWING * delta
+				else:
+					curStepAngle = 0
 			pass
 	else:
 		imgBody.position.y = lerp(imgBody.position.y, 0.0, IMG_SPEED_LERP * delta)
@@ -236,8 +245,8 @@ func _process(delta):
 		imgLegs.z_index = -1
 		imgLegs.position.y = lerp(imgLegs.position.y, 0.0, IMG_SPEED_LERP * delta)
 		imgBody.position.y = lerp(imgBody.position.y, 0.0, IMG_SPEED_LERP * delta)
-		if abs(imgBody.rotation_degrees) > 1:
-			imgBody.rotation_degrees -= sign(imgBody.rotation_degrees) * IMG_SPEED_LERP
+		if abs(imgBody.rotation_degrees) > 4:
+			imgBody.rotation_degrees -= sign(imgBody.rotation_degrees) * CROUCH_SPEED * delta
 		else:
 			imgBody.rotation_degrees = 0
 			pass
@@ -285,9 +294,9 @@ func _process(delta):
 			pass
 
 	if isChargingGun:
-		imgFace.position.x = FACE_OFFSET_X_MAX * -direction
 		if gunChargeTimer > GUN_CHARGE_TIME:
-			print(gun.position.y)
+			imgFace.position.x = lerp(imgFace.position.x, FACE_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
+			
 			var pos: float = gun.position.y
 			if abs(pos) < GUN_CHARGE_SHAKE_Y:
 				var change: float = delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
@@ -334,7 +343,6 @@ func _physics_process(delta):
 							velocity.x = sign(velocity.x) * CROUCH_LAND_BOOST
 			else:
 				isDucking = false
-				
 			
 			# Add the gravity.
 			if not is_on_floor():
@@ -410,7 +418,10 @@ func _physics_process(delta):
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
-		return Vector2(0, inputVector.y)
+		if not isDucking:
+			return Vector2(0, inputVector.y)
+		else:
+			return Vector2(direction, 0)
 	else:
 		return Vector2(direction, 0)
 

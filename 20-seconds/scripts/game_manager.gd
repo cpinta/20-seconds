@@ -16,21 +16,6 @@ var player: Player
 var coinCount: int = 0
 
 var audio: AudioStreamPlayer2D
-var audioCoin: AudioStreamPlayer2D
-
-var acBum1: AudioStream
-var acBum2: AudioStream
-var acJump: AudioStream
-var acCoin: AudioStream
-var acHonk: AudioStream
-var acOpen: AudioStream
-var acClose: AudioStream
-var acRev: AudioStream
-var acExplode: AudioStream
-var acDoor: AudioStream
-var acBombBeep: AudioStream
-var acCarRoof: AudioStream
-var acWhoosh: AudioStream
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -85,13 +70,6 @@ func _process(delta):
 			pass
 		GameState.END:
 			pass
-	pass
-
-func coin_collected():
-	coinCount += 1
-	
-	audioCoin.stream = acCoin
-	audioCoin.play()
 	pass
 
 func next_level():
