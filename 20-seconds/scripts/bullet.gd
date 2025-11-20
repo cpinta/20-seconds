@@ -44,8 +44,8 @@ func _process(delta: float) -> void:
 		pass
 	
 	if fullScaleTimer < TIME_TIL_FULL_SCALE:
-		fullScaleTimer += delta
 		scale = Vector2.ONE * (originalScale + (fullScaleTimer/TIME_TIL_FULL_SCALE) * (desiredScale - originalScale))
+		fullScaleTimer += delta
 		pass
 	else:
 		scale = Vector2.ONE * desiredScale

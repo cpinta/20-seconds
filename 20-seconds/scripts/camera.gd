@@ -3,8 +3,8 @@ class_name GameCamera
 
 var target: Player
 
-var TARGET_LEAD: Vector2 = Vector2(50, 50)
-var TARGET_LERP: float = 2
+var TARGET_LEAD: Vector2 = Vector2(20, 20)
+var TARGET_LERP: Vector2 = Vector2(8, 4)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,7 +25,8 @@ func _process(delta: float) -> void:
 		else:
 			vertical = target.inputVector.y
 			pass
-		global_position = lerp(global_position, target.global_position + (Vector2(target.direction, vertical) * TARGET_LEAD), TARGET_LERP * delta)
+		global_position.y = lerp(global_position.y, target.global_position.y + (vertical * TARGET_LEAD.y), TARGET_LERP.y * delta)
+		global_position.x = lerp(global_position.x, target.global_position.x + (target.direction * TARGET_LEAD.x), TARGET_LERP.x * delta)
 		
 		pass
 	pass

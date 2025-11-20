@@ -373,7 +373,7 @@ func _physics_process(delta):
 				if aim.y < 0:
 					velocity.y += recoilVec.y * inputVector.y
 				elif aim.y > 0:
-					velocity.y = recoilVec.y * inputVector.y
+					velocity.y += recoilVec.y * inputVector.y
 				else:
 					velocity.x += recoilVec.x * direction
 				
