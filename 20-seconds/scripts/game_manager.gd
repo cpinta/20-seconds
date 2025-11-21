@@ -10,8 +10,13 @@ var curLevelObj: Level
 var levelPaths: Array[String]
 
 var inGameUI: InGameUI
+var inGameUIScene: PackedScene = preload("res://scenes/ingame_ui.tscn")
 
 var player: Player
+var playerScene: PackedScene = preload("res://scenes/player.tscn")
+
+var camera: GameCamera
+var cameraScene: PackedScene = preload("res://scenes/game_camera.tscn")
 
 var coinCount: int = 0
 
@@ -20,12 +25,10 @@ var audio: AudioStreamPlayer2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#gameUI = $UI
-	inGameUI = $ingameUI
+	inGameUI = await spawn(inGameUIScene)
 	
-	
-	load_intro()
-	
-	levelPaths.append("res://levels/level_1.tscn");
+	levelPaths.append("res://levels/test_level.tscn");
+	load_level(0)
 	
 	#load_level(0)
 	pass # Replace with function body.
@@ -55,6 +58,8 @@ func spawn(scene: PackedScene):
 	if not node.is_inside_tree():
 		await node.ready
 	return node
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
@@ -62,11 +67,6 @@ func _process(delta):
 		GameState.TITLE_SCREEN:
 			pass
 		GameState.IN_GAME:
-			if player == null:
-				if get_tree().get_node_count_in_group("player") > 0:
-					player = get_tree().get_nodes_in_group("player")[0]
-					#player.justDied.connect(load_death_screen)
-				pass
 			pass
 		GameState.PAUSED:
 			pass
@@ -97,22 +97,17 @@ func load_level(index: int):
 		if curLevelObj != null:
 			curLevelObj.queue_free()
 		#gameUI.centerText.set_center_text("", 0, 0)
-		curLevelObj = load(levelPaths[index]).instantiate()
-		if player == null:
-			if get_tree().get_node_count_in_group("player") > 0:
-				player = get_tree().get_nodes_in_group("player")[0]
-				#player.justDied.connect(load_death_screen)
-			pass
-		pass
-		player.position = Vector2(48, -64)
-		self.add_child.call_deferred(curLevelObj)
+		curLevelObj = await spawn(load(levelPaths[index]))
+		if not player:
+			player = await spawn(playerScene)
+		if not camera:
+			camera = await spawn(cameraScene)
+			
+		player.global_position = curLevelObj.start.global_position
+		camera.global_position = player.global_position
 		
-		#player.position = get_tree().get_nodes_in_group("start")[0].global_position
-		#player.position = curLevelObj.start.position
 		return true
-		pass
 	return false
-	pass
 
 func unload_current_level():
 	if curLevelObj != null:

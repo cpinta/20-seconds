@@ -18,6 +18,7 @@ var col: CollisionShape2D
 
 var leftWallRay: RayCast2D
 var rightWallRay: RayCast2D
+var upRay: RayCast2D
 
 var SCARF_POS_LEFT_X: float = -112
 var SCARF_POS_RIGHT_X: float = 140
@@ -86,8 +87,8 @@ const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
 const SLIDE_MIN_SPEED: float = 60
 
-const COL_STAND_HEIGHT: float = 13.75
-const COL_CROUCH_HEIGHT: float = 10
+const COL_STAND_HEIGHT: float = 13.5
+const COL_CROUCH_HEIGHT: float = 9.5
 const COL_RADIUS: float = 4
 
 const INPUT_DEADZONE: float = 0.25
@@ -118,6 +119,7 @@ var isOnGround: bool
 var isOnGroundOld: bool
 var isDucking: bool
 var isDuckingSlide: bool
+var canUnDuck: bool
 
 
 func _ready():
@@ -138,6 +140,7 @@ func _ready():
 	
 	leftWallRay = $leftwallray
 	rightWallRay = $rightwallray
+	upRay = $upray
 	
 	gun.holder = self
 	
@@ -381,8 +384,9 @@ func _physics_process(delta):
 					else:
 						isDuckingSlide = false
 				else:
-					isDuckingSlide = false
-					isDucking = false
+					if canUnDuck:
+						isDuckingSlide = false
+						isDucking = false
 				if not isOnGroundOld:
 					if isDucking:
 						if abs(velocity.x) > SLIDE_MIN_SPEED:
@@ -390,6 +394,10 @@ func _physics_process(delta):
 			else:
 				isDuckingSlide = false
 				isDucking = false
+				canUnDuck = true
+			
+			if isDucking:
+				canUnDuck = not upRay.is_colliding()
 			
 			# Add the gravity.
 			if not is_on_floor():

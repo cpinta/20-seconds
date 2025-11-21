@@ -220,6 +220,10 @@ shape = SubResource("RectangleShape2D_2hlhl")
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
 
+[node name="upray" type="RayCast2D" parent="."]
+position = Vector2(0, -6)
+target_position = Vector2(0, -8)
+
 [node name="leftwallray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 target_position = Vector2(-10, 0)

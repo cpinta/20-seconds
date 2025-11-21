@@ -3,6 +3,7 @@ extends Node2D
 
 var tiles: TilesPlatform
 @export var color: Color
+var start: Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -10,6 +11,7 @@ func _init():
 
 func _ready():
 	tiles = $platform
+	start = $start
 	set_level_color(color)
 	
 
