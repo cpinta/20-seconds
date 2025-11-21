@@ -3,6 +3,8 @@ class_name Bullet
 
 var sender: Entity
 
+var emitterScene: PackedScene = preload("res://scenes/gun_emitter.tscn")
+
 var area: Area2D
 
 var damage: float = 0
@@ -65,7 +67,8 @@ func _area_entered(body: Node2D):
 			entity.get_hit(damage, knockback)
 			pass
 		get_hit()
-	else:
+	elif body is TileMapLayer:
+		die()
 		pass
 
 
@@ -75,7 +78,11 @@ func get_hit():
 		die()
 	pass
 
-func die():
+func die(location: Vector2 = global_position):
 	wasDestroyed.emit(self)
+	var emitter = await G.spawn(emitterScene)
+	
+	emitter.global_position = global_position
+	emitter.rotation = (-direction).angle()
 	queue_free()
 	pass

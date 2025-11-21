@@ -8,6 +8,8 @@ var gunPointPos: Vector2
 var bulletScene: PackedScene = preload("res://scenes/base_bullet.tscn")
 var bulletHeavyScene: PackedScene = preload("res://scenes/base_bullet_heavy.tscn")
 
+var emitterScene: PackedScene = preload("res://scenes/gun_emitter.tscn")
+
 var gunPointScale: float = 0.01
 
 var activeBullets: Array[Bullet] = []
@@ -23,6 +25,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func _physics_process(delta: float) -> void:
+	pass
+
 func use_item(direction: Vector2, isCharged: bool):
 	super.use_item(direction, isCharged)
 	shoot_bullet(direction, isCharged)
@@ -30,8 +35,10 @@ func use_item(direction: Vector2, isCharged: bool):
 func shoot_bullet(direction: Vector2, isCharged: bool):
 	var bullet: Bullet = null
 	if isCharged:
+		emit()
 		bullet = await G.spawn(bulletHeavyScene)
 	else:
+		emit()
 		bullet = await G.spawn(bulletScene)
 	bullet.initialize(holder, direction)
 	bullet.global_position = gunPoint.global_position
@@ -40,15 +47,22 @@ func shoot_bullet(direction: Vector2, isCharged: bool):
 	activeBullets.append(bullet)
 	pass
 
+func emit():
+	var emitter: GPUParticles2D = await G.spawn(emitterScene)
+	emitter.global_position = gunPoint.global_position
+	#returnkkk
+	if owner.direction == 1:
+		emitter.rotation_degrees = 0
+	else:
+		emitter.rotation_degrees = 180
+	
 func set_direction(direction: Vector2):
 	if direction.x > 0:
 		sprite.flip_h = false
 		gunPoint.position.x = gunPointPos.x
-		pass
 	else:
 		sprite.flip_h = true
 		gunPoint.position.x = -gunPointPos.x
-		pass
 	pass
 
 func bullet_was_destroyed(bullet: Bullet):
