@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 
 G="*res://scripts/game_manager.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [global_group]
 
 player=""

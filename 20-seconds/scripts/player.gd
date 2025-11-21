@@ -14,6 +14,7 @@ var scarfParent: Node2D
 var imgHand: Sprite2D
 var imgLegs: Sprite2D
 var gun: Gun
+var col: CollisionShape2D
 
 var leftWallRay: RayCast2D
 var rightWallRay: RayCast2D
@@ -56,11 +57,11 @@ const GUN_OFFSET_Y_MAX: float = -50
 const GUN_OFFSET_Y_BASE: float = 0
 const GUN_OFFSET_Y_MIN: float = 45
 
-const GUN_RECOIL: Vector2 = Vector2(-5, 20)
+const GUN_RECOIL: Vector2 = Vector2(-10, 20)
 const GUN_RECOIL_HEAVY: Vector2 = Vector2(-150, 200)
 const GUN_HAND_RECOIL_X: float = 100
 const GUN_EAR_RECOIL_X: float = 50
-const GUN_CHARGE_TIME: float = 1
+const GUN_CHARGE_TIME: float = 2
 const GUN_CHARGE_SHAKE_Y: float = 10
 const GUN_CHARGE_SHAKE_SPEED: float = 1000
 var gunChargeShakeDir: int = 1
@@ -77,11 +78,17 @@ const IMG_SPEED_MIN: float = 0.1
 
 const CROUCH_BODY_Y: float = 100
 const CROUCH_BODY_ANGLE: float = -50
+const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
-const SLIDE_FRICTION_MULT: float = 0.1
+const SLIDE_FRICTION_MULT: float = 0.25
 const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
+const SLIDE_MIN_SPEED: float = 60
+
+const COL_STAND_HEIGHT: float = 13.75
+const COL_CROUCH_HEIGHT: float = 10
+const COL_RADIUS: float = 4
 
 const INPUT_DEADZONE: float = 0.25
 
@@ -110,11 +117,13 @@ var inputVector: Vector2
 var isOnGround: bool
 var isOnGroundOld: bool
 var isDucking: bool
+var isDuckingSlide: bool
 
 
 func _ready():
 	groundDetect = $groundDetect
 	audio = $audio
+	col = $collider
 	
 	imgBody = $sprites/body
 	imgFace = $sprites/body/head/face
@@ -203,15 +212,14 @@ func _process(delta):
 		if isDucking:
 			imgLegs.position.y = lerp(imgLegs.position.y, CROUCH_LEGS_Y, IMG_SPEED_LERP * delta)
 			imgBody.position.y = lerp(imgBody.position.y, CROUCH_BODY_Y, IMG_SPEED_LERP * delta)
-			imgLegs.z_index = 0
-			if abs(velocity.x) > IMG_SPEED_MIN:
+			imgHead.position.y = lerp(imgHead.position.y, CROUCH_HEAD_Y, IMG_SPEED_LERP * delta)
+			imgHead.z_index = 0
+			#imgLegs.z_index = 0
+			if isDuckingSlide:
 				if round(imgBody.rotation_degrees) < direction * CROUCH_BODY_ANGLE:
-					print("6:",imgBody.rotation_degrees)
 					imgBody.rotation_degrees += -direction * STEP_SPEED * LEG_AIR_SWING * delta
-					print("6:",imgBody.rotation_degrees)
 				else:
 					imgBody.rotation_degrees = direction * CROUCH_BODY_ANGLE
-					print("5:",imgBody.rotation_degrees)
 					pass
 				if abs(curStepAngle) < abs(CROUCH_LEG_ANGLE):
 					curStepAngle += -direction * STEP_SPEED * LEG_AIR_SWING * delta
@@ -219,17 +227,32 @@ func _process(delta):
 					curStepAngle = direction * CROUCH_LEG_ANGLE
 			else:
 				if abs(imgBody.rotation_degrees) > 4:
-					print("4:",imgBody.rotation_degrees)
 					imgBody.rotation_degrees -= sign(imgBody.rotation_degrees) * CROUCH_SPEED * delta
 				else:
 					imgBody.rotation_degrees = 0
 					pass
 				pass
 				if abs(curStepAngle) > 4:
-					curStepAngle -= -direction * STEP_SPEED * LEG_AIR_SWING * delta
+					curStepAngle += -sign(curStepAngle) * STEP_SPEED * LEG_AIR_SWING * delta
 				else:
 					curStepAngle = 0
 			pass
+			var capsule = col.shape as CapsuleShape2D
+			if capsule.height > COL_CROUCH_HEIGHT:
+				var newShape: CapsuleShape2D = CapsuleShape2D.new()
+				newShape.height = lerp(capsule.height, COL_CROUCH_HEIGHT, IMG_SPEED_LERP * delta)
+				newShape.radius = COL_RADIUS
+				col.shape = newShape
+				col.position.y = -newShape.height/2
+				pass
+			else:
+				if capsule.height != COL_CROUCH_HEIGHT:
+					var newShape: CapsuleShape2D = CapsuleShape2D.new()
+					newShape.height = COL_CROUCH_HEIGHT
+					newShape.radius = COL_RADIUS
+					col.shape = newShape
+					col.position.y = -COL_CROUCH_HEIGHT/2
+					pass
 	else:
 		imgBody.position.y = lerp(imgBody.position.y, 0.0, IMG_SPEED_LERP * delta)
 		
@@ -242,9 +265,11 @@ func _process(delta):
 	imgLegs.rotation_degrees = curStepAngle
 	
 	if not isDucking:
+		imgHead.z_index = -1
 		imgLegs.z_index = -1
 		imgLegs.position.y = lerp(imgLegs.position.y, 0.0, IMG_SPEED_LERP * delta)
 		imgBody.position.y = lerp(imgBody.position.y, 0.0, IMG_SPEED_LERP * delta)
+		imgHead.position.y = lerp(imgHead.position.y, 0.0, IMG_SPEED_LERP * delta)
 		if abs(imgBody.rotation_degrees) > 4:
 			imgBody.rotation_degrees -= sign(imgBody.rotation_degrees) * CROUCH_SPEED * delta
 		else:
@@ -252,6 +277,22 @@ func _process(delta):
 			pass
 		pass
 		
+		var capsule = col.shape as CapsuleShape2D
+		if capsule.height < COL_STAND_HEIGHT:
+			var newShape: CapsuleShape2D = CapsuleShape2D.new()
+			newShape.height = lerp(capsule.height, COL_STAND_HEIGHT, IMG_SPEED_LERP * delta)
+			newShape.radius = COL_RADIUS
+			col.shape = newShape
+			col.position.y = -newShape.height/2
+			pass
+		else:
+			if capsule.height != COL_STAND_HEIGHT:
+				var newShape: CapsuleShape2D = CapsuleShape2D.new()
+				newShape.height = COL_STAND_HEIGHT
+				newShape.radius = COL_RADIUS
+				col.shape = newShape
+				col.position.y = -COL_STAND_HEIGHT/2
+				pass
 		
 	if abs(inputVector.y) > INPUT_DEADZONE:
 		if inputVector.y < 0:
@@ -333,15 +374,21 @@ func _physics_process(delta):
 			isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
 			
 			if isOnGround:
-				if inputVector.y > 0:
+				if abs(inputVector.y) > INPUT_DEADZONE:
 					isDucking = true
+					if abs(velocity.x) > SLIDE_MIN_SPEED:
+						isDuckingSlide = true
+					else:
+						isDuckingSlide = false
 				else:
+					isDuckingSlide = false
 					isDucking = false
 				if not isOnGroundOld:
 					if isDucking:
-						if abs(velocity.x) > CROUCH_LAND_BOOST/2:
+						if abs(velocity.x) > SLIDE_MIN_SPEED:
 							velocity.x = sign(velocity.x) * CROUCH_LAND_BOOST
 			else:
+				isDuckingSlide = false
 				isDucking = false
 			
 			# Add the gravity.
@@ -370,10 +417,14 @@ func _physics_process(delta):
 				pass
 			if Input.is_action_just_released("shoot"):
 				isChargingGun = false
+				var gunIsCharged: bool = false
 				var aim: Vector2 = get_gun_aim_vector()
 				var recoilVec: Vector2
 				if gunChargeTimer > GUN_CHARGE_TIME:
+					gunIsCharged = true
 					recoilVec = GUN_RECOIL_HEAVY
+					if isDucking:
+						recoilVec *= SLIDE_FRICTION_MULT
 					gun.shoot_bullet(aim, true)
 				else:
 					recoilVec = GUN_RECOIL
@@ -381,7 +432,10 @@ func _physics_process(delta):
 				if aim.y < 0:
 					velocity.y += recoilVec.y * inputVector.y
 				elif aim.y > 0:
-					velocity.y += recoilVec.y * inputVector.y
+					if gunIsCharged:
+						velocity.y = recoilVec.y * inputVector.y
+					else:
+						velocity.y += recoilVec.y * inputVector.y
 				else:
 					velocity.x += recoilVec.x * direction
 				
@@ -406,7 +460,7 @@ func _physics_process(delta):
 				velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
 			else:
 				var friction: float = FRICTION_MULT
-				if isDucking:
+				if isDuckingSlide:
 					friction = SLIDE_FRICTION_MULT
 					pass
 				

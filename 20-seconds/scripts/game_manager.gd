@@ -9,7 +9,7 @@ var levelIndex = 0
 var curLevelObj: Level
 var levelPaths: Array[String]
 
-#var gameUI: UI
+var inGameUI: InGameUI
 
 var player: Player
 
@@ -20,8 +20,10 @@ var audio: AudioStreamPlayer2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#gameUI = $UI
-	load_intro()
+	inGameUI = $ingameUI
 	
+	
+	load_intro()
 	
 	levelPaths.append("res://levels/level_1.tscn");
 	
