@@ -582,3 +582,8 @@ func set_direction(dir: int):
 	
 	if gun:
 		gun.set_direction(Vector2(direction, inputVector.y))
+
+func reset():
+	velocity = Vector2.ZERO
+	gun.reset()
+	pass

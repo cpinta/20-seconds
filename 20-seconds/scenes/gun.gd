@@ -10,6 +10,8 @@ var bulletHeavyScene: PackedScene = preload("res://scenes/base_bullet_heavy.tscn
 
 var gunPointScale: float = 0.01
 
+var activeBullets: Array[Bullet] = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	sprite = $gun
@@ -34,6 +36,8 @@ func shoot_bullet(direction: Vector2, isCharged: bool):
 	bullet.initialize(holder, direction)
 	bullet.global_position = gunPoint.global_position
 	bullet.rotation = direction.angle()
+	bullet.wasDestroyed.connect(bullet_was_destroyed)
+	activeBullets.append(bullet)
 	pass
 
 func set_direction(direction: Vector2):
@@ -45,4 +49,17 @@ func set_direction(direction: Vector2):
 		sprite.flip_h = true
 		gunPoint.position.x = -gunPointPos.x
 		pass
+	pass
+
+func bullet_was_destroyed(bullet: Bullet):
+	activeBullets.erase(bullet)
+	pass
+
+func reset():
+	super.reset()
+	for i in range(0, activeBullets.size()):
+		if activeBullets[i]:
+			activeBullets[i].queue_free()
+		pass
+	activeBullets.clear()
 	pass

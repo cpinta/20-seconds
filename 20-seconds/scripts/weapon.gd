@@ -13,3 +13,7 @@ func _process(delta: float) -> void:
 func use_item(direction: Vector2, isCharged: bool):
 	super.use_item(direction, isCharged)
 	pass
+
+func reset():
+	super.reset()
+	pass

@@ -17,3 +17,6 @@ func interact():
 
 func use_item(direction: Vector2, isCharged: bool):
 	pass
+
+func reset():
+	pass

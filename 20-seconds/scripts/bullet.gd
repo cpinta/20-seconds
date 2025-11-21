@@ -20,6 +20,8 @@ var desiredScale: float = 0.05
 const TIME_TIL_FULL_SCALE: float = 0.04
 var fullScaleTimer: float = 0
 
+signal wasDestroyed(bullet: Bullet)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	area = $area
@@ -74,5 +76,6 @@ func get_hit():
 	pass
 
 func die():
+	wasDestroyed.emit(self)
 	queue_free()
 	pass

@@ -15,6 +15,7 @@ const SPEED_MULT: float = 1000
 var endPos: Vector2
 var startPos: Vector2 
 
+signal wasDestroyed(target:Target)
 
 func _ready() -> void:
 	endPos = $end.global_position
@@ -51,5 +52,6 @@ func _physics_process(delta: float) -> void:
 
 func die():
 	super.die()
+	wasDestroyed.emit(self)
 	queue_free()
 	pass

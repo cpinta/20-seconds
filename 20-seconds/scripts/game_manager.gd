@@ -28,6 +28,7 @@ func _ready():
 	inGameUI = await spawn(inGameUIScene)
 	
 	levelPaths.append("res://levels/test_level.tscn");
+	levelPaths.append("res://levels/test_level2.tscn");
 	load_level(0)
 	
 	#load_level(0)
@@ -54,7 +55,7 @@ func play_sound(stream: AudioStream):
 
 func spawn(scene: PackedScene):
 	var node = scene.instantiate()
-	self.add_child(node)
+	self.add_child.call_deferred(node)
 	if not node.is_inside_tree():
 		await node.ready
 	return node
@@ -104,10 +105,15 @@ func load_level(index: int):
 			camera = await spawn(cameraScene)
 			
 		player.global_position = curLevelObj.start.global_position
+		reset_player()
 		camera.global_position = player.global_position
-		
+		curLevelObj.levelConcluded.connect(next_level)
 		return true
 	return false
+
+func reset_player():
+	player.reset()
+	pass
 
 func unload_current_level():
 	if curLevelObj != null:
@@ -126,6 +132,7 @@ func load_level_path(str: String):
 		pass
 		player.position = Vector2(48, -48)
 		self.add_child.call_deferred(curLevelObj)
+		
 		
 		#player.position = get_tree().get_nodes_in_group("start")[0].global_position
 		#player.position = curLevelObj.start.position
