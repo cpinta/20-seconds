@@ -62,7 +62,7 @@ const GUN_RECOIL: Vector2 = Vector2(-10, 20)
 const GUN_RECOIL_HEAVY: Vector2 = Vector2(-150, 200)
 const GUN_HAND_RECOIL_X: float = 100
 const GUN_EAR_RECOIL_X: float = 50
-const GUN_CHARGE_TIME: float = 2
+const GUN_CHARGE_TIME: float = 1
 const GUN_CHARGE_SHAKE_Y: float = 10
 const GUN_CHARGE_SHAKE_SPEED: float = 1000
 var gunChargeShakeDir: int = 1
@@ -81,7 +81,7 @@ const CROUCH_BODY_Y: float = 100
 const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
-const SLIDE_FRICTION_MULT: float = 0.25
+const SLIDE_FRICTION_MULT: float = 0.5
 const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
@@ -106,6 +106,7 @@ var audio: AudioStreamPlayer2D
 
 const ACCELERATION = 80.0
 const MAX_SPEED = 80.0
+const MAX_CROUCH_SPEED = 20.0
 const JUMP_VELOCITY = 160.0
 const WALL_JUMP_VELOCITY: Vector2 = Vector2(120, 160)
 const MAX_COLLISIONS = 6
@@ -143,6 +144,8 @@ func _ready():
 	upRay = $upray
 	
 	gun.holder = self
+	
+	floor_snap_length = 5
 	
 	pass
 
@@ -372,7 +375,7 @@ func _physics_process(delta):
 	match state:
 		PlayerState.FREE:
 			get_inputVector()
-			collide(delta)
+			slide(delta)
 			
 			isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
 			
@@ -387,10 +390,6 @@ func _physics_process(delta):
 					if canUnDuck:
 						isDuckingSlide = false
 						isDucking = false
-				if not isOnGroundOld:
-					if isDucking:
-						if abs(velocity.x) > SLIDE_MIN_SPEED:
-							velocity.x = sign(velocity.x) * CROUCH_LAND_BOOST
 			else:
 				isDuckingSlide = false
 				isDucking = false
@@ -408,12 +407,12 @@ func _physics_process(delta):
 				velocity.y = JUMP_VELOCITY
 			# Handle walljump
 			if Input.is_action_just_pressed("jump") && not isOnGround:
-				if leftWallRay.is_colliding():
+				if leftWallRay.is_colliding() and leftWallRay.get_collision_normal() == Vector2.RIGHT:
 					velocity.y = WALL_JUMP_VELOCITY.y
 					velocity.x = WALL_JUMP_VELOCITY.x
 					set_direction(1)
 					pass
-				if rightWallRay.is_colliding():
+				if rightWallRay.is_colliding() and rightWallRay.get_collision_normal() == Vector2.LEFT:
 					velocity.y = WALL_JUMP_VELOCITY.y
 					velocity.x = -WALL_JUMP_VELOCITY.x
 					set_direction(-1)
@@ -463,20 +462,17 @@ func _physics_process(delta):
 				else:
 					pass
 
-			if inputVector.x != 0 and not isDucking:
+			if inputVector.x != 0:
 				#velocity.x = inputVector.x * SPEED
-				velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
+				if isDucking:
+					velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * direction, ACCELERATION * delta)
+				else:
+					velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
+					
 			else:
-				var friction: float = FRICTION_MULT
-				if isDuckingSlide:
-					friction = SLIDE_FRICTION_MULT
-					pass
-				
-				velocity.x = move_toward(velocity.x, 0, ACCELERATION * friction * delta)
-			pass
+				pass
 			
 			publicVelocity = velocity
-			isOnGroundOld = isOnGround
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
@@ -493,14 +489,6 @@ func collide(delta: float):
 	while collision and collision_count < MAX_COLLISIONS:
 		var collider = collision.get_collider()
 		var entity = collider.get_parent()
-		#if entity is Player:
-			#
-			#pass
-		#elif entity is Enemy:
-			#var enemy = entity as Enemy
-			#if self is Player:
-				#if enemy.DAMAGES_ON_CONTACT:
-					#enemy.attack_enemy(self, enemy.attack_damage, enemy.attack_knockback, self.global_position - enemy.global_position)
 		var normal = collision.get_normal()
 		var remainder = collision.get_remainder()
 		var angle = collision.get_angle()
@@ -510,6 +498,60 @@ func collide(delta: float):
 		collision_count += 1
 		collision = move_and_collide(remainder)
 		pass
+	pass
+
+func slide(delta: float):
+	var collision_count := 0
+	velocity.y = -velocity.y
+	
+	var preCollsionVelocity: Vector2 = velocity
+	var collided = move_and_slide()
+	if collided:
+		var collision = get_last_slide_collision()
+		var collider = collision.get_collider()
+		var entity = collider.get_parent()
+		var normal = collision.get_normal()
+		var remainder = collision.get_remainder()
+		var angle = collision.get_angle()
+		
+		var justOnGround: bool = isOnGround
+		isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
+		
+		if justOnGround != isOnGround:
+			pass
+		
+		var friction: float = FRICTION_MULT
+		if isDuckingSlide:
+			friction = SLIDE_FRICTION_MULT
+			pass
+		
+		var temp: Vector2 = velocity
+		if normal.y < 0 and normal.y != -1:
+			if abs(inputVector.y) > INPUT_DEADZONE:
+				if not isOnGroundOld:
+					velocity = velocity.normalized() * preCollsionVelocity.y * 0.7
+					temp = velocity
+					#if abs(velocity.x) > SLIDE_MIN_SPEED:
+				#velocity = velocity.slide(normal)
+				temp = velocity
+				
+				velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * normal.x, ACCELERATION * delta)
+				temp = velocity
+			else:
+				velocity = velocity.slide(normal)
+				temp = velocity
+				velocity.x = move_toward(velocity.x, MAX_SPEED * normal.x, ACCELERATION * delta)
+				temp = velocity
+			
+			pass
+			
+		velocity.x += -velocity.x * friction * delta
+		pass
+	else:
+		isOnGround = false
+		
+	velocity.y = -velocity.y
+	isOnGroundOld = isOnGround
 	pass
 
 func get_inputVector():

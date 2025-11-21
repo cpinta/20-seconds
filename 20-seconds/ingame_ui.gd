@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 	
 	if target:
 		if frameCount % UPDATE_UI_EVERY == 0:
-			lblSpeed.text = str(abs(floor(target.velocity.length())))
+			lblSpeed.text = str(abs(floor(target.velocity.x)))
 	
 	frameCount += 1
 	if frameCount > FRAME_COUNT_MAX:

@@ -16,7 +16,7 @@ radius = 4.0
 height = 13.75
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hlhl"]
-size = Vector2(7.135, 3)
+size = Vector2(7.135, 2.139608)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -215,7 +215,7 @@ collision_layer = 0
 collision_mask = 33
 
 [node name="shape" type="CollisionShape2D" parent="groundDetect"]
-position = Vector2(0.2, 7.5)
+position = Vector2(0.2, 7.069804)
 shape = SubResource("RectangleShape2D_2hlhl")
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
