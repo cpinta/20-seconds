@@ -535,12 +535,10 @@ func slide(delta: float):
 				#velocity = velocity.slide(normal)
 				temp = velocity
 				
-				velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * normal.x, ACCELERATION * delta)
 				temp = velocity
 			else:
-				velocity = velocity.slide(normal)
 				temp = velocity
-				velocity.x = move_toward(velocity.x, MAX_SPEED * normal.x, ACCELERATION * delta)
+				velocity = velocity.slide(normal)
 				temp = velocity
 			
 			pass
