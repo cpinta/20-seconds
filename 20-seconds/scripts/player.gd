@@ -476,10 +476,12 @@ func _physics_process(delta):
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
-		if not isDucking:
-			return Vector2(0, inputVector.y)
-		else:
-			return Vector2(direction, 0)
+		if isDucking:
+			if inputVector.y > INPUT_DEADZONE:
+				return Vector2(direction, 0)
+			else:
+				return Vector2(0, inputVector.y)
+		return Vector2(0, inputVector.y)
 	else:
 		return Vector2(direction, 0)
 

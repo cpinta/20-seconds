@@ -6,6 +6,7 @@ var sender: Entity
 var emitterScene: PackedScene = preload("res://scenes/gun_emitter.tscn")
 
 var area: Area2D
+var shape: CollisionShape2D
 
 var damage: float = 0
 var knockback: float = 0
@@ -28,6 +29,9 @@ signal wasDestroyed(bullet: Bullet)
 func _ready() -> void:
 	area = $area
 	area.body_entered.connect(_area_entered)
+	scale = Vector2.ONE * originalScale
+	
+	shape = $area/CollisionShape2D
 	pass # Replace with function body.
 
 func destroy():
@@ -41,14 +45,6 @@ func initialize(sender: Entity, direction: Vector2):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var moveDelta: Vector2 = speed * direction * delta
-	global_position += moveDelta
-	if dist_traveled < MAX_DIST:
-		dist_traveled += moveDelta.length()
-		pass
-	else:
-		destroy()
-		pass
 	
 	if fullScaleTimer < TIME_TIL_FULL_SCALE:
 		scale = Vector2.ONE * (originalScale + (fullScaleTimer/TIME_TIL_FULL_SCALE) * (desiredScale - originalScale))
@@ -57,6 +53,17 @@ func _process(delta: float) -> void:
 	else:
 		scale = Vector2.ONE * desiredScale
 	pass
+
+func _physics_process(delta: float) -> void:
+	
+	var moveDelta: Vector2 = speed * direction * delta
+	global_position += moveDelta
+	if dist_traveled < MAX_DIST:
+		dist_traveled += moveDelta.length()
+		pass
+	else:
+		destroy()
+		pass
 
 func _area_entered(body: Node2D):
 	if body is Entity:

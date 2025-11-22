@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name InGameUI
 
 var lblSpeed: Label
+var lblInputVector: Label
 var target: Player
 
 var frameCount: int = 0
@@ -10,7 +11,8 @@ const UPDATE_UI_EVERY: int = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	lblSpeed = $Control/topHalf/left/MarginContainer/lblSpeed
+	lblSpeed = $Control/topHalf/left/MarginContainer/VBoxContainer/lblSpeed
+	lblInputVector = $Control/topHalf/left/MarginContainer/VBoxContainer/lblInputVector
 	pass # Replace with function body.
 
 
@@ -25,6 +27,7 @@ func _process(delta: float) -> void:
 	if target:
 		if frameCount % UPDATE_UI_EVERY == 0:
 			lblSpeed.text = str(abs(floor(target.velocity.x)))
+		lblInputVector.text = str(target.inputVector)
 	
 	frameCount += 1
 	if frameCount > FRAME_COUNT_MAX:
