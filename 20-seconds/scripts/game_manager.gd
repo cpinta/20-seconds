@@ -20,6 +20,8 @@ var cameraScene: PackedScene = preload("res://scenes/game_camera.tscn")
 
 var coinCount: int = 0
 
+var debug: bool = true
+
 var audio: AudioStreamPlayer2D
 
 signal disablePlayerInput()
@@ -33,7 +35,6 @@ func _ready():
 	inGameUI.textbox.textboxClosed.connect(message_box_finished)
 	sendMessageQueue.connect(inGameUI.textbox.add_queue)
 	
-	levelLoaded.connect(_fake_message)
 	
 	levelPaths.append("res://levels/test_level.tscn");
 	levelPaths.append("res://levels/test_level2.tscn");
@@ -41,15 +42,6 @@ func _ready():
 	
 	#load_level(0)
 	pass # Replace with function body.
-
-func _fake_message():
-	var testQueue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("AGENT", "FRICK", Textbox.Mode.Instant)
-	]
-	send_queue_to_message_box(testQueue)
-	pass
 
 func restart_game():
 	unload_current_level()
@@ -120,10 +112,12 @@ func load_level(index: int) -> bool:
 			curLevelObj.queue_free()
 		#gameUI.centerText.set_center_text("", 0, 0)
 		curLevelObj = await spawn(load(levelPaths[index]))
+		levelLoaded.connect(curLevelObj._loaded)
+		
 		if not player:
 			await spawn_player()
 		if not camera:
-			camera = await spawn(cameraScene)
+			await spawn_camera()
 			
 		player.global_position = curLevelObj.start.global_position
 		reset_player()
@@ -132,6 +126,11 @@ func load_level(index: int) -> bool:
 		levelLoaded.emit()
 		return true
 	return false
+
+func spawn_camera():
+	camera = await spawn(cameraScene)
+	levelLoaded.connect(camera._level_loaded)
+	pass
 
 func spawn_player():
 	player = await spawn(playerScene)

@@ -1,8 +1,7 @@
 extends CanvasLayer
 class_name InGameUI
 
-var lblSpeed: Label
-var lblInputVector: Label
+var lblDebug: Label
 var target: Player
 var textbox: Textbox
 
@@ -12,8 +11,7 @@ const UPDATE_UI_EVERY: int = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	lblSpeed = $Control/topHalf/left/MarginContainer/VBoxContainer/lblSpeed
-	lblInputVector = $Control/topHalf/left/MarginContainer/VBoxContainer/lblInputVector
+	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
 	textbox = $Control/bottomHalf/Textbox
 	pass # Replace with function body.
 
@@ -25,10 +23,13 @@ func _process(delta: float) -> void:
 		else:
 			return
 	
-	if target:
-		if frameCount % UPDATE_UI_EVERY == 0:
-			lblSpeed.text = str(abs(floor(target.velocity.x)))
-		lblInputVector.text = str(target.inputVector)
+	if G.debug:
+		if target:
+			lblDebug.text = str(abs(floor(target.velocity.x)))
+			lblDebug.text += "\nInput:\t"+str(target.inputVector)
+			lblDebug.text += "\nPlr:  \t"+str(floor(target.global_position.x))+", "+str(floor(target.global_position.y))
+			if G.camera:
+				lblDebug.text += "\nCam:\t"+str(floor(G.camera.global_position.x))+", "+str(floor(G.camera.global_position.y))
 	
 	frameCount += 1
 	if frameCount > FRAME_COUNT_MAX:

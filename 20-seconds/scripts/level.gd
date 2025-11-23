@@ -27,7 +27,7 @@ func _ready():
 func _process(delta):
 	pass
 
-func loaded():
+func _loaded():
 	pass
 
 func set_level_color(color: Color):

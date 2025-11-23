@@ -14,6 +14,12 @@ func _process(delta):
 	super._process(delta)
 	pass
 
-func loaded():
-	super.loaded()
+func _loaded():
+	super._loaded()
+	var testQueue: Array[Textbox.MsgInfo] = [
+		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new("AGENT", "FRICK", Textbox.Mode.Instant)
+	]
+	G.send_queue_to_message_box(testQueue)
 	pass
