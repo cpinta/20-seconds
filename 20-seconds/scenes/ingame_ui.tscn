@@ -1,13 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bon2jdlcwqgiw"]
+[gd_scene load_steps=8 format=3 uid="uid://bon2jdlcwqgiw"]
 
 [ext_resource type="Script" uid="uid://ci377c1f123v5" path="res://scripts/ingame_ui.gd" id="1_v3yap"]
 [ext_resource type="Texture2D" uid="uid://cj63eubyckeia" path="res://sprites/text square.png" id="2_031h6"]
-[ext_resource type="Texture2D" uid="uid://bb0tmgtsb53dj" path="res://sprites/timer sprite0.png" id="2_f6424"]
+[ext_resource type="PackedScene" uid="uid://cp0rfiy543qbj" path="res://scenes/timer.tscn" id="2_cm6yq"]
 [ext_resource type="Script" uid="uid://cfa6h7edswosd" path="res://scenes/textbox.gd" id="2_hifx3"]
-[ext_resource type="Script" uid="uid://d3sgbcowqol5g" path="res://scenes/timer.gd" id="2_uyn70"]
 [ext_resource type="FontFile" uid="uid://gcel8py47lh" path="res://font/MonacoB2.otf" id="3_h2rwu"]
 [ext_resource type="PackedScene" uid="uid://c3qp05vstbspj" path="res://scenes/button_hint.tscn" id="3_i42rf"]
-[ext_resource type="Texture2D" uid="uid://duw2ede05edj6" path="res://sprites/timer sprite colon.png" id="3_uyn70"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="7_f6424"]
 
 [node name="ingameUI" type="CanvasLayer"]
@@ -56,77 +54,21 @@ text = "Speed:"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/topHalf/right"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 25
-theme_override_constants/margin_bottom = 25
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/topHalf/right/MarginContainer"]
-layout_mode = 2
-
-[node name="Timer" type="PanelContainer" parent="Control/topHalf/right/MarginContainer"]
-layout_mode = 2
-size_flags_vertical = 0
-
-[node name="Control" type="Control" parent="Control/topHalf/right/MarginContainer/Timer"]
-layout_mode = 2
-
-[node name="Timer" type="HBoxContainer" parent="Control/topHalf/right/MarginContainer/Timer/Control"]
+[node name="Panel" type="PanelContainer" parent="Control/topHalf/right"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -522.0
+offset_left = -272.0
+offset_right = 224.0
 offset_bottom = 176.0
 grow_horizontal = 0
 scale = Vector2(0.5, 0.5)
-pivot_offset = Vector2(522, 0)
-script = ExtResource("2_uyn70")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer"]
+[node name="Timer" parent="Control/topHalf/right/Panel" instance=ExtResource("2_cm6yq")]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/margin_right = 10
-
-[node name="0" type="TextureRect" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("2_f6424")
-expand_mode = 3
-
-[node name="MarginContainer2" type="MarginContainer" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-
-[node name="1" type="TextureRect" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer/MarginContainer2"]
-layout_mode = 2
-texture = ExtResource("2_f6424")
-
-[node name="_" type="TextureRect" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer"]
-layout_mode = 2
-texture = ExtResource("3_uyn70")
-
-[node name="MarginContainer3" type="MarginContainer" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer"]
-layout_mode = 2
-theme_override_constants/margin_right = 10
-
-[node name="2" type="TextureRect" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer/MarginContainer3"]
-layout_mode = 2
-texture = ExtResource("2_f6424")
-
-[node name="MarginContainer4" type="MarginContainer" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-
-[node name="3" type="TextureRect" parent="Control/topHalf/right/MarginContainer/Timer/Control/Timer/MarginContainer4"]
-layout_mode = 2
-texture = ExtResource("2_f6424")
+size_flags_horizontal = 8
+size_flags_vertical = 0
 
 [node name="Control" type="Control" parent="Control/topHalf"]
 layout_mode = 2
@@ -203,3 +145,12 @@ theme_override_fonts/bold_font = ExtResource("7_f6424")
 theme_override_font_sizes/normal_font_size = 24
 theme_override_font_sizes/bold_font_size = 24
 shortcut_keys_enabled = false
+
+[node name="Panel" type="Panel" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

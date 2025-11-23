@@ -32,10 +32,10 @@ signal timeRanOut
 
 func _ready() -> void:
 	
-	numbers.append($"MarginContainer/0")
-	numbers.append($"MarginContainer2/1")
-	numbers.append($"MarginContainer3/2")
-	numbers.append($"MarginContainer4/3")
+	numbers.append($"0")
+	numbers.append($"1")
+	numbers.append($"2")
+	numbers.append($"3")
 	
 	_set_timer()
 	pass
