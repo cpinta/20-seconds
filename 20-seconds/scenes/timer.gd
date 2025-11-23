@@ -66,7 +66,7 @@ func show_timer_time(time: float):
 	var minStr: String = str(min)
 	var secs: int = time - (min * 60)
 	var secsStr: String = str(secs)
-	var msecs: float = secs/100.0
+	var msecs: float = (time * 100) - floor(time) * 100
 	var msecsStr: String = str(msecs)
 	
 	if len(msecsStr) > 1:
