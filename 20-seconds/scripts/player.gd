@@ -1,9 +1,9 @@
 class_name Player
 extends Entity
 
-enum PlayerState {FREE=0, MOVED_BY_SPIKE=1}
+enum State {FREE=0, DISABLE_INPUT=1}
 
-var state: PlayerState = PlayerState.FREE
+var state: State = State.FREE
 
 var imgBody: Sprite2D
 var imgHead: Sprite2D
@@ -373,7 +373,7 @@ func _cast_ray(direction: Vector2, length: float):
 
 func _physics_process(delta):
 	match state:
-		PlayerState.FREE:
+		State.FREE:
 			get_inputVector()
 			slide(delta)
 			
@@ -473,6 +473,11 @@ func _physics_process(delta):
 				pass
 			
 			publicVelocity = velocity
+		State.DISABLE_INPUT:
+			slide(delta)
+			if not is_on_floor():
+				velocity -= get_gravity() * delta
+			pass
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
@@ -500,6 +505,21 @@ func collide(delta: float):
 		collision_count += 1
 		collision = move_and_collide(remainder)
 		pass
+	pass
+
+func disable_input():
+	set_state(State.DISABLE_INPUT)
+
+func enable_input():
+	set_state(State.FREE)
+	
+func set_state(newState: State):
+	state = newState
+	match state:
+		State.FREE:
+			pass
+		State.DISABLE_INPUT:
+			pass
 	pass
 
 func slide(delta: float):

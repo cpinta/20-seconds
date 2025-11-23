@@ -4,6 +4,7 @@ class_name InGameUI
 var lblSpeed: Label
 var lblInputVector: Label
 var target: Player
+var textbox: Textbox
 
 var frameCount: int = 0
 const FRAME_COUNT_MAX: int = 10000
@@ -13,8 +14,8 @@ const UPDATE_UI_EVERY: int = 10
 func _ready() -> void:
 	lblSpeed = $Control/topHalf/left/MarginContainer/VBoxContainer/lblSpeed
 	lblInputVector = $Control/topHalf/left/MarginContainer/VBoxContainer/lblInputVector
+	textbox = $Control/bottomHalf/Textbox
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

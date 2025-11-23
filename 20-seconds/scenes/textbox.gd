@@ -6,7 +6,7 @@ enum Mode {
 	PerChar
 }
 
-class TextboxMsgInfo:
+class MsgInfo:
 	var username: String = ""
 	var text: String = ""
 	var mode: Mode = Mode.PerChar
@@ -30,7 +30,7 @@ var buttonHint: ButtonHint
 var allowSkipInput: bool = true
 var isActive: bool = false
 
-var messageQueue: Array[TextboxMsgInfo] = []
+var messageQueue: Array[MsgInfo] = []
 var currentDestText: String = ""
 var currentText: String = ""
 var currentSpeaker: String = ""
@@ -42,13 +42,6 @@ func _ready() -> void:
 	lblText = $"margin text/Text"
 	buttonHint = $"margin icons/key icon"
 	close()
-	
-	var testQueue: Array[TextboxMsgInfo] = [
-		TextboxMsgInfo.new("AGENT", "erm what the frick", Mode.PerChar),
-		TextboxMsgInfo.new("AGENT", "yeah um... that was awkward", Mode.PerChar),
-		TextboxMsgInfo.new("AGENT", "FRICK", Mode.Instant)
-	]
-	add_queue(testQueue)
 	pass
 
 func _process(delta: float) -> void:
@@ -77,7 +70,7 @@ func _process(delta: float) -> void:
 			pass
 		pass
 
-func add_queue(messages: Array[TextboxMsgInfo]):
+func add_queue(messages: Array[MsgInfo]):
 	messageQueue.append_array(messages)
 	isActive = true
 	_open()
@@ -126,7 +119,7 @@ func speak(mode: Mode, text: String):
 		pass
 	pass
 
-func _speak_info(info: TextboxMsgInfo):
+func _speak_info(info: MsgInfo):
 	currentSpeaker = info.username
 	currentText = ""
 	if info.forTime != 0:

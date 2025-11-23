@@ -22,10 +22,18 @@ var coinCount: int = 0
 
 var audio: AudioStreamPlayer2D
 
+signal disablePlayerInput()
+signal sendMessageQueue(messages: Array[Textbox.MsgInfo])
+signal levelLoaded()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#gameUI = $UI
 	inGameUI = await spawn(inGameUIScene)
+	inGameUI.textbox.textboxClosed.connect(message_box_finished)
+	sendMessageQueue.connect(inGameUI.textbox.add_queue)
+	
+	levelLoaded.connect(_fake_message)
 	
 	levelPaths.append("res://levels/test_level.tscn");
 	levelPaths.append("res://levels/test_level2.tscn");
@@ -33,6 +41,15 @@ func _ready():
 	
 	#load_level(0)
 	pass # Replace with function body.
+
+func _fake_message():
+	var testQueue: Array[Textbox.MsgInfo] = [
+		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new("AGENT", "FRICK", Textbox.Mode.Instant)
+	]
+	send_queue_to_message_box(testQueue)
+	pass
 
 func restart_game():
 	unload_current_level()
@@ -86,21 +103,25 @@ func next_level():
 	
 	pass
 	
-func speak_for_time(text: String, time:float, shake:float = 0):
-	#gameUI.centerText.set_center_text(text, time, shake)
-	await get_tree().create_timer(time, true, false, true).timeout
+func send_queue_to_message_box(messages: Array[Textbox.MsgInfo]):
+	sendMessageQueue.emit(messages)
+	disablePlayerInput.emit()
+	pass
+
+func message_box_finished():
+	
 	pass
 
 
 	
-func load_level(index: int):
+func load_level(index: int) -> bool:
 	if index < len(levelPaths):
 		if curLevelObj != null:
 			curLevelObj.queue_free()
 		#gameUI.centerText.set_center_text("", 0, 0)
 		curLevelObj = await spawn(load(levelPaths[index]))
 		if not player:
-			player = await spawn(playerScene)
+			await spawn_player()
 		if not camera:
 			camera = await spawn(cameraScene)
 			
@@ -108,8 +129,15 @@ func load_level(index: int):
 		reset_player()
 		camera.global_position = player.global_position
 		curLevelObj.levelConcluded.connect(next_level)
+		levelLoaded.emit()
 		return true
 	return false
+
+func spawn_player():
+	player = await spawn(playerScene)
+	inGameUI.textbox.textboxClosed.connect(player.enable_input)
+	disablePlayerInput.connect(player.disable_input)
+	pass
 
 func reset_player():
 	player.reset()
