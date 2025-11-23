@@ -1,10 +1,11 @@
 class_name Player
 extends Entity
 
-enum State {FREE=0, DISABLE_INPUT=1}
+enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2}
 
 var state: State = State.FREE
 
+var spriteParent: Node2D
 var imgBody: Sprite2D
 var imgHead: Sprite2D
 var imgFace: Sprite2D
@@ -15,6 +16,10 @@ var imgHand: Sprite2D
 var imgLegs: Sprite2D
 var gun: Gun
 var col: CollisionShape2D
+
+var centerHead: Node2D
+var centerBody: Node2D
+var centerLegs: Node2D
 
 var leftWallRay: RayCast2D
 var rightWallRay: RayCast2D
@@ -115,6 +120,12 @@ const stepEmitterScene: PackedScene = preload("res://scenes/step_emitter.tscn")
 const STEP_EMITTER_GAP: float = 0.05
 var stepEmitterTimer: float = 0
 
+const spawnEmitterScene: PackedScene = preload("res://scenes/reanimate_emitter.tscn")
+var spawnEmitters: Array[OneShotEmitter] = []
+signal spawning_finished
+var spawnTimer: float = 0
+const SPAWN_SHOW_TIME: float = 1.5
+
 var spikeDestination: Vector2
 
 @export var publicVelocity: Vector2
@@ -132,6 +143,7 @@ func _ready():
 	audio = $audio
 	col = $collider
 	
+	spriteParent = $sprites
 	imgBody = $sprites/body
 	imgFace = $sprites/body/head/face
 	imgEars = $sprites/body/head/ears
@@ -142,6 +154,10 @@ func _ready():
 	scarfParent.visible = false
 	imgHand = $sprites/body/hands
 	gun = $sprites/body/hands/gun
+	
+	centerHead = $sprites/body/head/headCenter
+	centerBody = $sprites/body/bodyCenter
+	centerLegs = $sprites/legs/legsCenter
 	
 	leftWallRay = $leftwallray
 	rightWallRay = $rightwallray
@@ -496,6 +512,15 @@ func _physics_process(delta):
 			if not is_on_floor():
 				velocity -= get_gravity() * delta
 			pass
+		State.SPAWNING:
+			slide(delta)
+			if not is_on_floor():
+				velocity -= get_gravity() * delta
+			spawnTimer += delta
+			if spawnEmitters.size() > 0:
+				if spawnTimer > SPAWN_SHOW_TIME:
+					spriteParent.visible = true
+			pass
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
@@ -535,9 +560,35 @@ func set_state(newState: State):
 	state = newState
 	match state:
 		State.FREE:
+			spriteParent.visible = true
 			pass
 		State.DISABLE_INPUT:
+			spriteParent.visible = true
 			pass
+		State.SPAWNING:
+			spriteParent.visible = false
+			for i in range(0, 3):
+				spawnEmitters.append(await G.spawn(spawnEmitterScene))
+			
+			spawnEmitters[0].global_position = centerBody.global_position
+			spawnEmitters[0].process_material = spawnEmitters[1].process_material.duplicate()
+			spawnEmitters[0].process_material.set("color", "6927C0")
+			spawnEmitters[1].process_material = spawnEmitters[1].process_material.duplicate()
+			spawnEmitters[1].process_material.set("color", "dc6ea5")
+			spawnEmitters[1].global_position = centerBody.global_position + Vector2.UP
+			spawnEmitters[2].global_position = centerHead.global_position
+			
+			spawnEmitters[0].dead.connect(_spawning_ended)
+			pass
+	pass
+
+func _spawning_ended():
+	for i in range(0, spawnEmitters.size()):
+		if spawnEmitters[i]:
+			spawnEmitters[i].queue_free()
+	spawnEmitters.clear()
+	
+	spawning_finished.emit()
 	pass
 
 func slide(delta: float):

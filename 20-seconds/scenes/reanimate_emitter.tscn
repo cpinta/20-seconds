@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://bolnyk3kxodfr"]
+
+[ext_resource type="Texture2D" uid="uid://df5pbucj48l8g" path="res://sprites/circle.png" id="1_8pkto"]
+[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scenes/one_shot_emitter.gd" id="2_mjy3j"]
+
+[sub_resource type="Gradient" id="Gradient_8pkto"]
+offsets = PackedFloat32Array(0.71557564, 0.8)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mjy3j"]
+gradient = SubResource("Gradient_8pkto")
+
+[sub_resource type="Curve" id="Curve_njbrq"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25586352, 0.40529698), 0.0, 0.0, 0, 0, Vector2(0.7953091, 0.9947833), 1.4, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_d5n4w"]
+curve = SubResource("Curve_njbrq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8pkto"]
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 10.36
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -100.0
+radial_accel_max = -100.0
+damping_min = 50.000004
+damping_max = 50.000004
+scale_min = 0.25
+scale_max = 0.25
+scale_curve = SubResource("CurveTexture_d5n4w")
+color_ramp = SubResource("GradientTexture1D_mjy3j")
+
+[node name="emitter" type="GPUParticles2D"]
+emitting = false
+amount = 10
+texture = ExtResource("1_8pkto")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_8pkto")
+script = ExtResource("2_mjy3j")

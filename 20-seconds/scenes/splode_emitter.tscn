@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://b3jdi7iiiq55q"]
+
+[ext_resource type="Texture2D" uid="uid://df5pbucj48l8g" path="res://sprites/circle.png" id="1_ct6rv"]
+[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scenes/one_shot_emitter.gd" id="2_ku1ku"]
+
+[sub_resource type="Curve" id="Curve_njbrq"]
+_data = [Vector2(0, 0), 0.0, 6.351826, 0, 0, Vector2(1, 0), 0.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_d5n4w"]
+curve = SubResource("Curve_njbrq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ku1ku"]
+particle_flag_disable_z = true
+direction = Vector3(-1, -0.5, 0)
+spread = 180.0
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.06
+scale_max = 0.06
+scale_curve = SubResource("CurveTexture_d5n4w")
+
+[node name="emitter" type="GPUParticles2D"]
+texture = ExtResource("1_ct6rv")
+lifetime = 0.25
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_ku1ku")
+script = ExtResource("2_ku1ku")

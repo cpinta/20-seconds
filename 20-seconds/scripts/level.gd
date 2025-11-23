@@ -10,6 +10,8 @@ var targets: Array[Target] = []
 const POST_TARGET_BREAK_WAIT: float = 2
 var HAS_POST_LEVEL_SCENE: bool = false
 
+const HAS_INTRO: bool = false
+
 signal levelConcluded
 
 # Called when the node enters the scene tree for the first time.
@@ -46,6 +48,15 @@ func target_was_destroyed(target: Target):
 			levelConcluded.emit()
 		else:
 			_post_level()
+		pass
+	pass
+
+func _player_spawning_finished():
+	if HAS_INTRO:
+		G.player.set_state(Player.State.DISABLE_INPUT)
+		pass
+	else:
+		G.player.set_state(Player.State.FREE)
 		pass
 	pass
 

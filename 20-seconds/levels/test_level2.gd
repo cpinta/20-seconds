@@ -14,8 +14,8 @@ func _process(delta):
 	super._process(delta)
 	pass
 
-func _loaded():
-	super._loaded()
+func _player_spawning_finished():
+	super._player_spawning_finished()
 	var testQueue: Array[Textbox.MsgInfo] = [
 		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
 		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),

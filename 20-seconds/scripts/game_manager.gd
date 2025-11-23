@@ -123,6 +123,7 @@ func load_level(index: int) -> bool:
 		reset_player()
 		camera.global_position = player.global_position
 		curLevelObj.levelConcluded.connect(next_level)
+		player_spawning_finished.connect(curLevelObj._player_spawning_finished)
 		levelLoaded.emit()
 		return true
 	return false
@@ -136,6 +137,13 @@ func spawn_player():
 	player = await spawn(playerScene)
 	inGameUI.textbox.textboxClosed.connect(player.enable_input)
 	disablePlayerInput.connect(player.disable_input)
+	player.spawning_finished.connect(_player_spawning_finished)
+	player.set_state(Player.State.SPAWNING)
+	pass
+
+signal player_spawning_finished
+func _player_spawning_finished():
+	player_spawning_finished.emit()
 	pass
 
 func reset_player():

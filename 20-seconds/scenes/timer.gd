@@ -28,6 +28,8 @@ var numtexs: Array[CompressedTexture2D] = [
 	preload("res://sprites/timer sprite9.png"),
 ]
 
+signal timeRanOut
+
 func _ready() -> void:
 	
 	numbers.append($"MarginContainer/0")
@@ -35,10 +37,10 @@ func _ready() -> void:
 	numbers.append($"MarginContainer3/2")
 	numbers.append($"MarginContainer4/3")
 	
-	set_timer()
+	_set_timer()
 	pass
 
-func set_timer():
+func _set_timer():
 	timer = SECONDS
 	oldTimer = SECONDS
 	pass
@@ -54,12 +56,26 @@ func _process(delta: float) -> void:
 				timer -= delta
 			else:
 				timer = 0
-			show_timer_time(timer)
+				_show_timer_time(timer)
+				timeRanOut.emit()
+				state = State.Frozen
+			_show_timer_time(timer)
 			oldTimer = timer
 			pass
 	pass
 
-func show_timer_time(time: float):
+func start_timer():
+	_set_timer()
+	state = State.Countdown
+	pass
+
+func pause_timer():
+	state = State.Frozen
+	
+func resume_timer():
+	state = State.Countdown
+
+func _show_timer_time(time: float):
 	var str: String = "0000"
 	
 	var min: int = time/60
