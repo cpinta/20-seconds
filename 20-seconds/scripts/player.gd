@@ -111,6 +111,10 @@ const JUMP_VELOCITY = 160.0
 const WALL_JUMP_VELOCITY: Vector2 = Vector2(120, 160)
 const MAX_COLLISIONS = 6
 
+const stepEmitterScene: PackedScene = preload("res://scenes/step_emitter.tscn")
+const STEP_EMITTER_GAP: float = 0.05
+var stepEmitterTimer: float = 0
+
 var spikeDestination: Vector2
 
 @export var publicVelocity: Vector2
@@ -178,6 +182,9 @@ func _process(delta):
 			
 			#imgleg active stepping 
 			if not isDucking:
+				if abs(velocity.x) > SLIDE_MIN_SPEED:
+					_step_emit(delta)
+					pass
 				if abs(velocity.x) > IMG_SPEED_MIN:
 					if abs(curStepAngle) < abs(stepDirection * STEP_ANGLE):
 						curStepAngle += stepDirection * STEP_SPEED * abs(velocity.x) * delta
@@ -357,6 +364,17 @@ func _process(delta):
 	else:
 		gun.position.y = 0
 		pass
+	pass
+
+func _step_emit(delta: float):
+	if stepEmitterTimer < STEP_EMITTER_GAP:
+		stepEmitterTimer += delta
+		pass
+	else:
+		stepEmitterTimer = 0
+		var stepEmitter = await G.spawn(stepEmitterScene)
+		stepEmitter.scale.x = sign(velocity.x)
+		stepEmitter.global_position = global_position
 	pass
 
 func _cast_ray(direction: Vector2, length: float):
