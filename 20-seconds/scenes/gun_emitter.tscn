@@ -1,21 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://gvdxb16dm6lu"]
+[gd_scene load_steps=6 format=3 uid="uid://gvdxb16dm6lu"]
 
 [ext_resource type="Texture2D" uid="uid://df5pbucj48l8g" path="res://sprites/circle.png" id="1_6rgli"]
-[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scenes/gun_emitter.gd" id="2_0ca3u"]
+[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scenes/one_shot_emitter.gd" id="2_0ca3u"]
+
+[sub_resource type="Curve" id="Curve_0ca3u"]
+_data = [Vector2(0.11740042, 0.9437008), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.383425, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_llf4k"]
+curve = SubResource("Curve_0ca3u")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jej6c"]
 particle_flag_disable_z = true
-initial_velocity_min = 3000.0
-initial_velocity_max = 3000.0
+spread = 75.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
 attractor_interaction_enabled = false
 scale_min = 0.02
 scale_max = 0.02
+scale_curve = SubResource("CurveTexture_llf4k")
 
 [node name="emitter" type="GPUParticles2D"]
-scale = Vector2(0.03, 0.03)
 emitting = false
 texture = ExtResource("1_6rgli")
-lifetime = 0.1
+lifetime = 0.2
 one_shot = true
 explosiveness = 0.8
 process_material = SubResource("ParticleProcessMaterial_jej6c")

@@ -7,6 +7,9 @@ var start: Node2D
 
 var targets: Array[Target] = []
 
+const POST_TARGET_BREAK_WAIT: float = 2
+var HAS_POST_LEVEL_SCENE: bool = false
+
 signal levelConcluded
 
 # Called when the node enters the scene tree for the first time.
@@ -38,6 +41,14 @@ func target_was_destroyed(target: Target):
 	target.wasDestroyed.disconnect(target_was_destroyed)
 	targets.erase(target)
 	if targets.size() == 0:
-		levelConcluded.emit()
+		await get_tree().create_timer(POST_TARGET_BREAK_WAIT, true, false, true).timeout
+		if not HAS_POST_LEVEL_SCENE:
+			levelConcluded.emit()
+		else:
+			_post_level()
 		pass
+	pass
+
+# needs to call levelConcluded.emit() at some point
+func _post_level():
 	pass

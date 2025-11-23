@@ -35,14 +35,14 @@ func use_item(direction: Vector2, isCharged: bool):
 func shoot_bullet(direction: Vector2, isCharged: bool):
 	var bullet: Bullet = null
 	if isCharged:
-		emit()
+		emit(direction)
 		bullet = await G.spawn(bulletHeavyScene)
 		bullet.global_position = gunPoint.global_position
 		if direction.x != 0:
 			bullet.global_position.y = holder.global_position.y - (bullet.shape.shape.height/4 * bullet.desiredScale)
 			pass
 	else:
-		emit()
+		emit(direction)
 		bullet = await G.spawn(bulletScene)
 		bullet.global_position = gunPoint.global_position
 	bullet.initialize(holder, direction)
@@ -51,14 +51,10 @@ func shoot_bullet(direction: Vector2, isCharged: bool):
 	activeBullets.append(bullet)
 	pass
 
-func emit():
+func emit(direction: Vector2):
 	var emitter: GPUParticles2D = await G.spawn(emitterScene)
 	emitter.global_position = gunPoint.global_position
-	#returnkkk
-	if owner.direction == 1:
-		emitter.rotation_degrees = 0
-	else:
-		emitter.rotation_degrees = 180
+	emitter.rotation = direction.angle()
 	
 func set_direction(direction: Vector2):
 	if direction.x > 0:
