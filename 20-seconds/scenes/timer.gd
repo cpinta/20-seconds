@@ -9,7 +9,7 @@ enum State {
 
 var state: State = State.Countdown
 
-const SECONDS = 21
+const SECONDS = 20
 
 var timer
 var oldTimer
@@ -37,21 +37,25 @@ func _ready() -> void:
 	numbers.append($"2")
 	numbers.append($"3")
 	
-	_set_timer()
+	set_timer()
+	state = State.Frozen
 	pass
 
-func _set_timer():
+func set_timer():
 	timer = SECONDS
 	oldTimer = SECONDS
-	pass
+	_show_timer_time(timer)
 
 func _process(delta: float) -> void:
 	match state:
 		State.Blank:
+			visible = false
 			pass
 		State.Frozen:
+			visible = true
 			pass
 		State.Countdown:
+			visible = true
 			if timer > 0:
 				timer -= delta
 			else:
@@ -65,7 +69,7 @@ func _process(delta: float) -> void:
 	pass
 
 func start_timer():
-	_set_timer()
+	set_timer()
 	state = State.Countdown
 	pass
 

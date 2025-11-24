@@ -12,7 +12,11 @@ var HAS_POST_LEVEL_SCENE: bool = false
 
 const HAS_INTRO: bool = false
 
+# pre concluded
+signal levelGoalReeached
+# last action done by level
 signal levelConcluded
+signal levelInputStarted
 
 # Called when the node enters the scene tree for the first time.
 func _init():
@@ -43,6 +47,7 @@ func target_was_destroyed(target: Target):
 	target.wasDestroyed.disconnect(target_was_destroyed)
 	targets.erase(target)
 	if targets.size() == 0:
+		levelGoalReeached.emit()
 		await get_tree().create_timer(POST_TARGET_BREAK_WAIT, true, false, true).timeout
 		if not HAS_POST_LEVEL_SCENE:
 			levelConcluded.emit()
@@ -56,8 +61,12 @@ func _player_spawning_finished():
 		G.player.set_state(Player.State.DISABLE_INPUT)
 		pass
 	else:
-		G.player.set_state(Player.State.FREE)
+		_start_level_input()
 		pass
+	pass
+
+func _start_level_input():
+	levelInputStarted.emit()
 	pass
 
 # needs to call levelConcluded.emit() at some point

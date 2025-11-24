@@ -33,6 +33,9 @@ func _ready():
 	#gameUI = $UI
 	inGameUI = await spawn(inGameUIScene)
 	inGameUI.textbox.textboxClosed.connect(message_box_finished)
+	inGameUI.timer.timeRanOut.connect(restart_current_level)
+	gm_level_goal_reached.connect(inGameUI.timer.pause_timer)
+	
 	sendMessageQueue.connect(inGameUI.textbox.add_queue)
 	
 	
@@ -42,6 +45,11 @@ func _ready():
 	
 	#load_level(0)
 	pass # Replace with function body.
+
+func restart_current_level():
+	player.set_state(Player.State.SPAWNING)
+	load_current_level()
+	pass
 
 func restart_game():
 	unload_current_level()
@@ -104,8 +112,10 @@ func message_box_finished():
 	
 	pass
 
+func load_current_level():
+	load_level(levelIndex)
 
-	
+signal gm_levelInputStarted
 func load_level(index: int) -> bool:
 	if index < len(levelPaths):
 		if curLevelObj != null:
@@ -116,6 +126,8 @@ func load_level(index: int) -> bool:
 		
 		if not player:
 			await spawn_player()
+		else:
+			player.set_state(Player.State.SPAWNING)
 		if not camera:
 			await spawn_camera()
 			
@@ -123,10 +135,21 @@ func load_level(index: int) -> bool:
 		reset_player()
 		camera.global_position = player.global_position
 		curLevelObj.levelConcluded.connect(next_level)
+		curLevelObj.levelInputStarted.connect(_level_input_started)
+		curLevelObj.levelGoalReeached.connect(_level_goal_reached)
 		player_spawning_finished.connect(curLevelObj._player_spawning_finished)
+		inGameUI.timer.set_timer()
 		levelLoaded.emit()
 		return true
 	return false
+
+signal gm_level_goal_reached
+func _level_goal_reached():
+	gm_level_goal_reached.emit()
+	pass
+
+func _level_input_started():
+	gm_levelInputStarted.emit()
 
 func spawn_camera():
 	camera = await spawn(cameraScene)
@@ -136,9 +159,11 @@ func spawn_camera():
 func spawn_player():
 	player = await spawn(playerScene)
 	inGameUI.textbox.textboxClosed.connect(player.enable_input)
+	player_spawning_finished.connect(inGameUI.timer.start_timer)
 	disablePlayerInput.connect(player.disable_input)
 	player.spawning_finished.connect(_player_spawning_finished)
 	player.set_state(Player.State.SPAWNING)
+	gm_levelInputStarted.connect(player.enable_input)
 	pass
 
 signal player_spawning_finished

@@ -1,7 +1,7 @@
 class_name Player
 extends Entity
 
-enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2}
+enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2, DYING=3}
 
 var state: State = State.FREE
 
@@ -521,6 +521,9 @@ func _physics_process(delta):
 				if spawnTimer > SPAWN_SHOW_TIME:
 					spriteParent.visible = true
 			pass
+		State.DYING:
+			
+			pass
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
@@ -580,7 +583,25 @@ func set_state(newState: State):
 			
 			spawnEmitters[0].dead.connect(_spawning_ended)
 			pass
+		State.DYING:
+			spriteParent.visible = false
+			for i in range(0, 3):
+				spawnEmitters.append(await G.spawn(spawnEmitterScene))
+			
+			spawnEmitters[0].global_position = centerBody.global_position
+			
+			spawnEmitters[0].dead.connect(_dying_ended)
+			pass
 	pass
+	
+signal dying_finished
+func _dying_ended():
+	for i in range(0, spawnEmitters.size()):
+		if spawnEmitters[i]:
+			spawnEmitters[i].queue_free()
+	spawnEmitters.clear()
+	
+	dying_finished.emit()
 
 func _spawning_ended():
 	for i in range(0, spawnEmitters.size()):
@@ -589,7 +610,6 @@ func _spawning_ended():
 	spawnEmitters.clear()
 	
 	spawning_finished.emit()
-	pass
 
 func slide(delta: float):
 	var collision_count := 0
