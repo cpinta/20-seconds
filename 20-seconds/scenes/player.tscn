@@ -11,12 +11,11 @@
 [ext_resource type="Script" uid="uid://ldlo0dxfiog2" path="res://scenes/gun.gd" id="8_smehm"]
 [ext_resource type="Texture2D" uid="uid://chd65a25f8qln" path="res://sprites/bear legs.png" id="10_d2wvv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qlg0r"]
-radius = 4.0
-height = 13.75
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y4r1p"]
+size = Vector2(6.63, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hlhl"]
-size = Vector2(7.135, 2.139608)
+size = Vector2(7.615, 2.625)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -24,8 +23,8 @@ collision_mask = 57
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, -6.875)
-shape = SubResource("CapsuleShape2D_qlg0r")
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_y4r1p")
 
 [node name="sprites" type="Node2D" parent="."]
 position = Vector2(0, -7)
@@ -224,7 +223,7 @@ collision_layer = 0
 collision_mask = 33
 
 [node name="shape" type="CollisionShape2D" parent="groundDetect"]
-position = Vector2(0.2, 7.069804)
+position = Vector2(0, 7.07)
 shape = SubResource("RectangleShape2D_2hlhl")
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]

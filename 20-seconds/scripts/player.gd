@@ -93,8 +93,8 @@ const CROUCH_SPEED: float = 300
 const SLIDE_MIN_SPEED: float = 60
 
 const COL_STAND_HEIGHT: float = 13.5
-const COL_CROUCH_HEIGHT: float = 9.5
-const COL_RADIUS: float = 4
+const COL_CROUCH_HEIGHT: float = 9
+const COL_RADIUS: float = 8
 
 const INPUT_DEADZONE: float = 0.25
 
@@ -266,19 +266,19 @@ func _process(delta):
 				else:
 					curStepAngle = 0
 			pass
-			var capsule = col.shape as CapsuleShape2D
-			if capsule.height > COL_CROUCH_HEIGHT:
-				var newShape: CapsuleShape2D = CapsuleShape2D.new()
-				newShape.height = lerp(capsule.height, COL_CROUCH_HEIGHT, IMG_SPEED_LERP * delta)
-				newShape.radius = COL_RADIUS
+			var rect = col.shape as RectangleShape2D
+			if rect.size.y > COL_CROUCH_HEIGHT:
+				var newShape: RectangleShape2D = RectangleShape2D.new()
+				newShape.size.y = lerp(rect.size.y, COL_CROUCH_HEIGHT, IMG_SPEED_LERP * delta)
+				newShape.size.x = COL_RADIUS
 				col.shape = newShape
-				col.position.y = -newShape.height/2
+				col.position.y = -newShape.size.y/2
 				pass
 			else:
-				if capsule.height != COL_CROUCH_HEIGHT:
-					var newShape: CapsuleShape2D = CapsuleShape2D.new()
-					newShape.height = COL_CROUCH_HEIGHT
-					newShape.radius = COL_RADIUS
+				if rect.size.y != COL_CROUCH_HEIGHT:
+					var newShape: RectangleShape2D = RectangleShape2D.new()
+					newShape.size.y = COL_CROUCH_HEIGHT
+					newShape.size.x = COL_RADIUS
 					col.shape = newShape
 					col.position.y = -COL_CROUCH_HEIGHT/2
 					pass
@@ -306,19 +306,19 @@ func _process(delta):
 			pass
 		pass
 		
-		var capsule = col.shape as CapsuleShape2D
-		if capsule.height < COL_STAND_HEIGHT:
-			var newShape: CapsuleShape2D = CapsuleShape2D.new()
-			newShape.height = lerp(capsule.height, COL_STAND_HEIGHT, IMG_SPEED_LERP * delta)
-			newShape.radius = COL_RADIUS
+		var capsule = col.shape as RectangleShape2D
+		if capsule.size.y < COL_STAND_HEIGHT:
+			var newShape: RectangleShape2D = RectangleShape2D.new()
+			newShape.size.y = lerp(capsule.size.y, COL_STAND_HEIGHT, IMG_SPEED_LERP * delta)
+			newShape.size.x = COL_RADIUS
 			col.shape = newShape
-			col.position.y = -newShape.height/2
+			col.position.y = -newShape.size.y/2
 			pass
 		else:
-			if capsule.height != COL_STAND_HEIGHT:
-				var newShape: CapsuleShape2D = CapsuleShape2D.new()
-				newShape.height = COL_STAND_HEIGHT
-				newShape.radius = COL_RADIUS
+			if capsule.size.y != COL_STAND_HEIGHT:
+				var newShape: RectangleShape2D = RectangleShape2D.new()
+				newShape.size.y = COL_STAND_HEIGHT
+				newShape.size.x = COL_RADIUS
 				col.shape = newShape
 				col.position.y = -COL_STAND_HEIGHT/2
 				pass
@@ -441,17 +441,7 @@ func _physics_process(delta):
 				velocity.y = JUMP_VELOCITY
 			# Handle walljump
 			if Input.is_action_just_pressed("jump") && not isOnGround:
-				if leftWallRay.is_colliding() and leftWallRay.get_collision_normal() == Vector2.RIGHT:
-					velocity.y = WALL_JUMP_VELOCITY.y
-					velocity.x = WALL_JUMP_VELOCITY.x
-					set_direction(1)
-					pass
-				if rightWallRay.is_colliding() and rightWallRay.get_collision_normal() == Vector2.LEFT:
-					velocity.y = WALL_JUMP_VELOCITY.y
-					velocity.x = -WALL_JUMP_VELOCITY.x
-					set_direction(-1)
-					pass
-				
+				_try_wall_jump()
 
 			if Input.is_action_just_pressed("shoot"):
 				isChargingGun = true
@@ -524,6 +514,18 @@ func _physics_process(delta):
 		State.DYING:
 			
 			pass
+
+func _try_wall_jump():
+	if leftWallRay.is_colliding() and leftWallRay.get_collision_normal() == Vector2.RIGHT:
+		wall_jump(1)
+	if rightWallRay.is_colliding() and rightWallRay.get_collision_normal() == Vector2.LEFT:
+		wall_jump(-1)
+
+func wall_jump(dir: int):
+	velocity.y = WALL_JUMP_VELOCITY.y
+	velocity.x = dir * WALL_JUMP_VELOCITY.x
+	#set_direction(dir)
+	pass
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
@@ -624,6 +626,10 @@ func slide(delta: float):
 		var normal = collision.get_normal()
 		var remainder = collision.get_remainder()
 		var angle = collision.get_angle()
+		var shapeInd = collision.get_collider_shape_index()
+		var colPos = collision.get_position()
+		
+		
 		
 		var justOnGround: bool = isOnGround
 		isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
@@ -640,8 +646,18 @@ func slide(delta: float):
 		if normal.y < 0 and normal.y != -1:
 			if abs(inputVector.y) > INPUT_DEADZONE:
 				if not isOnGroundOld:
-					velocity = velocity.normalized() * preCollsionVelocity.y * 0.7
+					velocity = velocity.normalized() * 0.7
+					if abs(preCollsionVelocity.y) > abs(preCollsionVelocity.x):
+						velocity *= preCollsionVelocity.y
+						pass 
+					else:
+						velocity *= preCollsionVelocity.x
+						
 					temp = velocity
+					lastVelSlant = velocity
+					#if normal.x != 0:
+						#velocity = velocity.normalized() * -normal
+						#pass
 					#if abs(velocity.x) > SLIDE_MIN_SPEED:
 				#velocity = velocity.slide(normal)
 				temp = velocity
@@ -662,6 +678,8 @@ func slide(delta: float):
 	velocity.y = -velocity.y
 	isOnGroundOld = isOnGround
 	pass
+
+var lastVelSlant: Vector2
 
 func get_inputVector():
 	inputVector.x = Input.get_axis("left", "right")

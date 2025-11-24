@@ -41,7 +41,7 @@ func _ready():
 	
 	
 	levelPaths.append("res://levels/test_level.tscn");
-	levelPaths.append("res://levels/test_level2.tscn");
+	#levelPaths.append("res://levels/test_level2.tscn");
 	load_level(0)
 	
 	#load_level(0)
