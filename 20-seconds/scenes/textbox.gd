@@ -90,13 +90,13 @@ func _input_pressed():
 
 func close():
 	visible = false
+	isActive = false
 	messageQueue.clear()
 	_set_text("")
 	pass
 
 func _open():
 	visible = true
-	pass
 
 func _set_text(text:String):
 	if currentSpeaker != "":

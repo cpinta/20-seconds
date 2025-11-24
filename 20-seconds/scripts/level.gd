@@ -10,7 +10,7 @@ var targets: Array[Target] = []
 const POST_TARGET_BREAK_WAIT: float = 2
 var HAS_POST_LEVEL_SCENE: bool = false
 
-const HAS_INTRO: bool = false
+var HAS_INTRO: bool = false
 
 # pre concluded
 signal levelGoalReeached
@@ -36,6 +36,7 @@ func _ready():
 func _process(delta):
 	pass
 
+# called when level is first loaded
 func _loaded():
 	pass
 
@@ -56,6 +57,8 @@ func target_was_destroyed(target: Target):
 		pass
 	pass
 
+# called when player spawning animation is done
+# if HAS_INTRO, intro must call levelInputStarted
 func _player_spawning_finished():
 	if HAS_INTRO:
 		G.player.set_state(Player.State.DISABLE_INPUT)
@@ -65,8 +68,12 @@ func _player_spawning_finished():
 		pass
 	pass
 
+# called post level intro
 func _start_level_input():
 	levelInputStarted.emit()
+	pass
+
+func _message_box_finished():
 	pass
 
 # needs to call levelConcluded.emit() at some point

@@ -23,3 +23,8 @@ func _player_spawning_finished():
 	]
 	G.send_queue_to_message_box(testQueue)
 	pass
+
+func _message_box_finished():
+	super._message_box_finished()
+	levelInputStarted.emit()
+	pass

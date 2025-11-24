@@ -34,6 +34,7 @@ func _ready():
 	inGameUI = await spawn(inGameUIScene)
 	inGameUI.textbox.textboxClosed.connect(message_box_finished)
 	inGameUI.timer.timeRanOut.connect(restart_current_level)
+	gm_levelInputStarted.connect(inGameUI.timer.start_timer)
 	gm_level_goal_reached.connect(inGameUI.timer.pause_timer)
 	
 	sendMessageQueue.connect(inGameUI.textbox.add_queue)
@@ -108,8 +109,9 @@ func send_queue_to_message_box(messages: Array[Textbox.MsgInfo]):
 	disablePlayerInput.emit()
 	pass
 
+signal gm_message_box_finished
 func message_box_finished():
-	
+	gm_message_box_finished.emit()
 	pass
 
 func load_current_level():
@@ -137,6 +139,8 @@ func load_level(index: int) -> bool:
 		curLevelObj.levelConcluded.connect(next_level)
 		curLevelObj.levelInputStarted.connect(_level_input_started)
 		curLevelObj.levelGoalReeached.connect(_level_goal_reached)
+		gm_message_box_finished.connect(curLevelObj._message_box_finished)
+		
 		player_spawning_finished.connect(curLevelObj._player_spawning_finished)
 		inGameUI.timer.set_timer()
 		levelLoaded.emit()
@@ -158,12 +162,10 @@ func spawn_camera():
 
 func spawn_player():
 	player = await spawn(playerScene)
-	inGameUI.textbox.textboxClosed.connect(player.enable_input)
-	player_spawning_finished.connect(inGameUI.timer.start_timer)
+	gm_levelInputStarted.connect(player.enable_input)
 	disablePlayerInput.connect(player.disable_input)
 	player.spawning_finished.connect(_player_spawning_finished)
 	player.set_state(Player.State.SPAWNING)
-	gm_levelInputStarted.connect(player.enable_input)
 	pass
 
 signal player_spawning_finished
