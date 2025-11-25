@@ -568,6 +568,8 @@ func set_state(newState: State):
 		State.DISABLE_INPUT:
 			pass
 		State.SPAWNING:
+			@warning_ignore("unused_variable")
+			var temp = 0
 			for i in range(0, spawnEmitters.size()):
 				if spawnEmitters[i]:
 					spawnEmitters[i].queue_free()

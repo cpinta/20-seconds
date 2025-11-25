@@ -26,6 +26,8 @@ var debug: bool = true
 
 var audio: AudioStreamPlayer2D
 
+var agentName: String = "AGENT"
+
 signal disablePlayerInput()
 signal sendMessageQueue(messages: Array[Textbox.MsgInfo])
 signal levelLoaded()
@@ -33,7 +35,7 @@ signal levelLoaded()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	levelPaths.append("res://levels/intro_level.tscn");
-	levelPaths.append("res://levels/test_level.tscn");
+	levelPaths.append("res://levels/level1.tscn");
 	levelPaths.append("res://levels/test_level2.tscn");
 	load_titlescreen()
 	
@@ -146,9 +148,7 @@ func load_level(index: int) -> bool:
 		
 		if not player:
 			await spawn_player()
-			gm_player_spawning_load_finished.emit()
-		else:
-			player.set_state(Player.State.SPAWNING)
+		gm_player_spawning_load_finished.emit()
 		if not camera:
 			await spawn_camera()
 			

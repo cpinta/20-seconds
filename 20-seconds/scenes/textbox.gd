@@ -3,7 +3,8 @@ class_name Textbox
 
 enum Mode {
 	Instant,
-	PerChar
+	PerChar,
+	PerCharContinuing
 }
 
 class MsgInfo:
@@ -51,10 +52,11 @@ func _process(delta: float) -> void:
 		if allowSkipInput:
 			if Input.is_action_just_released("advance_text"):
 				_input_pressed()
-				pass
+			if Input.is_action_just_released("skip_text"):
+				_skip_input_pressed()
 		
 		if currentText != currentDestText:
-			if mode == Mode.PerChar:
+			if mode == Mode.PerChar or mode == Mode.PerCharContinuing:
 				if charTimer < TIME_PER_CHAR:
 					charTimer += delta
 				else:
@@ -82,12 +84,17 @@ func _speak_next_message_in_queue() -> bool:
 		_speak_info(messageQueue[0])
 		messageQueue.remove_at(0)
 		return true
+	if isActive:
+		close()
+		textboxClosed.emit()
 	return false
 
 func _input_pressed():
-	if not _speak_next_message_in_queue():
-		textboxClosed.emit()
-		close()
+	_speak_next_message_in_queue()
+
+func _skip_input_pressed():
+	while _speak_next_message_in_queue():
+		pass
 
 func close():
 	visible = false
@@ -108,12 +115,15 @@ func _set_text(text:String):
 
 @warning_ignore("shadowed_variable")
 func speak(mode: Mode, text: String):
-	set_allow_input(true)
 	isActive = true
 	self.mode = mode
-	currentDestText = text
+	if mode == Mode.PerCharContinuing:
+		currentDestText += text
+	else:
+		currentDestText = text
 	match mode:
 		Mode.Instant:
+			currentText = currentDestText
 			_set_text(currentDestText)
 			pass
 		Mode.PerChar:
@@ -122,10 +132,12 @@ func speak(mode: Mode, text: String):
 	pass
 
 func _speak_info(info: MsgInfo):
+	set_allow_input(true)
 	currentSpeaker = info.username
-	currentText = ""
+	if info.mode != Mode.PerCharContinuing:
+		currentText = ""
 	if info.forTime != 0:
-		speak_for_time(info.mode, info.text, info.forTime)
+		await speak_for_time(info.mode, info.text, info.forTime)
 	else:
 		speak(info.mode, info.text)
 	pass
@@ -143,4 +155,4 @@ func speak_for_time(mode: Mode, text: String, time:float):
 	self.mode = mode
 	speak(mode, text)
 	await get_tree().create_timer(time, true, false, true).timeout
-	pass
+	_speak_next_message_in_queue()

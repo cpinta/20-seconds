@@ -25,6 +25,7 @@ func _init():
 func _ready():
 	tiles = $platform
 	start = $start
+	
 	set_level_color(color)
 	var targetCount: int = get_tree().get_node_count_in_group("target")
 	if targetCount > 0:
@@ -71,7 +72,7 @@ func _player_spawning_animation_finished():
 	pass
 
 func _player_spawning_loading_finished():
-	pass
+	G.player.set_state(Player.State.SPAWNING)
 
 # called post level intro
 func _start_level_input():
