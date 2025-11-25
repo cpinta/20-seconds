@@ -41,7 +41,7 @@ func _ready():
 	
 	
 	levelPaths.append("res://levels/test_level.tscn");
-	#levelPaths.append("res://levels/test_level2.tscn");
+	levelPaths.append("res://levels/test_level2.tscn");
 	load_level(0)
 	
 	#load_level(0)
@@ -132,7 +132,7 @@ func load_level(index: int) -> bool:
 			player.set_state(Player.State.SPAWNING)
 		if not camera:
 			await spawn_camera()
-			
+		
 		player.global_position = curLevelObj.start.global_position
 		reset_player()
 		camera.global_position = player.global_position

@@ -571,6 +571,7 @@ func set_state(newState: State):
 			spriteParent.visible = true
 			pass
 		State.SPAWNING:
+			spawnTimer = 0
 			spriteParent.visible = false
 			for i in range(0, 3):
 				spawnEmitters.append(await G.spawn(spawnEmitterScene))
@@ -714,5 +715,6 @@ func set_direction(dir: int):
 
 func reset():
 	velocity = Vector2.ZERO
+	set_state(State.SPAWNING)
 	gun.reset()
 	pass
