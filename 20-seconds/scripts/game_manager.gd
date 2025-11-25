@@ -9,6 +9,14 @@ var levelIndex = 0
 var curLevelObj: Level
 var levelPaths: Array[String]
 
+
+var backgrounds: Array[Background] = []
+
+const BACKGROUND_COUNT: int = 3
+const BACKGROUND_SCALE_MULT: float = 1.5
+const BACKGROUND_SPEED_MULT: float = 0.5
+const BACKGROUND_ALPHA_MULT: float = 0.8
+
 var inGameUI: InGameUI
 var inGameUIScene: PackedScene = preload("res://scenes/ingame_ui.tscn")
 
@@ -34,13 +42,24 @@ signal levelLoaded()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	levelPaths.append("res://levels/intro_level.tscn");
 	levelPaths.append("res://levels/level1.tscn");
 	levelPaths.append("res://levels/test_level2.tscn");
 	load_titlescreen()
+	spawn_backgrounds()
 	
 	#load_level(0)
 	pass # Replace with function body.
+
+func spawn_backgrounds():
+	for i in range(0, BACKGROUND_COUNT):
+		backgrounds.append(await spawn(load("res://scenes/background.tscn")))
+		if i == 0:
+			continue
+		backgrounds.back().z_index -= i
+		backgrounds.back().OFFSET_SPEED *= BACKGROUND_SPEED_MULT/i
+		backgrounds.back().texture_scale *= BACKGROUND_SCALE_MULT * i
+		backgrounds.back().color.a *= BACKGROUND_ALPHA_MULT/i
+		pass
 
 func load_titlescreen():
 	titleScreen = await spawn(load("res://scenes/title_screen.tscn"))
@@ -145,6 +164,11 @@ func load_level(index: int) -> bool:
 		gm_player_spawning_load_finished.connect(curLevelObj._player_spawning_loading_finished)
 		
 		levelLoaded.connect(curLevelObj._loaded)
+		
+		for i in range(0, backgrounds.size()):
+			backgrounds[i].color.r = curLevelObj.color.r
+			backgrounds[i].color.g = curLevelObj.color.g
+			backgrounds[i].color.b = curLevelObj.color.b
 		
 		if not player:
 			await spawn_player()

@@ -9,6 +9,7 @@ func _ready():
 
 func _loaded():
 	super._loaded()
+	G.inGameUI.show_ui()
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

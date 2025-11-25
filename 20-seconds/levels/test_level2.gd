@@ -5,6 +5,7 @@ extends Level
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super._ready()
+	HAS_INTRO = true
 	#Game.speak_for_time("RULE 1: Make a good tutorial", 9999, 0)
 	pass # Replace with function body.
 

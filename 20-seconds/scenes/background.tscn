@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdkm4a6853pws"]
+
+[ext_resource type="Texture2D" uid="uid://bfw33ogmpliki" path="res://sprites/background.png" id="1_y0upk"]
+[ext_resource type="Script" uid="uid://dgvn0pwdj8lkm" path="res://levels/background.gd" id="2_jougr"]
+
+[node name="background" type="Polygon2D"]
+modulate = Color(0.7094409, 0, 0.31132445, 1)
+z_index = -10
+texture_repeat = 2
+position = Vector2(-3750, -3750)
+scale = Vector2(500, 500)
+texture = ExtResource("1_y0upk")
+texture_scale = Vector2(500, 500)
+polygon = PackedVector2Array(0, 0, 15, 0, 15, 15, 0, 15)
+uv = PackedVector2Array(0, 0, 15.999996, 0, 15.999996, 15.999999, 0, 15.999999)
+script = ExtResource("2_jougr")
+OFFSET_SPEED = 0.025

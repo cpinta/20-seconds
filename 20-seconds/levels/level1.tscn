@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=4 uid="uid://cpii4pgg0wm0b"]
+[gd_scene load_steps=5 format=4 uid="uid://cpii4pgg0wm0b"]
 
 [ext_resource type="Script" uid="uid://xg5xlw2w1cmh" path="res://levels/level1.gd" id="1_b3oru"]
 [ext_resource type="TileSet" uid="uid://ct0y8s1mnvw7l" path="res://tileset.tres" id="2_61w3m"]
 [ext_resource type="Script" uid="uid://15sj45ac5qbs" path="res://scripts/tiles_platform.gd" id="3_pdpul"]
+[ext_resource type="PackedScene" uid="uid://b4geu3gunpjal" path="res://scenes/target.tscn" id="4_ua5ty"]
 
 [node name="level" type="Node2D"]
 script = ExtResource("1_b3oru")
@@ -15,3 +16,6 @@ script = ExtResource("3_pdpul")
 
 [node name="start" type="Node2D" parent="." groups=["start"]]
 position = Vector2(383, -161)
+
+[node name="Target" parent="." instance=ExtResource("4_ua5ty")]
+position = Vector2(209, -68)
