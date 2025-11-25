@@ -1,4 +1,4 @@
-class_name TestLevel
+class_name IntroLevel
 extends Level
 
 
@@ -30,7 +30,17 @@ func _player_spawning_animation_finished():
 
 func _player_spawning_loading_finished():
 	super._player_spawning_loading_finished()
+	G.player.set_state(Player.State.DISABLE_COMPLETELY)
+	G.inGameUI.hide_ui()
 
+	var testQueue: Array[Textbox.MsgInfo] = [
+		Textbox.MsgInfo.new("", "WELCOME TO THE FIELD TRAINING SIMULATION", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new("", "LOADING", Textbox.Mode.Instant, 1),
+		Textbox.MsgInfo.new("", "LOADING.", Textbox.Mode.Instant, 1),
+		Textbox.MsgInfo.new("", "LOADING..", Textbox.Mode.Instant, 1),
+		Textbox.MsgInfo.new("", "LOADING...", Textbox.Mode.Instant, 1),
+	]
+	G.send_queue_to_message_box(testQueue)
 
 func _message_box_finished():
 	super._message_box_finished()

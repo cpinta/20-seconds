@@ -12,6 +12,8 @@ var levelPaths: Array[String]
 var inGameUI: InGameUI
 var inGameUIScene: PackedScene = preload("res://scenes/ingame_ui.tscn")
 
+var titleScreen: TitleScreen
+
 var player: Player
 var playerScene: PackedScene = preload("res://scenes/player.tscn")
 
@@ -30,22 +32,31 @@ signal levelLoaded()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#gameUI = $UI
+	levelPaths.append("res://levels/intro_level.tscn");
+	levelPaths.append("res://levels/test_level.tscn");
+	levelPaths.append("res://levels/test_level2.tscn");
+	load_titlescreen()
+	
+	#load_level(0)
+	pass # Replace with function body.
+
+func load_titlescreen():
+	titleScreen = await spawn(load("res://scenes/title_screen.tscn"))
+	titleScreen.startPressed.connect(start_game)
+
+func spawn_ui():
 	inGameUI = await spawn(inGameUIScene)
 	inGameUI.textbox.textboxClosed.connect(message_box_finished)
 	inGameUI.timer.timeRanOut.connect(restart_current_level)
 	gm_levelInputStarted.connect(inGameUI.timer.start_timer)
 	gm_level_goal_reached.connect(inGameUI.timer.pause_timer)
-	
 	sendMessageQueue.connect(inGameUI.textbox.add_queue)
-	
-	
-	levelPaths.append("res://levels/test_level.tscn");
-	levelPaths.append("res://levels/test_level2.tscn");
+
+func start_game():
+	titleScreen.queue_free()
+	spawn_ui()
 	load_level(0)
-	
-	#load_level(0)
-	pass # Replace with function body.
+	pass
 
 func restart_current_level():
 	player.set_state(Player.State.SPAWNING)
@@ -80,8 +91,8 @@ func spawn(scene: PackedScene):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta):
-	
 	match state:
 		GameState.TITLE_SCREEN:
 			pass
@@ -124,24 +135,27 @@ func load_level(index: int) -> bool:
 			curLevelObj.queue_free()
 		#gameUI.centerText.set_center_text("", 0, 0)
 		curLevelObj = await spawn(load(levelPaths[index]))
-		levelLoaded.connect(curLevelObj._loaded)
-		
-		if not player:
-			await spawn_player()
-		else:
-			player.set_state(Player.State.SPAWNING)
-		if not camera:
-			await spawn_camera()
-		
-		player.global_position = curLevelObj.start.global_position
-		reset_player()
-		camera.global_position = player.global_position
 		curLevelObj.levelConcluded.connect(next_level)
 		curLevelObj.levelInputStarted.connect(_level_input_started)
 		curLevelObj.levelGoalReeached.connect(_level_goal_reached)
 		gm_message_box_finished.connect(curLevelObj._message_box_finished)
+		gm_player_spawning_anim_finished.connect(curLevelObj._player_spawning_animation_finished)
+		gm_player_spawning_load_finished.connect(curLevelObj._player_spawning_loading_finished)
 		
-		player_spawning_finished.connect(curLevelObj._player_spawning_finished)
+		levelLoaded.connect(curLevelObj._loaded)
+		
+		if not player:
+			await spawn_player()
+			gm_player_spawning_load_finished.emit()
+		else:
+			player.set_state(Player.State.SPAWNING)
+		if not camera:
+			await spawn_camera()
+			
+		reset_player()
+		player.global_position = curLevelObj.start.global_position
+		camera.global_position = player.global_position
+		
 		inGameUI.timer.set_timer()
 		levelLoaded.emit()
 		return true
@@ -158,34 +172,35 @@ func _level_input_started():
 func spawn_camera():
 	camera = await spawn(cameraScene)
 	levelLoaded.connect(camera._level_loaded)
-	pass
 
 func spawn_player():
 	player = await spawn(playerScene)
 	gm_levelInputStarted.connect(player.enable_input)
 	disablePlayerInput.connect(player.disable_input)
-	player.spawning_finished.connect(_player_spawning_finished)
-	player.set_state(Player.State.SPAWNING)
-	pass
+	player.plyr_spawning_anim_finished.connect(_player_spawning_anim_finished)
 
-signal player_spawning_finished
-func _player_spawning_finished():
-	player_spawning_finished.emit()
-	pass
+signal gm_player_spawning_anim_finished()
+func _player_spawning_anim_finished():
+	gm_player_spawning_anim_finished.emit()
 
+signal gm_player_spawning_load_finished()
+	
 func reset_player():
 	player.reset()
-	pass
+
+func reset_and_spawn_anim_player():
+	player.reset_and_spawn()
+
 
 func unload_current_level():
 	if curLevelObj != null:
 		curLevelObj.queue_free()
 	
-func load_level_path(str: String):
+func load_level_path(string: String):
 	if curLevelObj != null:
 		curLevelObj.queue_free()
 		#gameUI.centerText.set_center_text("", 0, 0)
-		curLevelObj = load(str).instantiate()
+		curLevelObj = load(string).instantiate()
 		if player == null:
 			if get_tree().get_node_count_in_group("player") > 0:
 				player = get_tree().get_nodes_in_group("player")[0]
@@ -194,10 +209,5 @@ func load_level_path(str: String):
 		pass
 		player.position = Vector2(48, -48)
 		self.add_child.call_deferred(curLevelObj)
-		
-		
-		#player.position = get_tree().get_nodes_in_group("start")[0].global_position
-		#player.position = curLevelObj.start.position
 		return true
-		pass
 	pass

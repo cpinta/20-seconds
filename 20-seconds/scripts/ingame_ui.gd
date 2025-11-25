@@ -1,6 +1,9 @@
 extends CanvasLayer
 class_name InGameUI
 
+var rootControl: Control
+var topHalf: Control
+
 var lblDebug: Label
 var target: Player
 var textbox: Textbox
@@ -12,12 +15,15 @@ const UPDATE_UI_EVERY: int = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rootControl = $Control
+	topHalf = $Control/topHalf
+	hide_ui()
+	
 	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
 	textbox = $Control/bottomHalf/Textbox
 	timer = $Control/topHalf/right/Panel/Timer
-	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	if not target:
 		if get_tree().get_node_count_in_group("player") > 0:
@@ -39,3 +45,9 @@ func _process(delta: float) -> void:
 		frameCount = 0
 		pass
 	pass
+
+func show_ui():
+	topHalf.visible = true
+
+func hide_ui():
+	topHalf.visible = false

@@ -33,6 +33,7 @@ func _ready():
 			targets.back().wasDestroyed.connect(target_was_destroyed)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta):
 	pass
 
@@ -40,6 +41,7 @@ func _process(delta):
 func _loaded():
 	pass
 
+@warning_ignore("shadowed_variable")
 func set_level_color(color: Color):
 	tiles.set_color(color)
 	pass
@@ -59,13 +61,16 @@ func target_was_destroyed(target: Target):
 
 # called when player spawning animation is done
 # if HAS_INTRO, intro must call levelInputStarted
-func _player_spawning_finished():
+func _player_spawning_animation_finished():
 	if HAS_INTRO:
 		G.player.set_state(Player.State.DISABLE_INPUT)
 		pass
 	else:
 		_start_level_input()
 		pass
+	pass
+
+func _player_spawning_loading_finished():
 	pass
 
 # called post level intro

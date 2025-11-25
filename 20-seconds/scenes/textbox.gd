@@ -12,6 +12,7 @@ class MsgInfo:
 	var mode: Mode = Mode.PerChar
 	var forTime: float = 0
 	
+	@warning_ignore("shadowed_variable")
 	func _init(username: String, text:String, mode: Mode = Mode.PerChar, forTime: float = 0) -> void:
 		self.username = username
 		self.text = text
@@ -105,6 +106,7 @@ func _set_text(text:String):
 		lblText.text = text
 	pass
 
+@warning_ignore("shadowed_variable")
 func speak(mode: Mode, text: String):
 	set_allow_input(true)
 	isActive = true
@@ -134,6 +136,7 @@ func set_allow_input(value: bool):
 	buttonHint.visible = allowSkipInput
 	pass
 
+@warning_ignore("shadowed_variable")
 func speak_for_time(mode: Mode, text: String, time:float):
 	set_allow_input(false)
 	isActive = true

@@ -22,42 +22,45 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	pass
 
+@warning_ignore("unused_parameter")
 func _physics_process(delta: float) -> void:
 	pass
 
-func use_item(direction: Vector2, isCharged: bool):
-	super.use_item(direction, isCharged)
-	shoot_bullet(direction, isCharged)
+func use_item(dir: Vector2, isCharged: bool):
+	super.use_item(dir, isCharged)
+	shoot_bullet(dir, isCharged)
 
-func shoot_bullet(direction: Vector2, isCharged: bool):
+func shoot_bullet(dir: Vector2, isCharged: bool):
 	var bullet: Bullet = null
 	if isCharged:
-		emit(direction)
+		emit(dir)
 		bullet = await G.spawn(bulletHeavyScene)
 		bullet.global_position = gunPoint.global_position
-		if direction.x != 0:
+		if dir.x != 0:
 			bullet.global_position.y = holder.global_position.y - (bullet.shape.shape.height/4 * bullet.desiredScale)
 			pass
 	else:
-		emit(direction)
+		emit(dir)
 		bullet = await G.spawn(bulletScene)
 		bullet.global_position = gunPoint.global_position
-	bullet.initialize(holder, direction)
-	bullet.rotation = direction.angle()
+	bullet.initialize(holder, dir)
+	bullet.rotation = dir.angle()
 	bullet.wasDestroyed.connect(bullet_was_destroyed)
 	activeBullets.append(bullet)
 	pass
 
-func emit(direction: Vector2):
+func emit(dir: Vector2):
 	var emitter: GPUParticles2D = await G.spawn(emitterScene)
 	emitter.global_position = gunPoint.global_position
-	emitter.rotation = direction.angle()
+	emitter.rotation = dir.angle()
 	
-func set_direction(direction: Vector2):
-	if direction.x > 0:
+func set_direction(dir: Vector2):
+	if dir.x > 0:
 		sprite.flip_h = false
 		gunPoint.position.x = gunPointPos.x
 	else:

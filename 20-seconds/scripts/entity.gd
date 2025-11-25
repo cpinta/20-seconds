@@ -11,12 +11,15 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	pass
 
+@warning_ignore("unused_parameter")
 func get_hit(damage: float, knockback: float):
 	if invulnerable:
 		return
+	@warning_ignore("narrowing_conversion")
 	health -= damage
 	if health <= 0:
 		die()

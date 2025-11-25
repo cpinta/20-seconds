@@ -38,6 +38,7 @@ func destroy():
 	queue_free()
 	pass
 
+@warning_ignore("shadowed_variable")
 func initialize(sender: Entity, direction: Vector2):
 	self.sender = sender
 	self.direction = direction
@@ -80,11 +81,13 @@ func _area_entered(body: Node2D):
 
 
 func get_hit():
+	@warning_ignore("narrowing_conversion")
 	health -= damage
 	if health <= 0:
 		die()
 	pass
 
+@warning_ignore("unused_parameter")
 func die(location: Vector2 = global_position):
 	wasDestroyed.emit(self)
 	var emitter = await G.spawn(emitterScene)

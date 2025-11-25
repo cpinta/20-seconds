@@ -7,18 +7,20 @@ var color: Color
 func _ready():
 	pass # Replace with function body.
 	
-func _tile_data_runtime_update(coord, tile_data):
+func _tile_data_runtime_update(_coord, tile_data):
 	tile_data.modulate = color
 	
 #Warning: Make sure this function only return true when needed. 
 #Any tile processed at runtime without a need for it will imply a significant performance penalty.
-func _use_tile_data_runtime_update(coord):
+func _use_tile_data_runtime_update(_coord):
 	return true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta):
 	pass
 
+@warning_ignore("shadowed_variable")
 func set_color(color: Color):
 	self.color = color
 	notify_runtime_tile_data_update()

@@ -78,8 +78,6 @@ func _physics_process(delta: float) -> void:
 		if collided:
 			var collision = get_last_slide_collision()
 			var entity = collision.get_collider()
-			var normal = collision.get_normal()
-			var remainder = collision.get_remainder()
 			var angle = collision.get_angle()
 			if entity is Player:
 				deathDirection = -Vector2.from_angle(angle) * entity.velocity.length()
@@ -98,6 +96,7 @@ func die():
 	queue_free()
 	pass
 
-func emit(direction: Vector2):
+@warning_ignore("unused_parameter")
+func emit(dir: Vector2):
 	var emitter: GPUParticles2D = await G.spawn(emitterScene)
 	emitter.global_position = global_position

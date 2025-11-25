@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://es2m312mcrqp"]
+
+[ext_resource type="Script" uid="uid://nm3tk2ttl8mv" path="res://scenes/title_screen.gd" id="1_fgkus"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
+font_size = 48
+
+[node name="title screen" type="CanvasLayer"]
+script = ExtResource("1_fgkus")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 85.0
+offset_right = 26.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Buttons"]
+layout_mode = 2
+
+[node name="Start Button" type="Button" parent="Control/Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "Start"
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -101.5
+offset_right = 20.0
+offset_bottom = -78.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "White Bear Arms"
+label_settings = SubResource("LabelSettings_fgkus")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -86,33 +86,34 @@ func resume_timer():
 	state = State.Countdown
 
 func _show_timer_time(time: float):
-	var str: String = "0000"
+	var string: String = "0000"
 	
-	var min: int = time/60
-	var minStr: String = str(min)
-	var secs: int = time - (min * 60)
+	@warning_ignore("narrowing_conversion")
+	var minute: int = time/60
+	@warning_ignore("narrowing_conversion")
+	var secs: int = time - (minute * 60)
 	var secsStr: String = str(secs)
 	var msecs: float = (time * 100) - floor(time) * 100
 	var msecsStr: String = str(msecs)
 	
 	if len(msecsStr) > 1:
-		str[3] = msecsStr[1]
-		str[2] = msecsStr[0]
+		string[3] = msecsStr[1]
+		string[2] = msecsStr[0]
 		pass
 	else:
-		str[3] = msecsStr[0]
+		string[3] = msecsStr[0]
 		
 	
 	if len(secsStr) > 1:
-		str[1] = secsStr[1]
-		str[0] = secsStr[0]
+		string[1] = secsStr[1]
+		string[0] = secsStr[0]
 	else:
-		str[1] = secsStr[0]
+		string[1] = secsStr[0]
 		
 	
 	var i = 0
 	while i < len(numbers):
-		numbers[i].texture = numtexs[int(str[i])]
+		numbers[i].texture = numtexs[int(string[i])]
 		i += 1
 		pass
 		

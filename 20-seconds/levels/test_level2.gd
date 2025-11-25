@@ -14,14 +14,17 @@ func _process(delta):
 	super._process(delta)
 	pass
 
-func _player_spawning_finished():
-	super._player_spawning_finished()
+func _player_spawning_animation_finished():
+	super._player_spawning_animation_finished()
 	var testQueue: Array[Textbox.MsgInfo] = [
 		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
 		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),
 		Textbox.MsgInfo.new("AGENT", "FRICK", Textbox.Mode.Instant)
 	]
 	G.send_queue_to_message_box(testQueue)
+
+func _player_spawning_loading_finished():
+	super._player_spawning_loading_finished()
 	pass
 
 func _message_box_finished():

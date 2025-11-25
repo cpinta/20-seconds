@@ -7,11 +7,12 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	pass
 
-func use_item(direction: Vector2, isCharged: bool):
-	super.use_item(direction, isCharged)
+func use_item(dir: Vector2, isCharged: bool):
+	super.use_item(dir, isCharged)
 	pass
 
 func reset():

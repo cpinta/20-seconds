@@ -1,9 +1,9 @@
 class_name Player
 extends Entity
 
-enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2, DYING=3}
+enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2, DYING=3, DISABLE_COMPLETELY=4}
 
-var state: State = State.FREE
+var state: State = State.DISABLE_COMPLETELY
 
 var spriteParent: Node2D
 var imgBody: Sprite2D
@@ -122,7 +122,7 @@ var stepEmitterTimer: float = 0
 
 const spawnEmitterScene: PackedScene = preload("res://scenes/reanimate_emitter.tscn")
 var spawnEmitters: Array[OneShotEmitter] = []
-signal spawning_finished
+signal plyr_spawning_anim_finished
 var spawnTimer: float = 0
 const SPAWN_SHOW_TIME: float = 1.5
 
@@ -176,6 +176,7 @@ func play_sound(stream: AudioStream):
 
 func _process(delta):
 	if abs(inputVector.x) > INPUT_DEADZONE:
+		@warning_ignore("unused_parameter", "narrowing_conversion")
 		set_direction(inputVector.x)
 		faceBaseTimer = FACE_BASE_IDLE_TIME
 	else:
@@ -369,7 +370,6 @@ func _process(delta):
 			
 			var pos: float = gun.position.y
 			if abs(pos) < GUN_CHARGE_SHAKE_Y:
-				var change: float = delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
 				pos += delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
 				pass
 			else:
@@ -393,10 +393,11 @@ func _step_emit(delta: float):
 		stepEmitter.global_position = global_position
 	pass
 
-func _cast_ray(direction: Vector2, length: float):
+@warning_ignore("unused_parameter")
+func _cast_ray(dir: Vector2, length: float):
 	var space_state = get_world_2d().direct_space_state
 	# use global coordinates, not local to node
-	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + (direction * length))
+	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + (dir * length))
 	var result = space_state.intersect_ray(query)
 	if result:
 		if result["collider"] is Player:
@@ -542,11 +543,8 @@ func collide(delta: float):
 	var collision_count := 0
 	var collision = move_and_collide(Vector2(velocity.x, -velocity.y) * delta)
 	while collision and collision_count < MAX_COLLISIONS:
-		var collider = collision.get_collider()
-		var entity = collider.get_parent()
 		var normal = collision.get_normal()
 		var remainder = collision.get_remainder()
-		var angle = collision.get_angle()
 		velocity = Vector2(velocity.x + (-1 * abs(normal.x) * velocity.x), velocity.y + (-1 * abs(normal.y) * velocity.y))
 		remainder = Vector2(remainder.x + (-1 * abs(normal.x) * remainder.x), remainder.y + (-1 * abs(normal.y) * remainder.y))
 		
@@ -568,9 +566,12 @@ func set_state(newState: State):
 			spriteParent.visible = true
 			pass
 		State.DISABLE_INPUT:
-			spriteParent.visible = true
 			pass
 		State.SPAWNING:
+			for i in range(0, spawnEmitters.size()):
+				if spawnEmitters[i]:
+					spawnEmitters[i].queue_free()
+			spawnEmitters.clear()
 			spawnTimer = 0
 			spriteParent.visible = false
 			for i in range(0, 3):
@@ -595,6 +596,8 @@ func set_state(newState: State):
 			
 			spawnEmitters[0].dead.connect(_dying_ended)
 			pass
+		State.DISABLE_COMPLETELY:
+			spriteParent.visible = false
 	pass
 	
 signal dying_finished
@@ -612,25 +615,16 @@ func _spawning_ended():
 			spawnEmitters[i].queue_free()
 	spawnEmitters.clear()
 	
-	spawning_finished.emit()
+	plyr_spawning_anim_finished.emit()
 
 func slide(delta: float):
-	var collision_count := 0
 	velocity.y = -velocity.y
 	
 	var preCollsionVelocity: Vector2 = velocity
 	var collided = move_and_slide()
 	if collided:
 		var collision = get_last_slide_collision()
-		var collider = collision.get_collider()
-		var entity = collider.get_parent()
 		var normal = collision.get_normal()
-		var remainder = collision.get_remainder()
-		var angle = collision.get_angle()
-		var shapeInd = collision.get_collider_shape_index()
-		var colPos = collision.get_position()
-		
-		
 		
 		var justOnGround: bool = isOnGround
 		isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
@@ -643,6 +637,7 @@ func slide(delta: float):
 			friction = SLIDE_FRICTION_MULT
 			pass
 		
+		@warning_ignore("unused_variable")
 		var temp: Vector2 = velocity
 		if normal.y < 0 and normal.y != -1:
 			if abs(inputVector.y) > INPUT_DEADZONE:
@@ -715,6 +710,10 @@ func set_direction(dir: int):
 
 func reset():
 	velocity = Vector2.ZERO
-	set_state(State.SPAWNING)
 	gun.reset()
 	pass
+
+func reset_and_spawn():
+	reset()
+	set_state(State.SPAWNING)
+	

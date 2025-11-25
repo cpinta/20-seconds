@@ -24,8 +24,8 @@ func _ready() -> void:
 	set_action(actionName)
 	pass
 
-func set_action(str:String):
-	actionName = str
+func set_action(string:String):
+	actionName = string
 	lblKey.text = InputMap.action_get_events(actionName)[0].as_text_physical_keycode()
 	pass
 
