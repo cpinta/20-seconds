@@ -10,7 +10,7 @@ enum State {
 var state: State = State.PRE_LEVEL
 
 var tiles: TilesPlatform
-@export var color: Color
+@export var color: Color = Color.CORNFLOWER_BLUE
 var start: Node2D
 
 # index is set by GameManager

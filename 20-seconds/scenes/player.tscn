@@ -15,11 +15,13 @@
 size = Vector2(6.63, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hlhl"]
-size = Vector2(7.615, 2.625)
+size = Vector2(8, 3.2424998)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 57
+floor_stop_on_slope = false
+floor_snap_length = 5.0
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -223,7 +225,7 @@ collision_layer = 0
 collision_mask = 33
 
 [node name="shape" type="CollisionShape2D" parent="groundDetect"]
-position = Vector2(0, 7.07)
+position = Vector2(0, 7.37875)
 shape = SubResource("RectangleShape2D_2hlhl")
 
 [node name="audio" type="AudioStreamPlayer2D" parent="."]
@@ -231,6 +233,11 @@ shape = SubResource("RectangleShape2D_2hlhl")
 [node name="upray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 target_position = Vector2(0, -8)
+
+[node name="testray" type="RayCast2D" parent="."]
+z_index = 100
+target_position = Vector2(0, -8)
+collision_mask = 0
 
 [node name="leftwallray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)

@@ -6,14 +6,11 @@ extends Level
 func _ready():
 	super._ready()
 	HAS_INTRO = true
-	
-	pass # Replace with function body.
 
 func _loaded():
 	super._loaded()
 	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	super._process(delta)
 	pass
@@ -22,9 +19,9 @@ func _player_spawning_animation_finished():
 	super._player_spawning_animation_finished()
 	
 	var testQueue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("AGENT", "FRICK", Textbox.Mode.Instant)
+		Textbox.MsgInfo.new(G.agentName, "erm what the frick", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "yeah um... that was awkward", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "FRICK", Textbox.Mode.Instant)
 	]
 	G.send_queue_to_message_box(testQueue)
 

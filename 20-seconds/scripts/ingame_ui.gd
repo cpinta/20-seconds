@@ -20,7 +20,6 @@ const UPDATE_UI_EVERY: int = 10
 func _ready() -> void:
 	rootControl = $Control
 	topHalf = $Control/topHalf
-	hide_ui()
 	
 	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
 	textbox = $Control/bottomHalf/Textbox
@@ -40,7 +39,8 @@ func _process(delta: float) -> void:
 			lblDebug.text = str(abs(floor(target.velocity.x)))
 			lblDebug.text += "\nInput:\t"+str(target.inputVector)
 			lblDebug.text += "\nPlr:  \t"+str(floor(target.global_position.x))+", "+str(floor(target.global_position.y))
-			lblDebug.text += "\nLast vel:  \t"+str(floor(target.lastVelSlant.x))+", "+str(floor(target.lastVelSlant.y))
+			lblDebug.text += "\nLast vel:  \t"+str(target.lastVelSlant.x)+", "+str(target.lastVelSlant.y)
+			lblDebug.text += "\nonGround:  \t"+str(target.isOnGround)+", "+str(target.isOnGroundOld)
 			if G.camera:
 				lblDebug.text += "\nCam:\t"+str(floor(G.camera.global_position.x))+", "+str(floor(G.camera.global_position.y))
 				

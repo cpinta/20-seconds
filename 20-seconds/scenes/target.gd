@@ -31,6 +31,8 @@ func _ready() -> void:
 	endPos = $end.global_position
 	startPos = global_position
 	sprite = $sprite
+	
+	$end/end_graphic.queue_free()
 	pass
 
 func _physics_process(delta: float) -> void:

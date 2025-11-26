@@ -87,6 +87,7 @@ const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
 const SLIDE_FRICTION_MULT: float = 0.5
+#const SLIDE_SLANT_FRICTION_MULT: float = 2
 const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
@@ -165,7 +166,7 @@ func _ready():
 	
 	gun.holder = self
 	
-	floor_snap_length = 5
+	#floor_snap_length = 1
 	
 	pass
 
@@ -659,37 +660,24 @@ func slide(delta: float):
 			if abs(inputVector.y) > INPUT_DEADZONE:
 				if not isOnGroundOld:
 					velocity = velocity.normalized() * 0.7
+					velocity = normal.orthogonal() * -sign(normal.x)
 					if abs(preCollsionVelocity.y) > abs(preCollsionVelocity.x):
-						velocity *= preCollsionVelocity.y
-						pass 
+						velocity += preCollsionVelocity.y * velocity.normalized()
 					else:
-						velocity *= preCollsionVelocity.x
-						
-					temp = velocity
+						velocity *= -1
+						velocity += abs(preCollsionVelocity.x) * velocity.normalized()
+						pass
+					#friction = SLIDE_SLANT_FRICTION_MULT
+					
 					lastVelSlant = velocity
-					#if normal.x != 0:
-						#velocity = velocity.normalized() * -normal
-						#pass
-					#if abs(velocity.x) > SLIDE_MIN_SPEED:
-				#velocity = velocity.slide(normal)
-				temp = velocity
-				
-				temp = velocity
+					$testray.target_position = velocity
 			else:
-				temp = velocity
 				velocity = velocity.slide(normal)
-				temp = velocity
-			
-			pass
-			
 		velocity.x += -velocity.x * friction * delta
 		pass
-	else:
-		isOnGround = false
 		
 	velocity.y = -velocity.y
 	isOnGroundOld = isOnGround
-	pass
 
 var lastVelSlant: Vector2
 

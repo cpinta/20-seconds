@@ -53,6 +53,8 @@ func _ready():
 	levelPaths.append("res://levels/intro_level.tscn");
 	levelPaths.append("res://levels/level1.tscn");
 	levelPaths.append("res://levels/level2.tscn");
+	levelPaths.append("res://levels/big level with slants.tscn");
+	levelPaths.append("res://levels/slant heaven.tscn");
 	load_titlescreen()
 	spawn_backgrounds()
 	
@@ -89,6 +91,8 @@ func load_titlescreen():
 	titleScreen.startPressed.connect(start_game)
 
 func load_level_select():
+	if titleScreen:
+		titleScreen.queue_free()
 	if pauseScreen:
 		pauseScreen.queue_free()
 	levelSelect = await spawn(levelSelectScene)
@@ -186,6 +190,8 @@ func _process(delta):
 func _physics_process(delta: float) -> void:
 	match state:
 		State.TITLE_SCREEN:
+			if Input.is_action_just_pressed("pause"):
+				load_level_select()
 			pass
 		State.IN_GAME:
 			if Input.is_action_just_pressed("pause"):
@@ -237,6 +243,8 @@ func load_current_level():
 signal gm_levelInputStarted
 func load_level(index: int) -> bool:
 	if index < len(levelPaths):
+		state = State.IN_GAME
+		levelIndex = index
 		if levelSelect:
 			levelSelect.queue_free()
 		if curLevelObj:
@@ -273,6 +281,8 @@ func load_level(index: int) -> bool:
 		player.global_position = curLevelObj.start.global_position
 		camera.global_position = player.global_position
 		
+		if not inGameUI:
+			await spawn_ui()
 		inGameUI.timer.set_timer()
 		levelLoaded.emit()
 		return true

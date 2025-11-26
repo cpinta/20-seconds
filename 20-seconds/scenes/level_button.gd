@@ -9,7 +9,7 @@ signal sbtn_pressed(index: int)
 func _ready() -> void:
 	lblTime = $Time
 	lblTime.text = ""
-	pass # Replace with function body.
+	pressed.connect(btn_pressed)
 
 func initialize(index: int, time: float):
 	text = str(index)
@@ -20,4 +20,3 @@ func initialize(index: int, time: float):
 
 func btn_pressed():
 	sbtn_pressed.emit(levelIndex)
-	pass
