@@ -11,8 +11,8 @@ var state: State = State.Countdown
 
 const SECONDS = 20
 
-var timer
-var oldTimer
+var timer: float = 20
+var oldTimer: float = 20
 
 var numbers: Array[TextureRect]
 var numtexs: Array[CompressedTexture2D] = [

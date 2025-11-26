@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://nq413oome2iy"
+path="res://.godot/imported/bassy boom.mp3-e1c64fb3ae7a9822739a621b1b33671a.mp3str"
+
+[deps]
+
+source_file="res://audio/bassy boom.mp3"
+dest_files=["res://.godot/imported/bassy boom.mp3-e1c64fb3ae7a9822739a621b1b33671a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

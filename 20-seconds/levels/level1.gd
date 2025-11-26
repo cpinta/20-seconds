@@ -23,7 +23,7 @@ func _player_spawning_animation_finished():
 	var testQueue: Array[Textbox.MsgInfo] = [
 		Textbox.MsgInfo.new(G.agentName, "There we go!", Textbox.Mode.PerChar),
 		Textbox.MsgInfo.new(G.agentName, "Alright, the setup is pretty standard stuff!", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new(G.agentName, "Use inputs WASD to move", Textbox.Mode.PerChar)
+		Textbox.MsgInfo.new(G.agentName, "Follow the signage to walk and hit those targets!", Textbox.Mode.PerChar)
 	]
 	G.send_queue_to_message_box(testQueue)
 
@@ -33,5 +33,5 @@ func _player_spawning_loading_finished():
 
 func _message_box_finished():
 	super._message_box_finished()
-	levelInputStarted.emit()
+	_start_level_input()
 	pass

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dy4x1g0fgsl15"
+path="res://.godot/imported/tinny step1.mp3-1361402772807135409bef4b7ac94b61.mp3str"
+
+[deps]
+
+source_file="res://audio/tinny step1.mp3"
+dest_files=["res://.godot/imported/tinny step1.mp3-1361402772807135409bef4b7ac94b61.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

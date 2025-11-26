@@ -9,6 +9,9 @@ var target: Player
 var textbox: Textbox
 var timer: SecTimer
 
+var targetUI: TargetUI
+
+
 var frameCount: int = 0
 const FRAME_COUNT_MAX: int = 10000
 const UPDATE_UI_EVERY: int = 10
@@ -22,6 +25,7 @@ func _ready() -> void:
 	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
 	textbox = $Control/bottomHalf/Textbox
 	timer = $Control/topHalf/right/Panel/Timer
+	targetUI = $"Control/topHalf/left/MarginContainer/VBoxContainer/Target UI"
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
@@ -39,6 +43,10 @@ func _process(delta: float) -> void:
 			lblDebug.text += "\nLast vel:  \t"+str(floor(target.lastVelSlant.x))+", "+str(floor(target.lastVelSlant.y))
 			if G.camera:
 				lblDebug.text += "\nCam:\t"+str(floor(G.camera.global_position.x))+", "+str(floor(G.camera.global_position.y))
+				
+	if G.curLevelObj:
+		if targetUI.curNum != G.curLevelObj.targets.size():
+			targetUI.set_count(G.curLevelObj.targets.size())
 	
 	frameCount += 1
 	if frameCount > FRAME_COUNT_MAX:

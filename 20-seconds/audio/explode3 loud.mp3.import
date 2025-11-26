@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://twjs7jayysam"
+path="res://.godot/imported/explode3 loud.mp3-f940f24b4dfb5ea8e81492e70b0889e1.mp3str"
+
+[deps]
+
+source_file="res://audio/explode3 loud.mp3"
+dest_files=["res://.godot/imported/explode3 loud.mp3-f940f24b4dfb5ea8e81492e70b0889e1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

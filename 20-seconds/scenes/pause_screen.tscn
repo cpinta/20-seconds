@@ -1,0 +1,69 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2iue32ndn5wh"]
+
+[ext_resource type="Script" uid="uid://bursccaau0w2t" path="res://scenes/pause_screen.gd" id="1_gchx3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
+font_size = 48
+
+[node name="pause screen" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_gchx3")
+
+[node name="Control" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 85.0
+offset_right = 26.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Resume" type="Button" parent="Control/Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "Resume"
+
+[node name="LevelSelect" type="Button" parent="Control/Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "Level Select"
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -101.5
+offset_right = 20.0
+offset_bottom = -78.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_fgkus")
+horizontal_alignment = 1
+vertical_alignment = 1

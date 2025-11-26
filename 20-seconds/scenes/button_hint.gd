@@ -11,6 +11,7 @@ const _pressedY: float = 3
 const _pressedScaleY: float = 0.8
 
 @export var actionName: String = ""
+@export var actionIndex: int = 0
 
 var idleyAnimate: bool = false
 var animatedWhenPressed: bool = true
@@ -26,10 +27,29 @@ func _ready() -> void:
 
 func set_action(string:String):
 	actionName = string
-	lblKey.text = InputMap.action_get_events(actionName)[0].as_text_physical_keycode()
+	lblKey.text = InputMap.action_get_events(actionName)[actionIndex].as_text_physical_keycode()
+	match lblKey.text:
+		"Up":
+			lblKey.text = "↑"
+			pass
+		"Down":
+			lblKey.text = "↓"
+			pass
+		"Left":
+			lblKey.text = "←"
+			pass
+		"Right":
+			lblKey.text = "→"
+			pass
+		pass
+		
+	await get_tree().process_frame
+	position.x -= lblContainer.size.x/2
+	size.x = lblContainer.size.x
 	pass
 
 func _process(delta: float) -> void:
+	
 	if animatedWhenPressed:
 		if actionName != null and actionName != "":
 			if InputMap.has_action(actionName):

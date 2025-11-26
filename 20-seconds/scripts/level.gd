@@ -1,19 +1,30 @@
 class_name Level
 extends Node2D
 
+enum State {
+	PRE_LEVEL,
+	IN_PROGRESS,
+	POST_LEVEL
+}
+
+var state: State = State.PRE_LEVEL
+
 var tiles: TilesPlatform
 @export var color: Color
 var start: Node2D
 
+# index is set by GameManager
+var index: int = -1
+
 var targets: Array[Target] = []
 
-const POST_TARGET_BREAK_WAIT: float = 2
+const POST_TARGET_BREAK_WAIT: float = 3
 var HAS_POST_LEVEL_SCENE: bool = false
 
 var HAS_INTRO: bool = false
 
 # pre concluded
-signal levelGoalReeached
+signal levelGoalReached
 # last action done by level
 signal levelConcluded
 signal levelInputStarted
@@ -51,7 +62,8 @@ func target_was_destroyed(target: Target):
 	target.wasDestroyed.disconnect(target_was_destroyed)
 	targets.erase(target)
 	if targets.size() == 0:
-		levelGoalReeached.emit()
+		state = State.POST_LEVEL
+		levelGoalReached.emit()
 		await get_tree().create_timer(POST_TARGET_BREAK_WAIT, true, false, true).timeout
 		if not HAS_POST_LEVEL_SCENE:
 			levelConcluded.emit()
@@ -77,6 +89,7 @@ func _player_spawning_loading_finished():
 # called post level intro
 func _start_level_input():
 	levelInputStarted.emit()
+	state = State.IN_PROGRESS
 	pass
 
 func _message_box_finished():

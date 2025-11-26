@@ -30,5 +30,4 @@ func _player_spawning_loading_finished():
 
 func _message_box_finished():
 	super._message_box_finished()
-	levelInputStarted.emit()
-	pass
+	_start_level_input()

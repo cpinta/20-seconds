@@ -1,9 +1,11 @@
 class_name GameManager
 extends Node2D
 
-enum GameState {TITLE_SCREEN=0, IN_GAME=1, PAUSED=2, END=3}
+enum State {TITLE_SCREEN=0, IN_GAME=1, PAUSED=2, END=3}
 
-var state: GameState = GameState.IN_GAME
+var gameSaveInfo: SaveInfo.GameInfo = SaveInfo.GameInfo.new()
+
+var state: State = State.IN_GAME
 
 var levelIndex = 0
 var curLevelObj: Level
@@ -19,6 +21,12 @@ const BACKGROUND_ALPHA_MULT: float = 0.8
 
 var inGameUI: InGameUI
 var inGameUIScene: PackedScene = preload("res://scenes/ingame_ui.tscn")
+
+var levelSelect: LevelSelect
+var levelSelectScene: PackedScene = preload("res://scenes/level_select.tscn")
+
+var pauseScreen: PauseScreen
+var pauseScreenScene: PackedScene = preload("res://scenes/pause_screen.tscn")
 
 var titleScreen: TitleScreen
 
@@ -42,13 +50,18 @@ signal levelLoaded()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	levelPaths.append("res://levels/intro_level.tscn");
 	levelPaths.append("res://levels/level1.tscn");
-	levelPaths.append("res://levels/test_level2.tscn");
+	levelPaths.append("res://levels/level2.tscn");
 	load_titlescreen()
 	spawn_backgrounds()
 	
-	#load_level(0)
+	load_save_info()
 	pass # Replace with function body.
+
+func load_save_info():
+	for i in range(0, levelPaths.size()):
+		gameSaveInfo.levelInfos.append(SaveInfo.LevelInfo.new())
 
 func spawn_backgrounds():
 	for i in range(0, BACKGROUND_COUNT):
@@ -61,9 +74,27 @@ func spawn_backgrounds():
 		backgrounds.back().color.a *= BACKGROUND_ALPHA_MULT/i
 		pass
 
+func pause_backgrounds():
+	for i in range(0, backgrounds.size()):
+		backgrounds[i].isActive = false
+
+func resume_backgrounds():
+	for i in range(0, backgrounds.size()):
+		backgrounds[i].isActive = true
+
+
 func load_titlescreen():
+	state = State.TITLE_SCREEN
 	titleScreen = await spawn(load("res://scenes/title_screen.tscn"))
 	titleScreen.startPressed.connect(start_game)
+
+func load_level_select():
+	if pauseScreen:
+		pauseScreen.queue_free()
+	levelSelect = await spawn(levelSelectScene)
+	levelSelect.initialize(gameSaveInfo)
+	levelSelect.level_selected.connect(load_level)
+	pass
 
 func spawn_ui():
 	inGameUI = await spawn(inGameUIScene)
@@ -71,10 +102,36 @@ func spawn_ui():
 	inGameUI.timer.timeRanOut.connect(restart_current_level)
 	gm_levelInputStarted.connect(inGameUI.timer.start_timer)
 	gm_level_goal_reached.connect(inGameUI.timer.pause_timer)
+	gm_pause.connect(inGameUI.timer.pause_timer)
+	gm_resume.connect(inGameUI.timer.resume_timer)
 	sendMessageQueue.connect(inGameUI.textbox.add_queue)
+
+signal gm_resume
+func resume_game():
+	state = State.IN_GAME
+	gm_resume.emit()
+	resume_backgrounds()
+	if levelSelect:
+		levelSelect.queue_free()
+	if pauseScreen:
+		pauseScreen.queue_free()
+
+signal gm_pause
+func pause_game():
+	state = State.PAUSED
+	gm_pause.emit()
+	pause_backgrounds()
+	if not pauseScreen:
+		load_pause_screen()
+
+func load_pause_screen():
+	pauseScreen = await spawn(pauseScreenScene)
+	pauseScreen.btnResume.pressed.connect(resume_game)
+	pauseScreen.btnLevelSelect.pressed.connect(load_level_select)
 
 func start_game():
 	titleScreen.queue_free()
+	state = State.IN_GAME
 	spawn_ui()
 	load_level(0)
 	pass
@@ -90,12 +147,12 @@ func restart_game():
 
 func load_intro():
 	#Game.gameUI.centerText.set_color(Color.WHITE)
-	state = GameState.IN_GAME
+	state = State.IN_GAME
 
 func intro_ended():
 	#intro.queue_free()
 	load_level(0)
-	state = GameState.IN_GAME
+	state = State.IN_GAME
 	pass
 
 func play_sound(stream: AudioStream):
@@ -115,17 +172,45 @@ func spawn(scene: PackedScene):
 @warning_ignore("unused_parameter")
 func _process(delta):
 	match state:
-		GameState.TITLE_SCREEN:
+		State.TITLE_SCREEN:
 			pass
-		GameState.IN_GAME:
+		State.IN_GAME:
 			pass
-		GameState.PAUSED:
+		State.PAUSED:
 			pass
-		GameState.END:
+		State.END:
+			pass
+	pass
+
+@warning_ignore("unused_parameter")
+func _physics_process(delta: float) -> void:
+	match state:
+		State.TITLE_SCREEN:
+			pass
+		State.IN_GAME:
+			if Input.is_action_just_pressed("pause"):
+				if curLevelObj:
+					if curLevelObj.state == Level.State.IN_PROGRESS:
+						pause_game()
+		State.PAUSED:
+			if Input.is_action_just_pressed("pause"):
+				resume_game()
+				pass
+			pass
+		State.END:
 			pass
 	pass
 
 func next_level():
+	if gameSaveInfo:
+		gameSaveInfo.levelInfos[levelIndex].timesFinished += 1
+		if gameSaveInfo.lastLevelBeat < levelIndex:
+			gameSaveInfo.lastLevelBeat = levelIndex
+			pass 
+		if inGameUI.timer.timer:
+			if gameSaveInfo.levelInfos[levelIndex].bestTime < inGameUI.timer.timer:
+				gameSaveInfo.levelInfos[levelIndex].bestTime = inGameUI.timer.timer
+	
 	levelIndex += 1
 	if await(load_level(levelIndex)):
 		
@@ -152,13 +237,19 @@ func load_current_level():
 signal gm_levelInputStarted
 func load_level(index: int) -> bool:
 	if index < len(levelPaths):
-		if curLevelObj != null:
+		if levelSelect:
+			levelSelect.queue_free()
+		if curLevelObj:
 			curLevelObj.queue_free()
 		#gameUI.centerText.set_center_text("", 0, 0)
 		curLevelObj = await spawn(load(levelPaths[index]))
 		curLevelObj.levelConcluded.connect(next_level)
 		curLevelObj.levelInputStarted.connect(_level_input_started)
-		curLevelObj.levelGoalReeached.connect(_level_goal_reached)
+		curLevelObj.levelGoalReached.connect(_level_goal_reached)
+		curLevelObj.index = index
+		
+		gameSaveInfo.levelInfos[index].timesStarted += 1
+		
 		gm_message_box_finished.connect(curLevelObj._message_box_finished)
 		gm_player_spawning_anim_finished.connect(curLevelObj._player_spawning_animation_finished)
 		gm_player_spawning_load_finished.connect(curLevelObj._player_spawning_loading_finished)
@@ -169,6 +260,8 @@ func load_level(index: int) -> bool:
 			backgrounds[i].color.r = curLevelObj.color.r
 			backgrounds[i].color.g = curLevelObj.color.g
 			backgrounds[i].color.b = curLevelObj.color.b
+		
+		resume_backgrounds()
 		
 		if not player:
 			await spawn_player()
@@ -188,7 +281,7 @@ func load_level(index: int) -> bool:
 signal gm_level_goal_reached
 func _level_goal_reached():
 	gm_level_goal_reached.emit()
-	pass
+	pause_backgrounds()
 
 func _level_input_started():
 	gm_levelInputStarted.emit()
@@ -201,7 +294,12 @@ func spawn_player():
 	player = await spawn(playerScene)
 	gm_levelInputStarted.connect(player.enable_input)
 	disablePlayerInput.connect(player.disable_input)
+	gm_level_goal_reached.connect(player.freeze)
+	gm_pause.connect(player.freeze)
+	gm_resume.connect(player.unfreeze)
+	
 	player.plyr_spawning_anim_finished.connect(_player_spawning_anim_finished)
+	
 
 signal gm_player_spawning_anim_finished()
 func _player_spawning_anim_finished():

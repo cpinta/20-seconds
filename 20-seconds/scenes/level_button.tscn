@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba7ldc3pl7cgo"]
+
+[ext_resource type="Script" uid="uid://duecmmdknwi51" path="res://scenes/level_button.gd" id="1_i0sit"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
+
+[node name="Level Button" type="Button"]
+custom_minimum_size = Vector2(200, 0)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "1
+"
+script = ExtResource("1_i0sit")
+
+[node name="Time" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

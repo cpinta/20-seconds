@@ -28,12 +28,12 @@ func _player_spawning_animation_finished():
 	]
 	G.send_queue_to_message_box(testQueue)
 
-enum State {
+enum LvlState {
 	FirstPhase,
 	TimerOn,
 }
 
-var state: State = State.FirstPhase
+var lvlstate: LvlState = LvlState.FirstPhase
 
 func _player_spawning_loading_finished():
 	G.player.set_state(Player.State.DISABLE_COMPLETELY)
@@ -57,9 +57,9 @@ func _player_spawning_loading_finished():
 
 func _message_box_finished():
 	super._message_box_finished()
-	match state:
-		State.FirstPhase:
-			state = State.TimerOn
+	match lvlstate:
+		LvlState.FirstPhase:
+			lvlstate = LvlState.TimerOn
 			G.inGameUI.show_ui()
 			var queue: Array[Textbox.MsgInfo] = [
 				Textbox.MsgInfo.new(G.agentName, "So, without further ado! Let's get this training started for you!", Textbox.Mode.PerChar),
@@ -70,7 +70,7 @@ func _message_box_finished():
 				Textbox.MsgInfo.new(G.agentName, "LET ME ENABLE YOUR VISOR FIRST HAHA", Textbox.Mode.Instant),
 			]
 			G.send_queue_to_message_box(queue)
-		State.TimerOn:
+		LvlState.TimerOn:
 			levelConcluded.emit()
 			pass
 	pass

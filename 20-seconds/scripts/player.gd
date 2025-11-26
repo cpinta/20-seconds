@@ -1,7 +1,7 @@
 class_name Player
 extends Entity
 
-enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2, DYING=3, DISABLE_COMPLETELY=4}
+enum State {FREE=0, DISABLE_INPUT=1, SPAWNING=2, DYING=3, DISABLE_COMPLETELY=4, DISABLE_PHYSICS = 5}
 
 var state: State = State.DISABLE_COMPLETELY
 
@@ -175,6 +175,10 @@ func play_sound(stream: AudioStream):
 	pass
 
 func _process(delta):
+	match state:
+		State.DISABLE_PHYSICS:
+			return
+	
 	if abs(inputVector.x) > INPUT_DEADZONE:
 		@warning_ignore("unused_parameter", "narrowing_conversion")
 		set_direction(inputVector.x)
@@ -515,6 +519,8 @@ func _physics_process(delta):
 		State.DYING:
 			
 			pass
+		State.DISABLE_PHYSICS:
+			pass
 
 func _try_wall_jump():
 	if leftWallRay.is_colliding() and leftWallRay.get_collision_normal() == Vector2.RIGHT:
@@ -527,6 +533,12 @@ func wall_jump(dir: int):
 	velocity.x = dir * WALL_JUMP_VELOCITY.x
 	#set_direction(dir)
 	pass
+
+func freeze():
+	set_state(Player.State.DISABLE_PHYSICS)
+
+func unfreeze():
+	set_state(Player.State.FREE)
 
 func get_gun_aim_vector() -> Vector2:
 	if abs(inputVector.y) > INPUT_DEADZONE:
@@ -600,6 +612,8 @@ func set_state(newState: State):
 			pass
 		State.DISABLE_COMPLETELY:
 			spriteParent.visible = false
+		State.DISABLE_PHYSICS:
+			spriteParent.visible = true
 	pass
 	
 signal dying_finished

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d3olf3pcago57"
+path="res://.godot/imported/woosh3 intense.mp3-f4025cca7342883d12043fff70ccb4ef.mp3str"
+
+[deps]
+
+source_file="res://audio/woosh3 intense.mp3"
+dest_files=["res://.godot/imported/woosh3 intense.mp3-f4025cca7342883d12043fff70ccb4ef.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

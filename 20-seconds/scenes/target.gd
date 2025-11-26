@@ -19,7 +19,7 @@ var sprite: Sprite2D
 
 var emitterScene: PackedScene = preload("res://scenes/target_emitter.tscn")
 
-const DEATH_TIME: float = 0.25
+const DEATH_TIME: float = 0.18
 const DEATH_SCALE: float = 0.5
 var deathDirection: Vector2
 var deathTimer = 0

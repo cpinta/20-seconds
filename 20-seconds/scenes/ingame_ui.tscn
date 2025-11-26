@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bon2jdlcwqgiw"]
+[gd_scene load_steps=9 format=3 uid="uid://bon2jdlcwqgiw"]
 
 [ext_resource type="Script" uid="uid://ci377c1f123v5" path="res://scripts/ingame_ui.gd" id="1_v3yap"]
 [ext_resource type="Texture2D" uid="uid://cj63eubyckeia" path="res://sprites/text square.png" id="2_031h6"]
 [ext_resource type="PackedScene" uid="uid://cp0rfiy543qbj" path="res://scenes/timer.tscn" id="2_cm6yq"]
+[ext_resource type="PackedScene" uid="uid://cwnldookuoxx2" path="res://scenes/target_ui.tscn" id="2_f6424"]
 [ext_resource type="Script" uid="uid://cfa6h7edswosd" path="res://scenes/textbox.gd" id="2_hifx3"]
 [ext_resource type="FontFile" uid="uid://gcel8py47lh" path="res://font/MonacoB2.otf" id="3_h2rwu"]
 [ext_resource type="PackedScene" uid="uid://c3qp05vstbspj" path="res://scenes/button_hint.tscn" id="3_i42rf"]
@@ -49,6 +50,9 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 text = "Speed:"
+
+[node name="Target UI" parent="Control/topHalf/left/MarginContainer/VBoxContainer" instance=ExtResource("2_f6424")]
+layout_mode = 2
 
 [node name="right" type="Control" parent="Control/topHalf"]
 layout_mode = 2
