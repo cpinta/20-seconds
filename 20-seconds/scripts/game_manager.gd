@@ -137,11 +137,13 @@ func load_pause_screen():
 	pauseScreen.btnResume.pressed.connect(resume_game)
 	pauseScreen.btnLevelSelect.pressed.connect(load_level_select)
 
-func start_game():
-	titleScreen.queue_free()
+func start_game(loadLevel: bool = true):
+	if titleScreen:
+		titleScreen.queue_free()
 	state = State.IN_GAME
-	spawn_ui()
-	load_level(0)
+	await spawn_ui()
+	if loadLevel:
+		await load_level(0)
 	pass
 
 func restart_current_level():

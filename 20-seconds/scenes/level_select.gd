@@ -10,9 +10,10 @@ func _ready() -> void:
 	grid = $Control/Buttons/Grid
 
 func initialize(gameInfo: SaveInfo.GameInfo):
-	for i in range(0, gameInfo.levelInfos.size()):
+	for i in range(0, gameInfo.lastLevelBeat+1):
 		if not gameInfo.levelInfos[i].selectable:
-			continue
+			if gameInfo.lastLevelBeat > 0:
+				continue
 		var btn: LevelButton = await G.spawn(levelButtonScene)
 		btn.initialize(i, gameInfo.levelInfos[i].bestTime)
 		btn.sbtn_pressed.connect(_level_selected)

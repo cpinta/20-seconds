@@ -35,6 +35,8 @@ var lvlstate: LvlState = LvlState.FirstPhase
 
 func _player_spawning_loading_finished():
 	G.player.set_state(Player.State.DISABLE_COMPLETELY)
+	if not G.inGameUI:
+		await G.start_game(false)
 	G.inGameUI.hide_ui()
 
 	var queue: Array[Textbox.MsgInfo] = [
@@ -48,8 +50,8 @@ func _player_spawning_loading_finished():
 		Textbox.MsgInfo.new("", "CONNECTING TO HOST...", Textbox.Mode.Instant, 1),
 		Textbox.MsgInfo.new("", G.agentName+" CONNECTED!", Textbox.Mode.Instant, 2),
 		Textbox.MsgInfo.new(G.agentName, "Hello!", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new(G.agentName, "Agent Arms it is an honor for you to sacrifice your precious time for this!", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new(G.agentName, "You are our first tester who has actually done work in the field so your feedback will be greatly appreciated for Q.A!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "Agent Arms! It's an honor for you to volunteer to test our training simulation!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "You've actually done work in the field so your feedback will be greatly appreciated!", Textbox.Mode.PerChar),
 	]
 	G.send_queue_to_message_box(queue)
 
