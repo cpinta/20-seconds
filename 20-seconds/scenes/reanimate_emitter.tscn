@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bolnyk3kxodfr"]
 
 [ext_resource type="Texture2D" uid="uid://df5pbucj48l8g" path="res://sprites/circle.png" id="1_8pkto"]
-[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scenes/one_shot_emitter.gd" id="2_mjy3j"]
+[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scripts/one_shot_emitter.gd" id="2_mjy3j"]
 
 [sub_resource type="Gradient" id="Gradient_8pkto"]
 offsets = PackedFloat32Array(0.71557564, 0.8)

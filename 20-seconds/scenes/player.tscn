@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://wwfhpeosv5a8"]
+[gd_scene load_steps=11 format=3 uid="uid://wwfhpeosv5a8"]
 
 [ext_resource type="Script" uid="uid://cuehpdbgph7ck" path="res://scripts/player.gd" id="1_gsrtp"]
 [ext_resource type="Texture2D" uid="uid://ba78108ij5rgx" path="res://sprites/bear body.png" id="2_qlg0r"]
@@ -7,8 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://cbjtkea6uv35x" path="res://sprites/bear ears.png" id="4_fjrip"]
 [ext_resource type="Texture2D" uid="uid://dsctv2u3ft8e8" path="res://sprites/bear back scarf.png" id="5_smehm"]
 [ext_resource type="Texture2D" uid="uid://cw4gkaramqcy2" path="res://sprites/bear hands.png" id="6_fjrip"]
-[ext_resource type="Texture2D" uid="uid://b1tr187lef0yg" path="res://sprites/bear gun.png" id="7_smehm"]
-[ext_resource type="Script" uid="uid://ldlo0dxfiog2" path="res://scenes/gun.gd" id="8_smehm"]
 [ext_resource type="Texture2D" uid="uid://chd65a25f8qln" path="res://sprites/bear legs.png" id="10_d2wvv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4r1p"]
@@ -158,37 +156,6 @@ position = Vector2(6.252, -100)
 z_index = 1
 scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("6_fjrip")
-
-[node name="gun" type="CharacterBody2D" parent="sprites/body/hands"]
-script = ExtResource("8_smehm")
-
-[node name="gun" type="Sprite2D" parent="sprites/body/hands/gun"]
-z_index = -1
-scale = Vector2(0.99999976, 0.99999976)
-texture = ExtResource("7_smehm")
-metadata/_aseprite_wizard_interface_config_ = {
-"animation_section": false,
-"layer_section": true,
-"output_section": true,
-"pending_changes": {},
-"slice_section": false
-}
-metadata/_aseprite_wizard_config_ = {
-"embed_tex": true,
-"layers": [],
-"o_ex_p": "",
-"o_folder": "",
-"o_name": "",
-"only_visible": true,
-"should_round_fps": true,
-"slice": "",
-"source": "res://sprites/player.aseprite"
-}
-metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
-
-[node name="gunPoint" type="Node2D" parent="sprites/body/hands/gun/gun"]
-position = Vector2(248.42538, 76.018135)
-scale = Vector2(40.000004, 40.000004)
 
 [node name="bodyCenter" type="Node2D" parent="sprites/body"]
 position = Vector2(6.251907, 105.007355)

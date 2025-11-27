@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cn44i8jgk1vde"]
 
 [ext_resource type="Texture2D" uid="uid://d2xajcab2xcnd" path="res://sprites/step cloud.png" id="1_78eep"]
-[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scenes/one_shot_emitter.gd" id="2_e4ix8"]
+[ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scripts/one_shot_emitter.gd" id="2_e4ix8"]
 
 [sub_resource type="Curve" id="Curve_njbrq"]
 _data = [Vector2(0, 0), 0.0, 6.351826, 0, 0, Vector2(1, 0), 0.0, 0.0, 1, 0]

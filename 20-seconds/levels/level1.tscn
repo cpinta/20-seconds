@@ -47,21 +47,6 @@ offset_right = 130.0
 offset_bottom = 74.0
 actionName = "right"
 
-[node name="key down" parent="Control" instance=ExtResource("5_61w3m")]
-layout_mode = 0
-offset_left = 44.0
-offset_top = 38.0
-offset_right = 86.0
-offset_bottom = 74.0
-actionName = "down"
-
-[node name="key up" parent="Control" instance=ExtResource("5_61w3m")]
-layout_mode = 0
-offset_left = 44.0
-offset_right = 86.0
-offset_bottom = 36.0
-actionName = "up"
-
 [node name="key jump" parent="Control" instance=ExtResource("5_61w3m")]
 layout_mode = 0
 offset_left = 484.0
@@ -94,23 +79,6 @@ offset_top = 38.0
 offset_right = 130.0
 offset_bottom = 74.0
 actionName = "right"
-actionIndex = 1
-
-[node name="key down" parent="Control2" instance=ExtResource("5_61w3m")]
-layout_mode = 0
-offset_left = 44.0
-offset_top = 38.0
-offset_right = 86.0
-offset_bottom = 74.0
-actionName = "down"
-actionIndex = 1
-
-[node name="key up" parent="Control2" instance=ExtResource("5_61w3m")]
-layout_mode = 0
-offset_left = 44.0
-offset_right = 86.0
-offset_bottom = 36.0
-actionName = "up"
 actionIndex = 1
 
 [node name="key jump" parent="Control2" instance=ExtResource("5_61w3m")]

@@ -254,7 +254,15 @@ func load_level(index: int) -> bool:
 		if levelSelect:
 			levelSelect.queue_free()
 		if curLevelObj:
+			gm_message_box_finished.disconnect(curLevelObj._message_box_finished)
+			gm_player_spawning_anim_finished.disconnect(curLevelObj._player_spawning_animation_finished)
+			gm_player_spawning_load_finished.disconnect(curLevelObj._player_spawning_loading_finished)
 			curLevelObj.queue_free()
+		
+		if player:
+			player.global_position = curLevelObj.start.global_position
+			
+			
 		#gameUI.centerText.set_center_text("", 0, 0)
 		curLevelObj = await spawn(load(levelPaths[index]))
 		curLevelObj.levelConcluded.connect(next_level)

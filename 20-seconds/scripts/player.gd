@@ -15,6 +15,7 @@ var scarfParent: Node2D
 var imgHand: Sprite2D
 var imgLegs: Sprite2D
 var gun: Gun
+const gunScene: PackedScene = preload("res://scenes/gun.tscn")
 var col: CollisionShape2D
 
 var centerHead: Node2D
@@ -154,7 +155,6 @@ func _ready():
 	scarfParent = $"sprites/body/scarf parent"
 	scarfParent.visible = false
 	imgHand = $sprites/body/hands
-	gun = $sprites/body/hands/gun
 	
 	centerHead = $sprites/body/head/headCenter
 	centerBody = $sprites/body/bodyCenter
@@ -164,7 +164,6 @@ func _ready():
 	rightWallRay = $rightwallray
 	upRay = $upray
 	
-	gun.holder = self
 	
 	#floor_snap_length = 1
 	
@@ -370,6 +369,9 @@ func _process(delta):
 			pass
 
 	if isChargingGun:
+		if not gun:
+			isChargingGun = false
+			gunChargeTimer = 0
 		if gunChargeTimer > GUN_CHARGE_TIME:
 			imgFace.position.x = lerp(imgFace.position.x, FACE_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
 			
@@ -383,9 +385,20 @@ func _process(delta):
 				pass
 			gun.position.y = pos
 	else:
-		gun.position.y = 0
+		if gun:
+			gun.position.y = 0
 		pass
 	pass
+
+func spawn_gun():
+	gun = await G.spawn(gunScene)
+	gun.reparent(imgHand)
+	gun.position = Vector2.ZERO
+	gun.set_direction(Vector2(direction, 0))
+	gun.holder = self
+
+func despawn_gun():
+	gun.queue_free()
 
 func _step_emit(delta: float):
 	if stepEmitterTimer < STEP_EMITTER_GAP:
@@ -449,48 +462,49 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("jump") && not isOnGround:
 				_try_wall_jump()
 
-			if Input.is_action_just_pressed("shoot"):
-				isChargingGun = true
-				pass
-			if Input.is_action_just_released("shoot"):
-				isChargingGun = false
-				var gunIsCharged: bool = false
-				var aim: Vector2 = get_gun_aim_vector()
-				var recoilVec: Vector2
-				if gunChargeTimer > GUN_CHARGE_TIME:
-					gunIsCharged = true
-					recoilVec = GUN_RECOIL_HEAVY
-					if isDucking:
-						recoilVec *= SLIDE_FRICTION_MULT
-					gun.shoot_bullet(aim, true)
-				else:
-					recoilVec = GUN_RECOIL
-					gun.shoot_bullet(aim, false)
-				if aim.y < 0:
-					velocity.y += recoilVec.y * inputVector.y
-				elif aim.y > 0:
-					if gunIsCharged:
-						velocity.y = recoilVec.y * inputVector.y
+			if gun:
+				if Input.is_action_just_pressed("shoot"):
+					isChargingGun = true
+					pass
+				if Input.is_action_just_released("shoot"):
+					isChargingGun = false
+					var gunIsCharged: bool = false
+					var aim: Vector2 = get_gun_aim_vector()
+					var recoilVec: Vector2
+					if gunChargeTimer > GUN_CHARGE_TIME:
+						gunIsCharged = true
+						recoilVec = GUN_RECOIL_HEAVY
+						if isDucking:
+							recoilVec *= SLIDE_FRICTION_MULT
+						gun.shoot_bullet(aim, true)
 					else:
+						recoilVec = GUN_RECOIL
+						gun.shoot_bullet(aim, false)
+					if aim.y < 0:
 						velocity.y += recoilVec.y * inputVector.y
-				else:
-					velocity.x += recoilVec.x * direction
-				
-				imgEars.position.x = GUN_EAR_RECOIL_X * -direction
-				imgFace.position.x = FACE_OFFSET_X_MAX * -direction
-				imgHand.position.x = GUN_HAND_RECOIL_X * -direction
-				
-				faceBaseTimer = FACE_BASE_IDLE_TIME
-				gunChargeTimer = 0
+					elif aim.y > 0:
+						if gunIsCharged:
+							velocity.y = recoilVec.y * inputVector.y
+						else:
+							velocity.y += recoilVec.y * inputVector.y
+					else:
+						velocity.x += recoilVec.x * direction
+					
+					imgEars.position.x = GUN_EAR_RECOIL_X * -direction
+					imgFace.position.x = FACE_OFFSET_X_MAX * -direction
+					imgHand.position.x = GUN_HAND_RECOIL_X * -direction
+					
+					faceBaseTimer = FACE_BASE_IDLE_TIME
+					gunChargeTimer = 0
+						
 					
 				
-			
-			if isChargingGun:
-				if gunChargeTimer < GUN_CHARGE_TIME:
-					gunChargeTimer += delta
-					pass
-				else:
-					pass
+				if isChargingGun:
+					if gunChargeTimer < GUN_CHARGE_TIME:
+						gunChargeTimer += delta
+						pass
+					else:
+						pass
 
 			if inputVector.x != 0:
 				#velocity.x = inputVector.x * SPEED
@@ -714,7 +728,8 @@ func set_direction(dir: int):
 
 func reset():
 	velocity = Vector2.ZERO
-	gun.reset()
+	if gun:
+		gun.reset()
 	pass
 
 func reset_and_spawn():
