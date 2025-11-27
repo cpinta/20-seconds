@@ -10,7 +10,7 @@ func _ready() -> void:
 	grid = $Control/Buttons/Grid
 
 func initialize(gameInfo: SaveInfo.GameInfo):
-	for i in range(0, gameInfo.lastLevelBeat+1):
+	for i in range(0, gameInfo.lastLevelBeat):
 		if not gameInfo.levelInfos[i].selectable:
 			if gameInfo.lastLevelBeat > 0:
 				continue

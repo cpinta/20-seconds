@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://es2m312mcrqp"]
 
-[ext_resource type="Script" uid="uid://nm3tk2ttl8mv" path="res://scenes/title_screen.gd" id="1_fgkus"]
+[ext_resource type="Script" uid="uid://nm3tk2ttl8mv" path="res://scripts/title_screen.gd" id="1_fgkus"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
 
@@ -55,7 +55,7 @@ offset_right = 20.0
 offset_bottom = -78.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Bear Arms"
+text = "Super Secret Polar Bear Agent Simulator"
 label_settings = SubResource("LabelSettings_fgkus")
 horizontal_alignment = 1
 vertical_alignment = 1

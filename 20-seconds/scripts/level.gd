@@ -39,16 +39,21 @@ func _ready():
 	start = $start
 	
 	set_level_color(color)
-	var targetCount: int = get_tree().get_node_count_in_group("target")
-	if targetCount > 0:
-		for i in range(0, targetCount):
-			targets.append(get_tree().get_nodes_in_group("target")[i])
-			targets.back().wasDestroyed.connect(target_was_destroyed)
+	
+	find_descendant_target_nodes(self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @warning_ignore("unused_parameter")
 func _process(delta):
 	pass
+
+
+func find_descendant_target_nodes(node: Node):
+	for child in node.get_children():
+		if child.is_in_group("target"):
+			targets.append(child)
+			targets.back().wasDestroyed.connect(target_was_destroyed)
+		find_descendant_target_nodes(child)
 
 # called when level is first loaded
 func _loaded():

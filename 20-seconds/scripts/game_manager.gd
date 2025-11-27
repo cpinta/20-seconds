@@ -54,6 +54,10 @@ func _ready():
 	levelPaths.append("res://levels/level1.tscn");
 	levelPaths.append("res://levels/level2.tscn");
 	levelPaths.append("res://levels/level3.tscn");
+	levelPaths.append("res://levels/level wj1.tscn");
+	levelPaths.append("res://levels/level wj3.tscn");
+	levelPaths.append("res://levels/level wj2.tscn");
+	levelPaths.append("res://levels/level slant1.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	load_titlescreen()
@@ -68,6 +72,7 @@ func load_save_info():
 		if i == 0:
 			gameSaveInfo.levelInfos.back().selectable = false
 			pass
+	gameSaveInfo.lastLevelBeat = levelPaths.size()
 
 func spawn_backgrounds():
 	for i in range(0, BACKGROUND_COUNT):
@@ -259,6 +264,7 @@ func load_level(index: int) -> bool:
 			gm_player_spawning_anim_finished.disconnect(curLevelObj._player_spawning_animation_finished)
 			gm_player_spawning_load_finished.disconnect(curLevelObj._player_spawning_loading_finished)
 			curLevelObj.queue_free()
+			get_tree().process_frame
 		
 		if player:
 			player.global_position = curLevelObj.start.global_position

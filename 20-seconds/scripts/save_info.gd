@@ -2,7 +2,7 @@ class_name SaveInfo
 
 class GameInfo:
 	var levelInfos: Array[LevelInfo] = []
-	var lastLevelBeat: int = 4
+	var lastLevelBeat: int
 
 class LevelInfo:
 	var bestTime: float = 20

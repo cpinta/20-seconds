@@ -615,7 +615,8 @@ func set_state(newState: State):
 			spawnEmitters[1].global_position = centerBody.global_position + Vector2.UP
 			spawnEmitters[2].global_position = centerHead.global_position
 			
-			spawnEmitters[0].dead.connect(_spawning_ended)
+			if not spawnEmitters[0].dead.is_connected(_spawning_ended):
+				spawnEmitters[0].dead.connect(_spawning_ended)
 			pass
 		State.DYING:
 			spriteParent.visible = false
