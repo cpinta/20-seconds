@@ -158,7 +158,7 @@ position = Vector2(6.252, -100)
 
 [node name="hands" type="Sprite2D" parent="sprites/body"]
 z_index = 1
-position = Vector2(-42, 0)
+position = Vector2(-15, 0)
 scale = Vector2(0.99999994, 0.99999994)
 texture = ExtResource("6_fjrip")
 

@@ -77,6 +77,7 @@ var gunChargeTimer: float = 0
 const HANDS_ANGLE_MAX: float = -90
 const HANDS_ANGLE_MIN: float = 90
 const HANDS_ANGLE_LERP: float = 10
+const NO_GUN_HAND_X: float = -15
 
 const IMG_SPEED_MAX: float = 10
 const IMG_SPEED_LERP: float = 5
@@ -165,7 +166,7 @@ func _ready():
 	rightWallRay = $rightwallray
 	crouchDetect = $crouchDetect
 	
-	spawn_gun()
+	#spawn_gun()
 
 func play_sound(stream: AudioStream):
 	audio.stream = stream
@@ -505,7 +506,7 @@ func _physics_process(delta):
 					else:
 						pass
 			else:
-				imgHand.position.x = lerp(imgHand.position.x, -42.0 * direction, IMG_SPEED_LERP * delta)
+				imgHand.position.x = lerp(imgHand.position.x, NO_GUN_HAND_X * direction, IMG_SPEED_LERP * delta)
 				pass
 			if inputVector.x != 0:
 				#velocity.x = inputVector.x * SPEED
