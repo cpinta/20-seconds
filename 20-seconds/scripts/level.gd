@@ -22,6 +22,7 @@ const POST_TARGET_BREAK_WAIT: float = 3
 var HAS_POST_LEVEL_SCENE: bool = false
 
 var HAS_INTRO: bool = false
+@export var HAS_GUN: bool = true
 var SELECTABLE: bool = true
 
 # pre concluded
@@ -87,10 +88,15 @@ func _player_spawning_animation_finished():
 	else:
 		_start_level_input()
 		pass
-	pass
 
 func _player_spawning_loading_finished():
 	G.player.set_state(Player.State.SPAWNING)
+	if HAS_GUN:
+		if not G.player.gun:
+			G.player.spawn_gun()
+	else:
+		if G.player.gun:
+			G.player.despawn_gun()
 
 # called post level intro
 func _start_level_input():

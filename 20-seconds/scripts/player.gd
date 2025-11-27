@@ -24,7 +24,6 @@ var centerLegs: Node2D
 
 var leftWallRay: RayCast2D
 var rightWallRay: RayCast2D
-var upRay: RayCast2D
 
 var SCARF_POS_LEFT_X: float = -112
 var SCARF_POS_RIGHT_X: float = 140
@@ -87,12 +86,14 @@ const CROUCH_BODY_Y: float = 100
 const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
-const SLIDE_FRICTION_MULT: float = 0.5
+const SLIDE_FRICTION_MULT: float = 0.25
 #const SLIDE_SLANT_FRICTION_MULT: float = 2
 const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
-const SLIDE_MIN_SPEED: float = 60
+const CROUCH_LERP: float = 30
+const SLIDE_MIN_SPEED: float = 40
+var crouchDetect: Area2D
 
 const COL_STAND_HEIGHT: float = 13.5
 const COL_CROUCH_HEIGHT: float = 9
@@ -111,7 +112,7 @@ var groundDetect: Area2D
 var groundRayR: RayCast2D
 var audio: AudioStreamPlayer2D
 
-const ACCELERATION = 80.0
+const ACCELERATION = 160
 const MAX_SPEED = 80.0
 const MAX_CROUCH_SPEED = 20.0
 const JUMP_VELOCITY = 160.0
@@ -162,12 +163,9 @@ func _ready():
 	
 	leftWallRay = $leftwallray
 	rightWallRay = $rightwallray
-	upRay = $upray
+	crouchDetect = $crouchDetect
 	
-	
-	#floor_snap_length = 1
-	
-	pass
+	spawn_gun()
 
 func play_sound(stream: AudioStream):
 	audio.stream = stream
@@ -276,7 +274,7 @@ func _process(delta):
 			var rect = col.shape as RectangleShape2D
 			if rect.size.y > COL_CROUCH_HEIGHT:
 				var newShape: RectangleShape2D = RectangleShape2D.new()
-				newShape.size.y = lerp(rect.size.y, COL_CROUCH_HEIGHT, IMG_SPEED_LERP * delta)
+				newShape.size.y = lerp(rect.size.y, COL_CROUCH_HEIGHT, CROUCH_LERP * delta)
 				newShape.size.x = COL_RADIUS
 				col.shape = newShape
 				col.position.y = -newShape.size.y/2
@@ -290,7 +288,7 @@ func _process(delta):
 					col.position.y = -COL_CROUCH_HEIGHT/2
 					pass
 	else:
-		imgBody.position.y = lerp(imgBody.position.y, 0.0, IMG_SPEED_LERP * delta)
+		imgBody.position.y = lerp(imgBody.position.y, 0.0, CROUCH_LERP * delta)
 		
 		stepDirection = direction * sign(velocity.y)
 		if abs(curStepAngle) < abs(stepDirection * STEP_ANGLE):
@@ -396,6 +394,7 @@ func spawn_gun():
 	gun = await G.spawn(gunScene)
 	gun.reparent(imgHand)
 	gun.position = Vector2.ZERO
+	gun.scale = Vector2.ONE
 	gun.set_direction(Vector2(direction, 0))
 	gun.holder = self
 
@@ -451,7 +450,8 @@ func _physics_process(delta):
 				canUnDuck = true
 			
 			if isDucking:
-				canUnDuck = not upRay.is_colliding()
+				var temp = crouchDetect.get_overlapping_bodies()
+				canUnDuck = len(crouchDetect.get_overlapping_bodies()) == 0
 			
 			# Add the gravity.
 			if not is_on_floor():
@@ -510,7 +510,8 @@ func _physics_process(delta):
 			if inputVector.x != 0:
 				#velocity.x = inputVector.x * SPEED
 				if isDucking:
-					velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * direction, ACCELERATION * delta)
+					if not isDuckingSlide:
+						velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * direction, ACCELERATION * delta)
 				else:
 					velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
 					
