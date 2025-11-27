@@ -53,6 +53,7 @@ func _ready():
 	levelPaths.append("res://levels/intro_level.tscn");
 	levelPaths.append("res://levels/level1.tscn");
 	levelPaths.append("res://levels/level2.tscn");
+	levelPaths.append("res://levels/level3.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	load_titlescreen()

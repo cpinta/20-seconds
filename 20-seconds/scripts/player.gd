@@ -197,7 +197,8 @@ func _process(delta):
 	if abs(velocity.x) > IMG_SPEED_MIN:
 		imgEars.position.x = lerp(imgEars.position.x, (min(abs(velocity.x), IMG_SPEED_MAX)/IMG_SPEED_MAX) * EARS_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
 		imgFace.position.x = lerp(imgFace.position.x, (min(abs(velocity.x), IMG_SPEED_MAX)/IMG_SPEED_MAX) * FACE_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
-		imgHand.position.x = lerp(imgHand.position.x, (min(abs(velocity.x), IMG_SPEED_MAX)/IMG_SPEED_MAX) * GUN_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
+		if gun:
+			imgHand.position.x = lerp(imgHand.position.x, (min(abs(velocity.x), IMG_SPEED_MAX)/IMG_SPEED_MAX) * GUN_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
 		
 		if isOnGround:
 			
@@ -220,7 +221,8 @@ func _process(delta):
 		pass
 	else:
 		imgEars.position.x = lerp(imgEars.position.x, 0.0, IMG_SPEED_LERP * delta)
-		imgHand.position.x = lerp(imgHand.position.x, 0.0, IMG_SPEED_LERP * delta)
+		if gun:
+			imgHand.position.x = lerp(imgHand.position.x, 0.0, IMG_SPEED_LERP * delta)
 		
 		if isOnGround:
 			if not isDucking:
@@ -496,16 +498,15 @@ func _physics_process(delta):
 					
 					faceBaseTimer = FACE_BASE_IDLE_TIME
 					gunChargeTimer = 0
-						
-					
-				
 				if isChargingGun:
 					if gunChargeTimer < GUN_CHARGE_TIME:
 						gunChargeTimer += delta
 						pass
 					else:
 						pass
-
+			else:
+				imgHand.position.x = lerp(imgHand.position.x, -42.0 * direction, IMG_SPEED_LERP * delta)
+				pass
 			if inputVector.x != 0:
 				#velocity.x = inputVector.x * SPEED
 				if isDucking:
