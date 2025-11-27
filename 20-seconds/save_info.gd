@@ -8,3 +8,4 @@ class LevelInfo:
 	var bestTime: float = 20
 	var timesStarted: int = 0
 	var timesFinished: int = 0
+	var selectable: bool = true

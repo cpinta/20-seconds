@@ -22,6 +22,7 @@ const POST_TARGET_BREAK_WAIT: float = 3
 var HAS_POST_LEVEL_SCENE: bool = false
 
 var HAS_INTRO: bool = false
+var SELECTABLE: bool = true
 
 # pre concluded
 signal levelGoalReached

@@ -64,6 +64,9 @@ func _ready():
 func load_save_info():
 	for i in range(0, levelPaths.size()):
 		gameSaveInfo.levelInfos.append(SaveInfo.LevelInfo.new())
+		if i == 0:
+			gameSaveInfo.levelInfos.back().selectable = false
+			pass
 
 func spawn_backgrounds():
 	for i in range(0, BACKGROUND_COUNT):
@@ -91,6 +94,8 @@ func load_titlescreen():
 	titleScreen.startPressed.connect(start_game)
 
 func load_level_select():
+	if levelSelect:
+		return
 	if titleScreen:
 		titleScreen.queue_free()
 	if pauseScreen:
@@ -98,7 +103,6 @@ func load_level_select():
 	levelSelect = await spawn(levelSelectScene)
 	levelSelect.initialize(gameSaveInfo)
 	levelSelect.level_selected.connect(load_level)
-	pass
 
 func spawn_ui():
 	inGameUI = await spawn(inGameUIScene)

@@ -11,6 +11,8 @@ func _ready() -> void:
 
 func initialize(gameInfo: SaveInfo.GameInfo):
 	for i in range(0, gameInfo.levelInfos.size()):
+		if not gameInfo.levelInfos[i].selectable:
+			continue
 		var btn: LevelButton = await G.spawn(levelButtonScene)
 		btn.initialize(i, gameInfo.levelInfos[i].bestTime)
 		btn.sbtn_pressed.connect(_level_selected)

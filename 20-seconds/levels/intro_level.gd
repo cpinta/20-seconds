@@ -6,6 +6,7 @@ extends Level
 func _ready():
 	super._ready()
 	HAS_INTRO = true
+	SELECTABLE = false
 
 func _loaded():
 	super._loaded()
