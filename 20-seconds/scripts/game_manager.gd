@@ -156,7 +156,7 @@ func start_game(loadLevel: bool = true):
 	pass
 
 func restart_current_level():
-	player.set_state(Player.State.SPAWNING)
+	await player.instantly_die()
 	load_current_level()
 	pass
 

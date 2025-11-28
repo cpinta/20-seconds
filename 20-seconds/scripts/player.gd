@@ -651,6 +651,12 @@ func set_state(newState: State):
 				spawnEmitters.append(await G.spawn(deathEmitterScene))
 			
 			spawnEmitters[0].global_position = centerBody.global_position
+			spawnEmitters[0].process_material = spawnEmitters[1].process_material.duplicate()
+			spawnEmitters[0].process_material.set("color", "6927C0")
+			spawnEmitters[1].process_material = spawnEmitters[1].process_material.duplicate()
+			spawnEmitters[1].process_material.set("color", "dc6ea5")
+			spawnEmitters[1].global_position = centerBody.global_position + Vector2.UP
+			spawnEmitters[2].global_position = centerHead.global_position
 			
 			spawnEmitters[0].dead.connect(_dying_ended)
 			pass
@@ -809,3 +815,19 @@ func reset_and_spawn():
 func die():
 	super.die()
 	set_state(State.DYING)
+
+func instantly_die():
+	spriteParent.visible = false
+	var tempEmitters: Array[OneShotEmitter] = []
+	for i in range(0, 3):
+		tempEmitters.append(await G.spawn(deathEmitterScene))
+	
+	tempEmitters[0].global_position = centerBody.global_position
+	tempEmitters[0].process_material = tempEmitters[1].process_material.duplicate()
+	tempEmitters[0].process_material.set("color", "6927C0")
+	tempEmitters[1].process_material = tempEmitters[1].process_material.duplicate()
+	tempEmitters[1].process_material.set("color", "dc6ea5")
+	tempEmitters[1].global_position = centerBody.global_position + Vector2.UP
+	tempEmitters[2].global_position = centerHead.global_position
+	#
+	set_state(State.SPAWNING)
