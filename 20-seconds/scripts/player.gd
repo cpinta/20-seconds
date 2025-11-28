@@ -89,11 +89,8 @@ const CROUCH_BODY_Y: float = 100
 const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
-const SLIDE_FRICTION_MULT: float = 0.05
 const SLIDE_SLANT_ACCEL: float = 75
 
-#const SLIDE_SLANT_FRICTION_MULT: float = 2
-const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
 const CROUCH_LERP: float = 30
@@ -118,6 +115,8 @@ var groundRayR: RayCast2D
 var audio: AudioStreamPlayer2D
 
 const ACCELERATION = 160
+const DECCELERATION = 80
+const DECCELERATION_CROUCH = 40
 const MAX_SPEED = 80.0
 const MAX_CROUCH_SPEED = 20.0
 const JUMP_VELOCITY = 160.0
@@ -486,8 +485,6 @@ func _physics_process(delta):
 					if gunChargeTimer > GUN_CHARGE_TIME:
 						gunIsCharged = true
 						recoilVec = GUN_RECOIL_HEAVY
-						if isDucking and isOnGround:
-							recoilVec *= 1 - SLIDE_FRICTION_MULT
 						gun.shoot_bullet(aim, true)
 					else:
 						recoilVec = GUN_RECOIL
@@ -525,13 +522,17 @@ func _physics_process(delta):
 					velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
 			else:
 				if isOnGround:
-					if not (isDuckingSlide and isOnSlant):
-						velocity.x = move_toward(velocity.x, 0.0, ACCELERATION * delta)
-					else:
-						var downNormal = get_down_normal()
-						if downNormal:
-							velocity.x += sign(downNormal.x) * SLIDE_SLANT_ACCEL * delta
+					if isDuckingSlide:
+						if isOnSlant:
+							var downNormal = get_down_normal()
+							if downNormal:
+								velocity.x += sign(downNormal.x) * SLIDE_SLANT_ACCEL * delta
+								pass
+						else:
+							velocity.x = move_toward(velocity.x, 0.0, DECCELERATION_CROUCH * delta)
 							pass
+					else:
+						velocity.x = move_toward(velocity.x, 0.0, DECCELERATION * delta)
 			
 			publicVelocity = velocity
 		State.DISABLE_INPUT:
@@ -712,9 +713,6 @@ func get_down_normal() -> Variant:
 		return null
 
 func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
-	var friction: float = FRICTION_MULT
-	if isDuckingSlide:
-		friction = SLIDE_FRICTION_MULT
 	
 	@warning_ignore("unused_variable")
 	var temp: Vector2 = velocity
@@ -737,8 +735,6 @@ func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
 			velocity = velocity.slide(normal)
 	else:
 		isOnSlant = false
-	velocity.x += -velocity.x * friction * delta
-
 var lastVelSlant: Vector2
 
 func get_inputVector():
