@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bmpgdpf8a6tp3" path="res://scripts/one_shot_emitter.gd" id="2_ku1ku"]
 
 [sub_resource type="Curve" id="Curve_njbrq"]
-_data = [Vector2(0, 0), 0.0, 6.351826, 0, 0, Vector2(1, 0), 0.0, 0.0, 1, 0]
+_data = [Vector2(0, 0.98470587), 0.0, -0.23427789, 0, 0, Vector2(1, 0), -3.1166997, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CurveTexture" id="CurveTexture_d5n4w"]
@@ -14,16 +14,19 @@ curve = SubResource("Curve_njbrq")
 particle_flag_disable_z = true
 direction = Vector3(-1, -0.5, 0)
 spread = 180.0
-initial_velocity_min = 25.0
-initial_velocity_max = 25.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.06
-scale_max = 0.06
+scale_min = 0.25
+scale_max = 0.25
 scale_curve = SubResource("CurveTexture_d5n4w")
 
 [node name="emitter" type="GPUParticles2D"]
+emitting = false
+amount = 16
 texture = ExtResource("1_ct6rv")
-lifetime = 0.25
-explosiveness = 0.9
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
 process_material = SubResource("ParticleProcessMaterial_ku1ku")
 script = ExtResource("2_ku1ku")

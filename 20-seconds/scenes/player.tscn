@@ -233,3 +233,7 @@ target_position = Vector2(-10, 0)
 [node name="rightwallray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
 target_position = Vector2(10, 0)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-0.20802307, 0.06934166)
+rect = Rect2(-7, -17, 14, 20)

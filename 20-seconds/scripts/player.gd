@@ -17,6 +17,7 @@ var imgLegs: Sprite2D
 var gun: Gun
 const gunScene: PackedScene = preload("res://scenes/gun.tscn")
 var col: CollisionShape2D
+var visibleOnScreen: VisibleOnScreenNotifier2D
 
 var centerHead: Node2D
 var centerBody: Node2D
@@ -133,6 +134,9 @@ signal plyr_spawning_anim_finished
 var spawnTimer: float = 0
 const SPAWN_SHOW_TIME: float = 0.8
 
+const deathEmitterScene: PackedScene = preload("res://scenes/splode_emitter.tscn")
+
+
 var spikeDestination: Vector2
 
 @export var publicVelocity: Vector2
@@ -174,6 +178,8 @@ func _ready():
 	downRays[1].target_position.y = DOWN_RAY_LENGTH
 	
 	crouchDetect = $crouchDetect
+	
+	visibleOnScreen = $VisibleOnScreenNotifier2D
 	
 	#spawn_gun()
 
@@ -642,7 +648,7 @@ func set_state(newState: State):
 		State.DYING:
 			spriteParent.visible = false
 			for i in range(0, 3):
-				spawnEmitters.append(await G.spawn(spawnEmitterScene))
+				spawnEmitters.append(await G.spawn(deathEmitterScene))
 			
 			spawnEmitters[0].global_position = centerBody.global_position
 			

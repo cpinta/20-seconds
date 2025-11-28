@@ -6,6 +6,9 @@ var target: Player
 var TARGET_LEAD: Vector2 = Vector2(20, 20)
 var TARGET_LERP: Vector2 = Vector2(8, 4)
 
+const POST_LEAVE_SCREEN_TIME: float = 5
+var postLeaveTimer: float = 0
+
 func _ready() -> void:
 	pass
 
@@ -18,9 +21,18 @@ func _process(delta: float) -> void:
 		if G.state == G.State.PAUSED:
 			return
 		var target_position: Vector2 = _get_target_position()
-		global_position.x = lerp(global_position.x, target_position.x, TARGET_LERP.x * delta)
-		global_position.y = lerp(global_position.y, target_position.y, TARGET_LERP.y * delta)
+		if not target.visibleOnScreen.is_on_screen():
+			postLeaveTimer = POST_LEAVE_SCREEN_TIME
+		if postLeaveTimer > 0:
+			global_position.x = lerp(global_position.x, target_position.x, TARGET_LERP.x * 3 * delta)
+			global_position.y = lerp(global_position.y, target_position.y, TARGET_LERP.y * 3 * delta)
+			postLeaveTimer -= delta
+		else:
+			global_position.x = lerp(global_position.x, target_position.x, TARGET_LERP.x * delta)
+			global_position.y = lerp(global_position.y, target_position.y, TARGET_LERP.y * delta)
+		
 	pass
+
 
 func _get_target_position():
 	var vertical: float = 0
