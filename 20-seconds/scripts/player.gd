@@ -438,6 +438,10 @@ func _cast_ray(dir: Vector2, length: float):
 func _physics_process(delta):
 	match state:
 		State.FREE:
+			if abs(global_position.x) > 2000 or abs(global_position.y) > 2000:
+				die()
+			
+			
 			get_inputVector()
 			slide(delta)
 			
@@ -796,3 +800,6 @@ func reset_and_spawn():
 	reset()
 	set_state(State.SPAWNING)
 	
+func die():
+	super.die()
+	set_state(State.DYING)

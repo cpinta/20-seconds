@@ -63,7 +63,7 @@ func _ready():
 	levelPaths.append("res://levels/level slantslide1.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
-	load_titlescreen()
+	await load_titlescreen()
 	spawn_backgrounds()
 	
 	load_save_info()
@@ -334,6 +334,7 @@ func spawn_player():
 	gm_resume.connect(player.unfreeze)
 	
 	player.plyr_spawning_anim_finished.connect(_player_spawning_anim_finished)
+	player.dying_finished.connect(restart_current_level)
 	
 
 signal gm_player_spawning_anim_finished()

@@ -8,6 +8,7 @@
 
 [node name="level" type="Node2D"]
 script = ExtResource("1_kkl2r")
+color = Color(0, 0.7058824, 0.34901962, 1)
 HAS_GUN = false
 
 [node name="platform" type="TileMapLayer" parent="."]
