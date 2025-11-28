@@ -24,6 +24,8 @@ var centerLegs: Node2D
 
 var leftWallRay: RayCast2D
 var rightWallRay: RayCast2D
+var downRays: Array[RayCast2D]
+const DOWN_RAY_LENGTH: float = 4
 
 var SCARF_POS_LEFT_X: float = -112
 var SCARF_POS_RIGHT_X: float = 140
@@ -87,7 +89,9 @@ const CROUCH_BODY_Y: float = 100
 const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
-const SLIDE_FRICTION_MULT: float = 0.25
+const SLIDE_FRICTION_MULT: float = 0.05
+const SLIDE_SLANT_ACCEL: float = 75
+
 #const SLIDE_SLANT_FRICTION_MULT: float = 2
 const FRICTION_MULT: float = 1
 const CROUCH_LAND_BOOST: float = 120
@@ -139,6 +143,7 @@ var isOnGround: bool
 var isOnGroundOld: bool
 var isDucking: bool
 var isDuckingSlide: bool
+var isOnSlant: bool
 var canUnDuck: bool
 
 
@@ -164,6 +169,11 @@ func _ready():
 	
 	leftWallRay = $leftwallray
 	rightWallRay = $rightwallray
+	downRays.append($downray)
+	downRays[0].target_position.y = DOWN_RAY_LENGTH
+	downRays.append($downray2)
+	downRays[1].target_position.y = DOWN_RAY_LENGTH
+	
 	crouchDetect = $crouchDetect
 	
 	#spawn_gun()
@@ -451,7 +461,6 @@ func _physics_process(delta):
 				canUnDuck = true
 			
 			if isDucking:
-				var temp = crouchDetect.get_overlapping_bodies()
 				canUnDuck = len(crouchDetect.get_overlapping_bodies()) == 0
 			
 			# Add the gravity.
@@ -477,8 +486,8 @@ func _physics_process(delta):
 					if gunChargeTimer > GUN_CHARGE_TIME:
 						gunIsCharged = true
 						recoilVec = GUN_RECOIL_HEAVY
-						if isDucking:
-							recoilVec *= SLIDE_FRICTION_MULT
+						if isDucking and isOnGround:
+							recoilVec *= 1 - SLIDE_FRICTION_MULT
 						gun.shoot_bullet(aim, true)
 					else:
 						recoilVec = GUN_RECOIL
@@ -508,16 +517,21 @@ func _physics_process(delta):
 			else:
 				imgHand.position.x = lerp(imgHand.position.x, NO_GUN_HAND_X * direction, IMG_SPEED_LERP * delta)
 				pass
-			if inputVector.x != 0:
-				#velocity.x = inputVector.x * SPEED
+			if abs(inputVector.x) > INPUT_DEADZONE:
 				if isDucking:
 					if not isDuckingSlide:
 						velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * direction, ACCELERATION * delta)
 				else:
 					velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
-					
 			else:
-				pass
+				if isOnGround:
+					if not (isDuckingSlide and isOnSlant):
+						velocity.x = move_toward(velocity.x, 0.0, ACCELERATION * delta)
+					else:
+						var downNormal = get_down_normal()
+						if downNormal:
+							velocity.x += sign(downNormal.x) * SLIDE_SLANT_ACCEL * delta
+							pass
 			
 			publicVelocity = velocity
 		State.DISABLE_INPUT:
@@ -655,47 +669,75 @@ func _spawning_ended():
 func slide(delta: float):
 	velocity.y = -velocity.y
 	
-	var preCollsionVelocity: Vector2 = velocity
+	var preCollisionVelocity: Vector2 = velocity
 	var collided = move_and_slide()
 	if collided:
 		var collision = get_last_slide_collision()
+		
 		var normal = collision.get_normal()
 		
-		var justOnGround: bool = isOnGround
 		isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
 		
-		if justOnGround != isOnGround:
-			pass
-		
-		var friction: float = FRICTION_MULT
-		if isDuckingSlide:
-			friction = SLIDE_FRICTION_MULT
-			pass
-		
-		@warning_ignore("unused_variable")
-		var temp: Vector2 = velocity
-		if normal.y < 0 and normal.y != -1:
-			if abs(inputVector.y) > INPUT_DEADZONE:
-				if not isOnGroundOld:
-					velocity = velocity.normalized() * 0.7
-					velocity = normal.orthogonal() * -sign(normal.x)
-					if abs(preCollsionVelocity.y) > abs(preCollsionVelocity.x):
-						velocity += preCollsionVelocity.y * velocity.normalized()
-					else:
-						velocity *= -1
-						velocity += abs(preCollsionVelocity.x) * velocity.normalized()
-						pass
-					#friction = SLIDE_SLANT_FRICTION_MULT
-					
-					lastVelSlant = velocity
-					$testray.target_position = velocity
+		slide_tick(delta, normal, preCollisionVelocity)
+	else:
+		if isOnGround:
+			var downNormal = get_down_normal()
+			if downNormal:
+				if downNormal.y < 0 and downNormal.y != -1:
+					isOnSlant = true
+				else:
+					isOnSlant = false
 			else:
-				velocity = velocity.slide(normal)
-		velocity.x += -velocity.x * friction * delta
-		pass
+				isOnSlant = false
+				
+				#slide_tick(delta, downNormals[chosen], preCollisionVelocity)
+		else:
+			isOnSlant = false
 		
 	velocity.y = -velocity.y
 	isOnGroundOld = isOnGround
+
+func get_down_normal() -> Variant:
+	var downNormals: Array = [null, null]
+	var chosen: int = -1
+	if downRays[0].is_colliding():
+		downNormals[0] = downRays[0].get_collision_normal()
+		chosen = 0
+	if downRays[1].is_colliding():
+		downNormals[1] = downRays[1].get_collision_normal()
+		chosen = 1
+	if chosen != -1:
+		return downNormals[chosen]
+	else:
+		return null
+
+func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
+	var friction: float = FRICTION_MULT
+	if isDuckingSlide:
+		friction = SLIDE_FRICTION_MULT
+	
+	@warning_ignore("unused_variable")
+	var temp: Vector2 = velocity
+	if normal.y < 0 and normal.y != -1:
+		isOnSlant = true
+		if abs(inputVector.y) > INPUT_DEADZONE:
+			if not isOnGroundOld:
+				velocity = velocity.normalized() * 0.7
+				velocity = normal.orthogonal() * -sign(normal.x)
+				if abs(preCollisionVelocity.y) > abs(preCollisionVelocity.x):
+					velocity += preCollisionVelocity.y * velocity.normalized()
+				else:
+					velocity *= -1
+					velocity += abs(preCollisionVelocity.x) * velocity.normalized()
+					pass
+				
+				lastVelSlant = velocity
+				$testray.target_position = velocity
+		else:
+			velocity = velocity.slide(normal)
+	else:
+		isOnSlant = false
+	velocity.x += -velocity.x * friction * delta
 
 var lastVelSlant: Vector2
 

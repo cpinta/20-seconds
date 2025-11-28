@@ -39,8 +39,10 @@ func _process(delta: float) -> void:
 			lblDebug.text = str(abs(floor(target.velocity.x)))
 			lblDebug.text += "\nInput:\t"+str(target.inputVector)
 			lblDebug.text += "\nPlr:  \t"+str(floor(target.global_position.x))+", "+str(floor(target.global_position.y))
+			lblDebug.text += "\nPlr Spd:  \t"+str(floor(target.velocity.x))+", "+str(floor(target.velocity.y))
 			lblDebug.text += "\nLast vel:  \t"+str(target.lastVelSlant.x)+", "+str(target.lastVelSlant.y)
 			lblDebug.text += "\nonGround:  \t"+str(target.isOnGround)+", "+str(target.isOnGroundOld)
+			lblDebug.text += "\nisOnSlant:  \t"+str(target.isOnSlant)
 			if G.camera:
 				lblDebug.text += "\nCam:\t"+str(floor(G.camera.global_position.x))+", "+str(floor(G.camera.global_position.y))
 				

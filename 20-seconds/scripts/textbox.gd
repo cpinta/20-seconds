@@ -21,7 +21,7 @@ class MsgInfo:
 		self.forTime = forTime
 		
 
-const TIME_PER_CHAR: float = 0.01
+const TIME_PER_CHAR: float = 0.0025
 var charTimer: float = 0
 
 var mode: Mode
@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 					if currentText.length() < currentDestText.length():
 						currentText += currentDestText[currentText.length()]
 						_set_text(currentText)
-						charTimer = 0
+						charTimer = charTimer - TIME_PER_CHAR
 						pass
 					
 		

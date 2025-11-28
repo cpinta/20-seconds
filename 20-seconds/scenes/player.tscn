@@ -22,11 +22,10 @@ size = Vector2(8, 7)
 collision_layer = 2
 collision_mask = 57
 floor_stop_on_slope = false
-floor_snap_length = 5.0
+floor_snap_length = 4.0
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, -6.5)
 shape = SubResource("RectangleShape2D_y4r1p")
 
@@ -192,7 +191,6 @@ metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
 position = Vector2(6.252, 250)
 
 [node name="groundDetect" type="Area2D" parent="."]
-visible = false
 position = Vector2(0, -8)
 collision_layer = 0
 
@@ -202,7 +200,6 @@ shape = SubResource("RectangleShape2D_2hlhl")
 debug_color = Color(0.95686275, 0, 0.53333336, 0.41960785)
 
 [node name="crouchDetect" type="Area2D" parent="."]
-visible = false
 position = Vector2(0, -8)
 collision_layer = 0
 
@@ -219,12 +216,20 @@ z_index = 100
 target_position = Vector2(0, -8)
 collision_mask = 0
 
+[node name="downray" type="RayCast2D" parent="."]
+z_index = 100
+position = Vector2(-4, 0)
+target_position = Vector2(0, 2)
+
+[node name="downray2" type="RayCast2D" parent="."]
+z_index = 100
+position = Vector2(4, 0)
+target_position = Vector2(0, 2)
+
 [node name="leftwallray" type="RayCast2D" parent="."]
-visible = false
 position = Vector2(0, -6)
 target_position = Vector2(-10, 0)
 
 [node name="rightwallray" type="RayCast2D" parent="."]
-visible = false
 position = Vector2(0, -6)
 target_position = Vector2(10, 0)
