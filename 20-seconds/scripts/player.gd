@@ -772,13 +772,17 @@ func reset():
 	velocity = Vector2.ZERO
 	imgEars.position.x = 0.0
 	imgEars.position.y = 0.0
+	
 	imgHead.position.y = 0.0
 	imgHand.rotation_degrees = 0
-	FACE_OFFSET_X_BASE * direction
+	
+	imgFace.position.x = FACE_OFFSET_X_BASE * direction
 	imgFace.position.y = 0.0
+	
 	imgBody.position.y = 0.0
 	imgBody.rotation_degrees = 0
-	imgLegs.position.y
+	
+	imgLegs.position.y = 0.0
 	imgLegs.rotation_degrees = 0
 	
 	isDucking = false
