@@ -131,7 +131,7 @@ const spawnEmitterScene: PackedScene = preload("res://scenes/reanimate_emitter.t
 var spawnEmitters: Array[OneShotEmitter] = []
 signal plyr_spawning_anim_finished
 var spawnTimer: float = 0
-const SPAWN_SHOW_TIME: float = 1.5
+const SPAWN_SHOW_TIME: float = 0.8
 
 var spikeDestination: Vector2
 

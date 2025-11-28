@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b4geu3gunpjal"]
 
-[ext_resource type="Script" uid="uid://gb36oaltef20" path="res://scenes/target.gd" id="1_b5a2r"]
+[ext_resource type="Script" uid="uid://gb36oaltef20" path="res://scripts/target.gd" id="1_b5a2r"]
 [ext_resource type="Texture2D" uid="uid://vp1aks3djbd" path="res://sprites/target.png" id="1_b37e2"]
 [ext_resource type="Texture2D" uid="uid://df5pbucj48l8g" path="res://sprites/circle.png" id="3_nlbrr"]
 
@@ -8,6 +8,7 @@
 radius = 6.5
 
 [node name="Target" type="CharacterBody2D" groups=["target"]]
+z_index = 3
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_b5a2r")

@@ -74,6 +74,7 @@ func _process(delta: float) -> void:
 		pass
 
 func add_queue(messages: Array[MsgInfo]):
+	messageQueue.clear()
 	messageQueue.append_array(messages)
 	isActive = true
 	_open()

@@ -19,7 +19,7 @@ var sprite: Sprite2D
 
 var emitterScene: PackedScene = preload("res://scenes/target_emitter.tscn")
 
-const DEATH_TIME: float = 0.18
+const DEATH_TIME: float = 0.25
 const DEATH_SCALE: float = 0.5
 var deathDirection: Vector2
 var deathTimer = 0
@@ -80,9 +80,8 @@ func _physics_process(delta: float) -> void:
 		if collided:
 			var collision = get_last_slide_collision()
 			var entity = collision.get_collider()
-			var angle = collision.get_angle()
 			if entity is Player:
-				deathDirection = -Vector2.from_angle(angle) * entity.velocity.length()
+				deathDirection = collision.get_collider_velocity() * 2
 				start_death_timer()
 
 func start_death_timer():

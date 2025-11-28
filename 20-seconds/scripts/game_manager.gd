@@ -55,8 +55,9 @@ func _ready():
 	levelPaths.append("res://levels/level2.tscn");
 	levelPaths.append("res://levels/level3.tscn");
 	levelPaths.append("res://levels/level wj1.tscn");
-	levelPaths.append("res://levels/level wj3.tscn");
 	levelPaths.append("res://levels/level wj2.tscn");
+	levelPaths.append("res://levels/level wj3.tscn");
+	levelPaths.append("res://levels/level wj4.tscn");
 	levelPaths.append("res://levels/level crouch1.tscn");
 	levelPaths.append("res://levels/level crouchslide1.tscn");
 	levelPaths.append("res://levels/level slantslide1.tscn");
