@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://h8yhgdboi3g6"]
 
-[ext_resource type="Script" uid="uid://o7sjcmj12xyf" path="res://scenes/level_select.gd" id="1_3shnc"]
+[ext_resource type="Script" uid="uid://o7sjcmj12xyf" path="res://scripts/level_select.gd" id="1_3shnc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48
@@ -32,7 +32,7 @@ grow_vertical = 2
 
 [node name="Grid" type="GridContainer" parent="Control/Buttons"]
 layout_mode = 2
-columns = 4
+columns = 6
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 1

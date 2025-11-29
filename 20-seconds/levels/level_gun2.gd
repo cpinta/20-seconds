@@ -24,8 +24,8 @@ func _player_spawning_animation_finished():
 	if not HAS_INTRO:
 		return
 	var queue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new(G.agentName, "Alright, agents in the field each get a service weapon.", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new(G.agentName, "Use it to break your targets!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "You can aim your weapon any which way!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "Just don't aim toward yourself, thanks!", Textbox.Mode.PerChar),
 	]
 	G.send_queue_to_message_box(queue)
 
