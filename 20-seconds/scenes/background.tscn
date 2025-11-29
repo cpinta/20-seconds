@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://dgvn0pwdj8lkm" path="res://scripts/background.gd" id="2_jougr"]
 
 [node name="background" type="Polygon2D"]
-modulate = Color(0.7094409, 0, 0.31132445, 1)
+modulate = Color(0.27888197, 0.27242512, 0.44757575, 1)
 z_index = -10
 texture_repeat = 2
 position = Vector2(-3750, -3750)

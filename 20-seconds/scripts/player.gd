@@ -755,7 +755,6 @@ func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
 			if not isOnGroundOld:
 				var temp1 = normal.angle_to(preCollisionVelocity)
 				var temp2 = abs(normal.angle_to(preCollisionVelocity))
-				print(temp1, ",    ", temp2, ",    ",preCollisionVelocity.x)
 				var normToVel: float = normal.angle_to(preCollisionVelocity)
 				
 				var error: float = 0.1
@@ -790,6 +789,7 @@ func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
 						print("right down")
 				velocity = preCollisionVelocity.length() * normal.rotated(dir*PI/2)
 				
+				print("normal:",normal,",   norm->pre:",temp1, ",   abs:", temp2, ",    pre:",preCollisionVelocity,"      post:",velocity)
 				lastVelSlant = preCollisionVelocity
 				$testray.target_position = velocity
 		else:

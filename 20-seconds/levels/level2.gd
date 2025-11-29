@@ -20,6 +20,8 @@ func _process(delta):
 func _player_spawning_animation_finished():
 	super._player_spawning_animation_finished()
 	
+	if not HAS_INTRO:
+		return
 	var queue: Array[Textbox.MsgInfo] = [
 		Textbox.MsgInfo.new(G.agentName, "Good job!", Textbox.Mode.PerChar),
 		Textbox.MsgInfo.new(G.agentName, "After you get all the targets, you'll advance to the next simulation!", Textbox.Mode.PerChar)

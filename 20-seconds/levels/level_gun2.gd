@@ -4,7 +4,7 @@ extends Level
 func _ready():
 	super._ready()
 	HAS_INTRO = true
-	HAS_GUN = false
+	HAS_GUN = true
 	
 	pass # Replace with function body.
 
@@ -24,7 +24,8 @@ func _player_spawning_animation_finished():
 	if not HAS_INTRO:
 		return
 	var queue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new(G.agentName, "Alright, this one is a bit trickier but I'm sure you got it!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "Alright, agents in the field each get a service weapon.", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "Use it to break your targets!", Textbox.Mode.PerChar),
 	]
 	G.send_queue_to_message_box(queue)
 

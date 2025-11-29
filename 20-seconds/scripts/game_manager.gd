@@ -61,6 +61,7 @@ func _ready():
 	levelPaths.append("res://levels/level crouch1.tscn");
 	levelPaths.append("res://levels/level crouchslide1.tscn");
 	levelPaths.append("res://levels/level slantslide1.tscn");
+	levelPaths.append("res://levels/level gun1.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	await load_titlescreen()
@@ -157,7 +158,7 @@ func start_game(loadLevel: bool = true):
 
 func restart_current_level():
 	await player.instantly_die()
-	load_current_level()
+	load_current_level(true)
 	print("level restarted")
 	pass
 
@@ -257,11 +258,11 @@ func message_box_finished():
 	gm_message_box_finished.emit()
 	pass
 
-func load_current_level():
-	load_level(levelIndex)
+func load_current_level(isRetry: bool = false):
+	load_level(levelIndex, isRetry)
 
 signal gm_levelInputStarted
-func load_level(index: int) -> bool:
+func load_level(index: int, isRetry = false) -> bool:
 	if index < len(levelPaths):
 		state = State.IN_GAME
 		
@@ -293,6 +294,9 @@ func load_level(index: int) -> bool:
 		gm_player_spawning_load_finished.connect(curLevelObj._player_spawning_loading_finished)
 		
 		levelLoaded.connect(curLevelObj._loaded)
+		
+		if isRetry:
+			curLevelObj.HAS_INTRO = false
 		
 		for i in range(0, backgrounds.size()):
 			backgrounds[i].color.r = curLevelObj.color.r
