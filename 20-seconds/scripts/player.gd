@@ -754,17 +754,26 @@ func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
 				if normal.angle_to(velocity) > 0:
 					#sliding from left
 					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
-						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
+						# go up
+						print("left up")
+						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
 					else:
+						# go down
+						print("left down")
 						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
 				else:
 					#sliding from right
 					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
-						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
+						# go up
+						print("right up")
+						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
+						#velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
 					else:
+						# go down
+						print("right down")
 						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
 				
-				lastVelSlant = velocity
+				lastVelSlant = preCollisionVelocity
 				$testray.target_position = velocity
 		else:
 			velocity = velocity.slide(normal)
