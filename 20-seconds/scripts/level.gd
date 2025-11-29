@@ -11,6 +11,8 @@ var state: State = State.PRE_LEVEL
 
 var tiles: TilesPlatform
 @export var color: Color = Color.CORNFLOWER_BLUE
+@export var paletteName: String = ""
+
 var start: Node2D
 
 # index is set by GameManager
@@ -39,8 +41,11 @@ func _ready():
 	tiles = $platform
 	start = $start
 	
-	set_level_color(color)
-	
+	if paletteName == "":
+		set_level_color(color)
+	else:
+		set_level_color(G.palettes[paletteName])
+		
 	find_descendant_target_nodes(self)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

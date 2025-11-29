@@ -8,6 +8,7 @@
 [node name="level" type="Node2D"]
 script = ExtResource("1_m4mpy")
 color = Color(0, 0.7058824, 0.34901962, 1)
+paletteName = "crouch"
 HAS_GUN = false
 
 [node name="platform" type="TileMapLayer" parent="."]
@@ -20,11 +21,8 @@ script = ExtResource("3_bi8ni")
 [node name="Target" parent="." instance=ExtResource("4_m2hdk")]
 position = Vector2(56, -8)
 
-[node name="Target2" parent="." instance=ExtResource("4_m2hdk")]
-position = Vector2(360, 240)
-
 [node name="Target3" parent="." instance=ExtResource("4_m2hdk")]
-position = Vector2(400, 232)
+position = Vector2(392, 224)
 
 [node name="Target4" parent="." instance=ExtResource("4_m2hdk")]
 position = Vector2(592, 264)
@@ -33,4 +31,4 @@ position = Vector2(592, 264)
 position = Vector2(832, 264)
 
 [node name="Target6" parent="." instance=ExtResource("4_m2hdk")]
-position = Vector2(888, 184)
+position = Vector2(888, 216)

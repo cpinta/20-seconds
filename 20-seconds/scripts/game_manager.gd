@@ -48,6 +48,13 @@ signal disablePlayerInput()
 signal sendMessageQueue(messages: Array[Textbox.MsgInfo])
 signal levelLoaded()
 
+var palettes = {
+	"jump" : Color.hex(0x8769ffff),
+	"crouch" : Color.hex(0x00b459ff),
+	"walljump" : Color.hex(0xd479c8ff),
+	"gun" : Color.hex(0x9e9855ff),
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	levelPaths.append("res://levels/intro_level.tscn");
@@ -63,6 +70,7 @@ func _ready():
 	levelPaths.append("res://levels/level slantslide1.tscn");
 	levelPaths.append("res://levels/level gun1.tscn");
 	levelPaths.append("res://levels/level gun2.tscn");
+	levelPaths.append("res://levels/level gun3.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	await load_titlescreen()
@@ -98,6 +106,17 @@ func resume_backgrounds():
 	for i in range(0, backgrounds.size()):
 		backgrounds[i].isActive = true
 
+func set_backgrounds_color(color:Color):
+	for i in range(0, backgrounds.size()):
+		backgrounds[i].color.r = curLevelObj.color.r
+		backgrounds[i].color.g = curLevelObj.color.g
+		backgrounds[i].color.b = curLevelObj.color.b
+
+func set_backgrounds_color_from_level(level: Level):
+	if level.paletteName == "":
+		set_backgrounds_color(level.color)
+	else:
+		set_backgrounds_color(palettes[level.paletteName])
 
 func load_titlescreen():
 	state = State.TITLE_SCREEN
@@ -299,11 +318,8 @@ func load_level(index: int, isRetry = false) -> bool:
 		if isRetry:
 			curLevelObj.HAS_INTRO = false
 		
-		for i in range(0, backgrounds.size()):
-			backgrounds[i].color.r = curLevelObj.color.r
-			backgrounds[i].color.g = curLevelObj.color.g
-			backgrounds[i].color.b = curLevelObj.color.b
 		
+		set_backgrounds_color_from_level(curLevelObj)
 		resume_backgrounds()
 		
 		if not player:
