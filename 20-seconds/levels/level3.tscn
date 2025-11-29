@@ -20,7 +20,7 @@ script = ExtResource("3_udvx3")
 position = Vector2(136, -32)
 
 [node name="Target3" parent="." instance=ExtResource("4_1xfnq")]
-position = Vector2(64, -64)
+position = Vector2(64, -56)
 
 [node name="Target2" parent="." instance=ExtResource("4_1xfnq")]
-position = Vector2(8, -88)
+position = Vector2(8, -72)

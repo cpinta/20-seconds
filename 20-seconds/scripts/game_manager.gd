@@ -49,10 +49,10 @@ signal sendMessageQueue(messages: Array[Textbox.MsgInfo])
 signal levelLoaded()
 
 var palettes = {
-	"jump" : Color.hex(0x8769ffff),
+	"jump" : Color.hex(0x9e9855ff),
 	"crouch" : Color.hex(0x00b459ff),
 	"walljump" : Color.hex(0xd479c8ff),
-	"gun" : Color.hex(0x9e9855ff),
+	"gun" : Color.hex(0x8769ffff),
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -108,9 +108,7 @@ func resume_backgrounds():
 
 func set_backgrounds_color(color:Color):
 	for i in range(0, backgrounds.size()):
-		backgrounds[i].color.r = curLevelObj.color.r
-		backgrounds[i].color.g = curLevelObj.color.g
-		backgrounds[i].color.b = curLevelObj.color.b
+		backgrounds[i].set_background_color(color)
 
 func set_backgrounds_color_from_level(level: Level):
 	if level.paletteName == "":

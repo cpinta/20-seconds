@@ -20,3 +20,8 @@ func _process(delta: float) -> void:
 			if abs(max(texture_offset.x, texture_offset.y)) > OFFSET_GOAL/texture_scale.x:
 				texture_offset.x = (abs(max(texture_offset.x, texture_offset.y)) - (OFFSET_GOAL/texture_scale.x)) 
 				texture_offset.y = texture_offset.x
+
+func set_background_color(color:Color):
+	self.color.r = color.r
+	self.color.g = color.g
+	self.color.b = color.b
