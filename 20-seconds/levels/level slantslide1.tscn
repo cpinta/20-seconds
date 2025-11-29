@@ -24,7 +24,7 @@ position = Vector2(56, -8)
 position = Vector2(360, 240)
 
 [node name="Target3" parent="." instance=ExtResource("4_m2hdk")]
-position = Vector2(416, 232)
+position = Vector2(400, 232)
 
 [node name="Target4" parent="." instance=ExtResource("4_m2hdk")]
-position = Vector2(592, 256)
+position = Vector2(592, 264)

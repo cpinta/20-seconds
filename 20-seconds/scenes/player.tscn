@@ -22,7 +22,7 @@ size = Vector2(8, 7)
 collision_layer = 2
 collision_mask = 57
 floor_stop_on_slope = false
-floor_snap_length = 4.0
+floor_snap_length = 5.0
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -219,12 +219,12 @@ collision_mask = 0
 [node name="downray" type="RayCast2D" parent="."]
 z_index = 100
 position = Vector2(-4, 0)
-target_position = Vector2(0, 2)
+target_position = Vector2(0, 1.99)
 
 [node name="downray2" type="RayCast2D" parent="."]
 z_index = 100
 position = Vector2(4, 0)
-target_position = Vector2(0, 2)
+target_position = Vector2(0, 1.99)
 
 [node name="leftwallray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)

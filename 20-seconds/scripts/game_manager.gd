@@ -158,6 +158,7 @@ func start_game(loadLevel: bool = true):
 func restart_current_level():
 	await player.instantly_die()
 	load_current_level()
+	print("level restarted")
 	pass
 
 func restart_game():
@@ -213,6 +214,10 @@ func _physics_process(delta: float) -> void:
 				if curLevelObj:
 					if curLevelObj.state == Level.State.IN_PROGRESS:
 						pause_game()
+			if Input.is_action_just_pressed("restart"):
+				if curLevelObj:
+					if curLevelObj.state == Level.State.IN_PROGRESS:
+						restart_current_level()
 		State.PAUSED:
 			if Input.is_action_just_pressed("pause"):
 				resume_game()

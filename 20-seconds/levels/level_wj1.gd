@@ -22,8 +22,8 @@ func _player_spawning_animation_finished():
 	super._player_spawning_animation_finished()
 	
 	var queue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new(G.agentName, "Odd, the timer should be longer for longer stages like this one...", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new(G.agentName, "I'm gonna look into that!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "For policy's sake, I must explain that jumping against walls will let you jump off of them!", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "But I'm sure an agent of your stature knew that already!", Textbox.Mode.PerChar),
 	]
 	G.send_queue_to_message_box(queue)
 

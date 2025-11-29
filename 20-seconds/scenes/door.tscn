@@ -1,13 +1,10 @@
-[gd_scene load_steps=4 format=4 uid="uid://cpvkvm6ikobka"]
+[gd_scene load_steps=3 format=4 uid="uid://cpvkvm6ikobka"]
 
-[ext_resource type="Script" uid="uid://crr8kseghfr4" path="res://scripts/door.gd" id="1_877mi"]
+[ext_resource type="Script" uid="uid://c27n2cnt5dxur" path="res://scripts/door.gd" id="1_877mi"]
 
 [sub_resource type="PortableCompressedTexture2D" id="PortableCompressedTexture2D_axfbo"]
 _data = PackedByteArray("AAADAAUAAAABAAAAEAAAABgAAACCAAAAUklGRnoAAABXRUJQVlA4TG0AAAAvD8AFACegmJEkOMcwAPM6l2UVM5IEBykGYJ4Dcu0SadvwWRkdvH9H5/Mf5wWPwr+EQEEjSc1xIKAouLwENOBfVG8GIvqvsG0bZMzwBiaUDUhhQCqmho4a3K+AjoHDuFIn4Xd/5Xf3g7IBiREBAA==")
 size_override = Vector2(16, 24)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_11mig"]
-size = Vector2(16, 24)
 
 [node name="door" type="Node2D"]
 script = ExtResource("1_877mi")
@@ -35,11 +32,3 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://sprites/door.aseprite"
 }
 metadata/_aseprite_wizard_source_file_hash_ = "89e4570acfb236e353ce445e2ea9526a"
-
-[node name="area" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 2
-
-[node name="shape" type="CollisionShape2D" parent="area"]
-position = Vector2(8, -12)
-shape = SubResource("RectangleShape2D_11mig")

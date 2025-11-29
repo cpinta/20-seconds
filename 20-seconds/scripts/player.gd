@@ -26,7 +26,7 @@ var centerLegs: Node2D
 var leftWallRay: RayCast2D
 var rightWallRay: RayCast2D
 var downRays: Array[RayCast2D]
-const DOWN_RAY_LENGTH: float = 4
+const DOWN_RAY_LENGTH: float = 0.01
 
 var SCARF_POS_LEFT_X: float = -112
 var SCARF_POS_RIGHT_X: float = 140
@@ -684,17 +684,32 @@ func _spawning_ended():
 	plyr_spawning_anim_finished.emit()
 
 func slide(delta: float):
-	velocity.y = -velocity.y
-	
 	var preCollisionVelocity: Vector2 = velocity
+	velocity.y = -velocity.y
 	var collided = move_and_slide()
 	if collided:
 		var collision = get_last_slide_collision()
-		
 		var normal = collision.get_normal()
+		var count = get_slide_collision_count()
+		
+		if count > 1:
+			for i in range(0, count):
+				#print(Time.get_ticks_msec())
+				#print("   ",get_slide_collision(i).get_normal())
+				#print("   ",get_slide_collision(i).get_position())
+				
+				if get_slide_collision(i).get_normal() == Vector2(0, -1):
+					pass
+				pass
+			pass
 		
 		isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
 		
+		if normal == Vector2(0.0, -1.0):
+			var downNorm = get_down_normal()
+			if downNorm:
+				if downNorm != normal:
+					normal = downNorm
 		slide_tick(delta, normal, preCollisionVelocity)
 	else:
 		if isOnGround:
@@ -728,22 +743,26 @@ func get_down_normal() -> Variant:
 	else:
 		return null
 
+@warning_ignore("unused_parameter")
 func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
-	
 	@warning_ignore("unused_variable")
 	var temp: Vector2 = velocity
 	if normal.y < 0 and normal.y != -1:
 		isOnSlant = true
 		if abs(inputVector.y) > INPUT_DEADZONE:
 			if not isOnGroundOld:
-				velocity = velocity.normalized() * 0.7
-				velocity = normal.orthogonal() * -sign(normal.x)
-				if abs(preCollisionVelocity.y) > abs(preCollisionVelocity.x):
-					velocity += preCollisionVelocity.y * velocity.normalized()
+				if normal.angle_to(velocity) > 0:
+					#sliding from left
+					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
+						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
+					else:
+						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
 				else:
-					velocity *= -1
-					velocity += abs(preCollisionVelocity.x) * velocity.normalized()
-					pass
+					#sliding from right
+					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
+						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
+					else:
+						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
 				
 				lastVelSlant = velocity
 				$testray.target_position = velocity
