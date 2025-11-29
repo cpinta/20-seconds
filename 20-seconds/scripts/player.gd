@@ -90,7 +90,8 @@ const CROUCH_BODY_Y: float = 100
 const CROUCH_BODY_ANGLE: float = -50
 const CROUCH_HEAD_Y: float = 80
 const CROUCH_LEGS_Y: float = 1
-const SLIDE_SLANT_ACCEL: float = 75
+const SLIDE_SLANT_ACCEL: float = 250
+const SLIDE_SLANT_DECCEL: float = 100
 
 const CROUCH_LAND_BOOST: float = 120
 const CROUCH_SPEED: float = 300
@@ -536,8 +537,9 @@ func _physics_process(delta):
 						if isOnSlant:
 							var downNormal = get_down_normal()
 							if downNormal:
-								velocity.x += sign(downNormal.x) * SLIDE_SLANT_ACCEL * delta
-								pass
+								velocity += downNormal * SLIDE_SLANT_ACCEL * delta
+							else:
+								velocity.x -= sign(velocity.x) * SLIDE_SLANT_DECCEL * delta
 						else:
 							velocity.x = move_toward(velocity.x, 0.0, DECCELERATION_CROUCH * delta)
 							pass
@@ -751,27 +753,42 @@ func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
 		isOnSlant = true
 		if abs(inputVector.y) > INPUT_DEADZONE:
 			if not isOnGroundOld:
-				if normal.angle_to(velocity) > 0:
+				var temp1 = normal.angle_to(preCollisionVelocity)
+				var temp2 = abs(normal.angle_to(preCollisionVelocity))
+				print(temp1, ",    ", temp2, ",    ",preCollisionVelocity.x)
+				var normToVel: float = normal.angle_to(preCollisionVelocity)
+				
+				var error: float = 0.1
+				var hasError: bool = false
+				if abs(normToVel) < 0.7853981 + error and abs(normToVel) > 0.7853981 - error:
+					print("error")
+					hasError = true
+					pass
+				var dir: int = 1
+				
+				if normToVel > 0:
 					#sliding from left
-					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
+					if abs(normal.angle_to(preCollisionVelocity)) < PI/4:
 						# go up
-						print("left up")
-						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
-					else:
-						# go down
 						print("left down")
-						velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
+						dir = -1
+					else:
+						if preCollisionVelocity.x == 0.0:
+							dir = -1
+						# go down
+						print("left up")
 				else:
 					#sliding from right
 					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
 						# go up
 						print("right up")
-						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
-						#velocity = preCollisionVelocity.length() * normal.rotated(PI/2)
+						dir = -1
+						if preCollisionVelocity.x == 0.0:
+							dir = 1
 					else:
 						# go down
 						print("right down")
-						velocity = preCollisionVelocity.length() * normal.rotated(-PI/2)
+				velocity = preCollisionVelocity.length() * normal.rotated(dir*PI/2)
 				
 				lastVelSlant = preCollisionVelocity
 				$testray.target_position = velocity
