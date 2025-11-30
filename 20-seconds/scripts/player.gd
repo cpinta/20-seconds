@@ -530,7 +530,11 @@ func _physics_process(delta):
 					if not isDuckingSlide:
 						velocity.x = move_toward(velocity.x, MAX_CROUCH_SPEED * direction, ACCELERATION * delta)
 				else:
-					velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
+					if isOnGround:
+						velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
+					else:
+						if sign(velocity.x) != direction:
+							velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
 			else:
 				if isOnGround:
 					if isDuckingSlide:
