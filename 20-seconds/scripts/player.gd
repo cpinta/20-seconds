@@ -456,11 +456,12 @@ func _physics_process(delta):
 			
 			if isOnGround:
 				if abs(inputVector.y) > INPUT_DEADZONE:
-					isDucking = true
-					if abs(velocity.x) > SLIDE_MIN_SPEED:
-						isDuckingSlide = true
-					else:
-						isDuckingSlide = false
+					if inputVector.y > 0:
+						isDucking = true
+						if abs(velocity.x) > SLIDE_MIN_SPEED:
+							isDuckingSlide = true
+						else:
+							isDuckingSlide = false
 				else:
 					if canUnDuck:
 						isDuckingSlide = false
@@ -533,7 +534,7 @@ func _physics_process(delta):
 					if isOnGround:
 						velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
 					else:
-						if sign(velocity.x) != direction:
+						if sign(velocity.x) != direction or abs(velocity.x) < abs(MAX_SPEED):
 							velocity.x = move_toward(velocity.x, MAX_SPEED * direction, ACCELERATION * delta)
 			else:
 				if isOnGround:
