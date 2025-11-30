@@ -42,9 +42,9 @@ func _ready():
 	start = $start
 	
 	if paletteName == "":
-		set_level_color(color)
+		set_descendant_tiles_color(self, color)
 	else:
-		set_level_color(G.palettes[paletteName])
+		set_descendant_tiles_color(self, G.palettes[paletteName])
 		
 	find_descendant_target_nodes(self)
 
@@ -53,13 +53,18 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func find_descendant_target_nodes(node: Node):
 	for child in node.get_children():
 		if child.is_in_group("target"):
 			targets.append(child)
 			targets.back().wasDestroyed.connect(target_was_destroyed)
 		find_descendant_target_nodes(child)
+
+func set_descendant_tiles_color(node: Node, color: Color):
+	for child in node.get_children():
+		if child is TilesPlatform:
+			child.set_color(color)
+		set_descendant_tiles_color(child, color)
 
 # called when level is first loaded
 func _loaded():

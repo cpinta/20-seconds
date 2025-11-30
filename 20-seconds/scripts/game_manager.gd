@@ -49,10 +49,10 @@ signal sendMessageQueue(messages: Array[Textbox.MsgInfo])
 signal levelLoaded()
 
 var palettes = {
-	"jump" : Color.hex(0x9e9855ff),
-	"crouch" : Color.hex(0x00b459ff),
+	"jump" : Color.hex(0x8769ffff),
+	"crouch" : Color.hex(0xffc857ff),
 	"walljump" : Color.hex(0xd479c8ff),
-	"gun" : Color.hex(0x8769ffff),
+	"gun" : Color.hex(0x00b459ff),
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -70,7 +70,7 @@ func _ready():
 	levelPaths.append("res://levels/level slantslide1.tscn");
 	levelPaths.append("res://levels/level gun1.tscn");
 	levelPaths.append("res://levels/level gun2.tscn");
-	levelPaths.append("res://levels/level gun3.tscn");
+	levelPaths.append("res://levels/level gun island.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	await load_titlescreen()
