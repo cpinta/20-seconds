@@ -743,6 +743,26 @@ func slide(delta: float):
 			isOnSlant = true
 			if abs(inputVector.y) > INPUT_DEADZONE or Input.is_action_pressed("duck"):
 				if not isOnGroundOld:
+					if preCollisionVelocity.y < -200:
+						if abs(normal.x) > PI/6 and abs(normal.x) < PI/3:
+							if normal.x > 0:
+								print("1")
+								velocity.y = 0
+								velocity.x = preCollisionVelocity.length()
+								var temp3 = preCollisionVelocity.length()
+								velocity = velocity.rotated(PI/4)
+								pass
+							else:
+								print("2")
+								velocity.y = 0
+								velocity.x = -preCollisionVelocity.length()
+								var temp3 = preCollisionVelocity.length()
+								velocity = velocity.rotated(-PI/4)
+								pass
+							pass
+						
+						print(velocity)
+						pass
 					print(normal, ",     ", travel)
 					#if pos.y > global_position.y:
 						#print("above", pos, ",    ", global_position)
