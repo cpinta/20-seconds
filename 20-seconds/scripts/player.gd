@@ -475,13 +475,12 @@ func _physics_process(delta):
 			isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
 			
 			if isOnGround:
-				if abs(inputVector.y) > INPUT_DEADZONE:
-					if inputVector.y > 0:
-						isDucking = true
-						if abs(velocity.x) > SLIDE_MIN_SPEED:
-							isDuckingSlide = true
-						else:
-							isDuckingSlide = false
+				if Input.is_action_pressed("duck") or Input.is_action_pressed("down"):
+					isDucking = true
+					if abs(velocity.x) > SLIDE_MIN_SPEED:
+						isDuckingSlide = true
+					else:
+						isDuckingSlide = false
 				else:
 					if canUnDuck:
 						isDuckingSlide = false
@@ -826,6 +825,8 @@ var lastVelSlant: Vector2
 func get_inputVector():
 	inputVector.x = Input.get_axis("left", "right")
 	inputVector.y = Input.get_axis("up", "down")
+	if isDucking and Input.is_action_pressed("up"):
+		inputVector.y = -1
 	return inputVector
 	
 func set_direction(dir: int):
