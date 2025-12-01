@@ -11,19 +11,19 @@ script = ExtResource("1_g8ooy")
 paletteName = "gun"
 
 [node name="platform" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD//wAAAAAAAAkAAAD//wEAAAAAAAkAAAD//wIAAAAAAAkAAAAAAAAAAAAAAAkAAAAAAAEAAAAAAAkAAAAAAAIAAAAAAAkAAAABAAAAAAAAAAkAAAABAAEAAAAAAAkAAAABAAIAAAAAAAkAAAD+/wAAAAAAAAkAAAD+/wEAAAAAAAkAAAD+/wIAAAAAAAkAAAACAAAAAAAAAAkAAAACAAEAAAAAAAkAAAACAAIAAAAAAAkAAAADAAAAAAAAAAkAAAADAAEAAAAAAAkAAAADAAIAAAAAAAkAAAAEAAAAAAAAAAkAAAAEAAEAAAAAAAkAAAAEAAIAAAAAAAkAAAAFAAAAAAAAAAkAAAAFAAEAAAAAAAkAAAAFAAIAAAAAAAkAAAAGAAAAAAAAAAkAAAAGAAEAAAAAAAkAAAAGAAIAAAAAAAkAAAAHAAAAAAAAAAkAAAAHAAEAAAAAAAkAAAAHAAIAAAAAAAkAAAAIAAAAAAAAAAkAAAAIAAEAAAAAAAkAAAAIAAIAAAAAAAkAAAAJAAAAAAAAAAkAAAAJAAEAAAAAAAkAAAAJAAIAAAAAAAkAAAAKAAAAAAAAAAkAAAAKAAEAAAAAAAkAAAAKAAIAAAAAAAkAAAALAAAAAAAAAAkAAAALAAEAAAAAAAkAAAALAAIAAAAAAAkAAAAMAAAAAAAAAAkAAAAMAAEAAAAAAAkAAAAMAAIAAAAAAAkAAAANAAAAAAAAAAkAAAANAAEAAAAAAAkAAAANAAIAAAAAAAkAAAAOAAAAAAAAAAkAAAAOAAEAAAAAAAkAAAAOAAIAAAAAAAkAAAAPAAAAAAAAAAkAAAAPAAEAAAAAAAkAAAAPAAIAAAAAAAkAAAAQAAAAAAAAAAkAAAAQAAEAAAAAAAkAAAAQAAIAAAAAAAkAAAARAAAAAAAAAAkAAAARAAEAAAAAAAkAAAARAAIAAAAAAAkAAAASAAAAAAAAAAkAAAASAAEAAAAAAAkAAAASAAIAAAAAAAkAAAATAAAAAAAAAAkAAAATAAEAAAAAAAkAAAATAAIAAAAAAAkAAAAUAAAAAAAAAAkAAAAUAAEAAAAAAAkAAAAUAAIAAAAAAAkAAAAVAAAAAAAAAAkAAAAVAAEAAAAAAAkAAAAVAAIAAAAAAAkAAAAWAAAAAAAAAAkAAAAWAAEAAAAAAAkAAAAWAAIAAAAAAAkAAAACAP7/AAADAAgAAAADAP7/AAADAAgAAAAEAP7/AAADAAgAAAAFAP7/AAADAAgAAAAGAP7/AAADAAgAAAAHAP7/AAADAAgAAAAIAP7/AAADAAgAAAAJAP7/AAADAAgAAAAKAP7/AAADAAgAAAALAP7/AAADAAgAAAAMAP7/AAADAAgAAAANAP7/AAADAAgAAAAOAP//AAADAAgAACAWAP//AAADAAgAACARAP//AAADAAgAACAQAP//AAADAAgAACAPAP//AAADAAgAACASAP//AAADAAgAACATAP//AAADAAgAACAUAP//AAADAAgAACAVAP//AAADAAgAACAOAP7/AAADAAgAAAAPAP7/AAADAAgAAAAQAP7/AAADAAgAAAARAP7/AAADAAgAAAASAP7/AAADAAgAAAATAP7/AAADAAgAAAAUAP7/AAADAAgAAAAVAP7/AAADAAgAAAAWAP7/AAADAAgAAAAAAP//AAADAAgAACABAP//AAADAAgAACACAP//AAADAAgAACADAP//AAADAAgAACAEAP//AAADAAgAACAFAP//AAADAAgAACAGAP//AAADAAgAACAHAP//AAADAAgAACAIAP//AAADAAgAACAJAP//AAADAAgAACAKAP//AAADAAgAACALAP//AAADAAgAACAMAP//AAADAAgAACANAP//AAADAAgAACAXAAAAAAAAAAkAAAAXAAEAAAAAAAkAAAAXAAIAAAAAAAkAAAAYAAAAAAAAAAkAAAAYAAEAAAAAAAkAAAAYAAIAAAAAAAkAAAAZAAAAAAAAAAkAAAAZAAEAAAAAAAkAAAAZAAIAAAAAAAkAAAAaAAAAAAAAAAkAAAAaAAEAAAAAAAkAAAAaAAIAAAAAAAkAAAAbAAAAAAAAAAkAAAAbAAEAAAAAAAkAAAAbAAIAAAAAAAkAAAAaAP7/AAAAAAkAAAAaAP//AAAAAAkAAAAbAP7/AAAAAAkAAAAbAP//AAAAAAkAAAAXAP7/AAADAAgAAAAYAP7/AAADAAgAAAAZAP7/AAADAAgAAAAXAP//AAADAAgAACAYAP//AAADAAgAACAZAP//AAADAAgAACD+////AAADAAgAACD/////AAADAAgAACD7//L/AAAAAAkAAAD7//P/AAAAAAkAAAD7//T/AAAAAAkAAAD7//X/AAAAAAkAAAD7//b/AAAAAAkAAAD7//f/AAAAAAkAAAD7//j/AAAAAAkAAAD7//n/AAAAAAkAAAD7//r/AAAAAAkAAAD7//v/AAAAAAkAAAD7//z/AAAAAAkAAAD7//3/AAAAAAkAAAD7//7/AAAAAAkAAAD7////AAAAAAkAAAD7/wAAAAAAAAkAAAD7/wEAAAAAAAkAAAD7/wIAAAAAAAkAAAD8//L/AAAAAAkAAAD8//P/AAAAAAkAAAD8//T/AAAAAAkAAAD8//X/AAAAAAkAAAD8//b/AAAAAAkAAAD8//f/AAAAAAkAAAD8//j/AAAAAAkAAAD8//n/AAAAAAkAAAD8//r/AAAAAAkAAAD8//v/AAAAAAkAAAD8//z/AAAAAAkAAAD8//3/AAAAAAkAAAD8//7/AAAAAAkAAAD8////AAAAAAkAAAD8/wAAAAAAAAkAAAD8/wEAAAAAAAkAAAD8/wIAAAAAAAkAAAD7/+X/AAAAAAkAAAD7/+b/AAAAAAkAAAD7/+f/AAAAAAkAAAD7/+j/AAAAAAkAAAD7/+n/AAAAAAkAAAD7/+r/AAAAAAkAAAD7/+v/AAAAAAkAAAD7/+z/AAAAAAkAAAD7/+3/AAAAAAkAAAD7/+7/AAAAAAkAAAD7/+//AAAAAAkAAAD7//D/AAAAAAkAAAD7//H/AAAAAAkAAAD8/+X/AAAAAAkAAAD8/+b/AAAAAAkAAAD8/+f/AAAAAAkAAAD8/+j/AAAAAAkAAAD8/+n/AAAAAAkAAAD8/+r/AAAAAAkAAAD8/+v/AAAAAAkAAAD8/+z/AAAAAAkAAAD8/+3/AAAAAAkAAAD8/+7/AAAAAAkAAAD8/+//AAAAAAkAAAD8//D/AAAAAAkAAAD8//H/AAAAAAkAAAD6/97/AAAAAAkAAAD6/9//AAAAAAkAAAD6/+D/AAAAAAkAAAD6/+H/AAAAAAkAAAD6/+L/AAAAAAkAAAD6/+P/AAAAAAkAAAD6/+T/AAAAAAkAAAD6/+X/AAAAAAkAAAD6/+b/AAAAAAkAAAD6/+f/AAAAAAkAAAD6/+j/AAAAAAkAAAD6/+n/AAAAAAkAAAD6/+r/AAAAAAkAAAD6/+v/AAAAAAkAAAD6/+z/AAAAAAkAAAD6/+3/AAAAAAkAAAD6/+7/AAAAAAkAAAD6/+//AAAAAAkAAAD6//D/AAAAAAkAAAD6//H/AAAAAAkAAAD6//L/AAAAAAkAAAD6//P/AAAAAAkAAAD6//T/AAAAAAkAAAD6//X/AAAAAAkAAAD6//b/AAAAAAkAAAD6//f/AAAAAAkAAAD6//j/AAAAAAkAAAD6//n/AAAAAAkAAAD6//r/AAAAAAkAAAD6//v/AAAAAAkAAAD6//z/AAAAAAkAAAD6//3/AAAAAAkAAAD6//7/AAAAAAkAAAD6////AAAAAAkAAAD6/wAAAAAAAAkAAAD6/wEAAAAAAAkAAAD6/wIAAAAAAAkAAAD7/97/AAAAAAkAAAD7/9//AAAAAAkAAAD7/+D/AAAAAAkAAAD7/+H/AAAAAAkAAAD7/+L/AAAAAAkAAAD7/+P/AAAAAAkAAAD7/+T/AAAAAAkAAAD9////AAADAAgAACD9/wAAAAAAAAkAAAD9/wEAAAAAAAkAAAD9/wIAAAAAAAkAAAAGAOH/AAAAAAkAAAAGAOL/AAAAAAkAAAAGAOP/AAAAAAkAAAAGAOT/AAAAAAkAAAAGAOX/AAAAAAkAAAAGAOb/AAAAAAkAAAAGAOf/AAAAAAkAAAAGAOj/AAAAAAkAAAAGAOn/AAAAAAkAAAAGAOr/AAAAAAkAAAAGAOv/AAAAAAkAAAAGAOz/AAAAAAkAAAAGAO3/AAAAAAkAAAAGAO7/AAAAAAkAAAAGAO//AAAAAAkAAAAGAPD/AAAAAAkAAAAGAPH/AAAAAAkAAAAGAPL/AAAAAAkAAAAGAPP/AAAAAAkAAAAGAPT/AAAAAAkAAAAGAPX/AAAAAAkAAAAGAPb/AAAAAAkAAAAGAPf/AAAAAAkAAAAGAPj/AAAAAAkAAAAGAPn/AAAAAAkAAAAGAPr/AAAAAAkAAAAGAPv/AAAAAAkAAAAGAPz/AAAAAAkAAAAGAP3/AAAAAAkAAAAHAOH/AAAAAAkAAAAHAOL/AAAAAAkAAAAHAOP/AAAAAAkAAAAHAOT/AAAAAAkAAAAHAOX/AAAAAAkAAAAHAOb/AAAAAAkAAAAHAOf/AAAAAAkAAAAHAOj/AAAAAAkAAAAHAOn/AAAAAAkAAAAHAOr/AAAAAAkAAAAHAOv/AAAAAAkAAAAHAOz/AAAAAAkAAAAHAO3/AAAAAAkAAAAHAO7/AAAAAAkAAAAHAO//AAAAAAkAAAAHAPD/AAAAAAkAAAAHAPH/AAAAAAkAAAAHAPL/AAAAAAkAAAAHAPP/AAAAAAkAAAAHAPT/AAAAAAkAAAAHAPX/AAAAAAkAAAAHAPb/AAAAAAkAAAAHAPf/AAAAAAkAAAAHAPj/AAAAAAkAAAAHAPn/AAAAAAkAAAAHAPr/AAAAAAkAAAAHAPv/AAAAAAkAAAAHAPz/AAAAAAkAAAAHAP3/AAAAAAkAAAAIAOH/AAAAAAkAAAAIAOL/AAAAAAkAAAAIAOP/AAAAAAkAAAAIAOT/AAAAAAkAAAAIAOX/AAAAAAkAAAAIAOb/AAAAAAkAAAAIAOf/AAAAAAkAAAAIAOj/AAAAAAkAAAAIAOn/AAAAAAkAAAAIAOr/AAAAAAkAAAAIAOv/AAAAAAkAAAAIAOz/AAAAAAkAAAAIAO3/AAAAAAkAAAAIAO7/AAAAAAkAAAAIAO//AAAAAAkAAAAIAPD/AAAAAAkAAAAIAPH/AAAAAAkAAAAIAPL/AAAAAAkAAAAIAPP/AAAAAAkAAAAIAPT/AAAAAAkAAAAIAPX/AAAAAAkAAAAIAPb/AAAAAAkAAAAIAPf/AAAAAAkAAAAIAPj/AAAAAAkAAAAIAPn/AAAAAAkAAAAIAPr/AAAAAAkAAAAIAPv/AAAAAAkAAAAIAPz/AAAAAAkAAAAIAP3/AAAAAAkAAAA=")
+tile_map_data = PackedByteArray("AAD9/wAAAAAAAAkAAAD9/wEAAAAAAAkAAAD9/wIAAAAAAAkAAAD+/wAAAAAAAAkAAAD+/wEAAAAAAAkAAAD+/wIAAAAAAAkAAAD//wAAAAAAAAkAAAD//wEAAAAAAAkAAAD//wIAAAAAAAkAAAAAAAAAAAAAAAkAAAAAAAEAAAAAAAkAAAAAAAIAAAAAAAkAAAAAAP//AAAHAAcAAFD9////AAAHAAcAAED9//7/AAADAAgAAGAAAP7/AAADAAgAAHA=")
 tile_set = ExtResource("2_jhx7k")
 script = ExtResource("3_aferk")
 
 [node name="start" type="Node2D" parent="." groups=["start"]]
-position = Vector2(-16, -6)
+position = Vector2(-16, 0)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -16.0
+offset_left = -8.0
 offset_top = 8.0
-offset_right = 116.0
+offset_right = 124.0
 offset_bottom = 84.0
 scale = Vector2(0.25, 0.25)
 
@@ -72,6 +72,7 @@ theme_override_font_sizes/font_size = 16
 text = "or"
 
 [node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-8, 8)
 
 [node name="Target37" parent="Node2D" instance=ExtResource("5_k0hyl")]
 position = Vector2(-8, -54)
@@ -146,6 +147,7 @@ position = Vector2(-8, -318)
 position = Vector2(-12, -330)
 
 [node name="horizontal" type="Node2D" parent="."]
+position = Vector2(-4, 8)
 
 [node name="Target" parent="horizontal" instance=ExtResource("5_k0hyl")]
 position = Vector2(32, -18)
@@ -253,4 +255,115 @@ position = Vector2(380, -14)
 position = Vector2(392, -18)
 
 [node name="Target36" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(404, -14)
+
+[node name="horizontal2" type="Node2D" parent="."]
+position = Vector2(-464, 8)
+
+[node name="Target" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(32, -18)
+
+[node name="Target3" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(56, -18)
+
+[node name="Target4" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(44, -14)
+
+[node name="Target5" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(80, -18)
+
+[node name="Target6" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(68, -14)
+
+[node name="Target7" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(80, -18)
+
+[node name="Target8" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(92, -14)
+
+[node name="Target9" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(104, -18)
+
+[node name="Target10" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(116, -14)
+
+[node name="Target11" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(128, -18)
+
+[node name="Target12" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(152, -18)
+
+[node name="Target13" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(140, -14)
+
+[node name="Target14" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(176, -18)
+
+[node name="Target15" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(164, -14)
+
+[node name="Target16" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(176, -18)
+
+[node name="Target17" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(188, -14)
+
+[node name="Target18" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(200, -18)
+
+[node name="Target19" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(212, -14)
+
+[node name="Target2" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(224, -18)
+
+[node name="Target20" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(248, -18)
+
+[node name="Target21" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(236, -14)
+
+[node name="Target22" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(272, -18)
+
+[node name="Target23" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(260, -14)
+
+[node name="Target24" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(272, -18)
+
+[node name="Target25" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(284, -14)
+
+[node name="Target26" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(296, -18)
+
+[node name="Target27" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(308, -14)
+
+[node name="Target28" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(320, -18)
+
+[node name="Target29" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(344, -18)
+
+[node name="Target30" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(332, -14)
+
+[node name="Target31" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(368, -18)
+
+[node name="Target32" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(356, -14)
+
+[node name="Target33" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(368, -18)
+
+[node name="Target34" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(380, -14)
+
+[node name="Target35" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(392, -18)
+
+[node name="Target36" parent="horizontal2" instance=ExtResource("5_k0hyl")]
 position = Vector2(404, -14)

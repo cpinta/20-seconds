@@ -746,33 +746,16 @@ func slide(delta: float):
 					if preCollisionVelocity.y < -200:
 						if abs(normal.x) > PI/6 and abs(normal.x) < PI/3:
 							if normal.x > 0:
-								print("1")
 								velocity.y = 0
 								velocity.x = preCollisionVelocity.length()
-								var temp3 = preCollisionVelocity.length()
 								velocity = velocity.rotated(PI/4)
 								pass
 							else:
-								print("2")
 								velocity.y = 0
 								velocity.x = -preCollisionVelocity.length()
-								var temp3 = preCollisionVelocity.length()
 								velocity = velocity.rotated(-PI/4)
 								pass
 							pass
-						
-						print(velocity)
-						pass
-					print(normal, ",     ", travel)
-					#if pos.y > global_position.y:
-						#print("above", pos, ",    ", global_position)
-						#pass
-					#else:
-						#print("side", pos, ",    ", global_position)
-						#pass
-					
-					pass
-		#slide_tick(delta, normal, preCollisionVelocity)
 	else:
 		if isOnGround:
 			var downNormal = get_down_normal()
@@ -912,6 +895,8 @@ func reset():
 	
 	isDucking = false
 	isDuckingSlide = false
+	
+	gunChargeTimer = 0
 	
 	if gun:
 		gun.reset()
