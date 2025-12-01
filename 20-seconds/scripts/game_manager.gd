@@ -75,6 +75,7 @@ func _ready():
 	levelPaths.append("res://levels/level gun island.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
+	levelPaths.append("res://levels/level bigtarget.tscn");
 	await load_titlescreen()
 	spawn_backgrounds()
 	

@@ -788,61 +788,6 @@ func get_down_normal() -> Variant:
 	else:
 		return null
 
-@warning_ignore("unused_parameter")
-func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
-	@warning_ignore("unused_variable")
-	var temp: Vector2 = velocity
-	if normal.y < 0 and normal.y != -1:
-		isOnSlant = true
-		if abs(inputVector.y) > INPUT_DEADZONE:
-			if not isOnGroundOld:
-				var temp1 = normal.angle_to(preCollisionVelocity)
-				var temp2 = abs(normal.angle_to(preCollisionVelocity))
-				var normToVel: float = normal.angle_to(preCollisionVelocity)
-				
-				#var error: float = 0.1
-				#var hasError: bool = false
-				#if abs(normToVel) < PI/3 and abs(normToVel) > PI/6:
-					#print("error")
-					#hasError = true
-					#pass
-				#var dir: int = 1
-				#
-				#if normToVel > 0:
-					##sliding from left
-					#if abs(normal.angle_to(preCollisionVelocity)) < PI/4:
-						## go up
-						#print("left down")
-						#dir = -1
-					#else:
-						## go down
-						#print("left up")
-						#if hasError:
-							#dir *= -1
-				#else:
-					##sliding from right
-					#if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
-						## go up
-						#print("right up")
-						#dir = -1
-						#if hasError:
-							#dir *= -1
-					#else:
-						## go down
-						#print("right down")
-				
-				
-				
-				
-				#velocity = preCollisionVelocity.length() * normal.rotated(dir*PI/2)
-				
-				print("normal:",normal,",   norm->pre:",temp1, ",   abs:", temp2, ",    pre:",preCollisionVelocity,"      post:",velocity)
-				lastVelSlant = preCollisionVelocity
-				$testray.target_position = velocity
-		else:
-			velocity = velocity.slide(normal)
-	else:
-		isOnSlant = false
 var lastVelSlant: Vector2
 
 func get_inputVector():
