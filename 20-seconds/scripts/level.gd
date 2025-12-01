@@ -40,6 +40,7 @@ func _init():
 func _ready():
 	tiles = $platform
 	start = $start
+	start.global_position.y -= 0.012
 	
 	if paletteName == "":
 		set_descendant_tiles_color(self, color)

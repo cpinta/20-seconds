@@ -20,7 +20,7 @@ const MAX_DIST: float = 1000
 var originalScale: float = 0.01
 var desiredScale: float = 0.05
 
-const TIME_TIL_FULL_SCALE: float = 0.04
+const TIME_TIL_FULL_SCALE: float = 0.25
 var fullScaleTimer: float = 0
 
 signal wasDestroyed(bullet: Bullet)
@@ -42,6 +42,8 @@ func destroy():
 func initialize(sender: Entity, direction: Vector2):
 	self.sender = sender
 	self.direction = direction
+	print(global_position)
+
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

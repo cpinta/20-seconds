@@ -227,7 +227,6 @@ func _process(delta):
 		pass
 	
 	scarfParent.rotation_degrees = 0 + direction * scarfAngle
-	print(scarfParent.rotation_degrees)
 	
 	if abs(velocity.x) > IMG_SPEED_MIN:
 		imgEars.position.x = lerp(imgEars.position.x, (min(abs(velocity.x), IMG_SPEED_MAX)/IMG_SPEED_MAX) * EARS_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
@@ -716,7 +715,9 @@ func slide(delta: float):
 	if collided:
 		var collision = get_last_slide_collision()
 		var normal = collision.get_normal()
+		var pos = collision.get_position()
 		var count = get_slide_collision_count()
+		var travel = collision.get_travel()
 		
 		if count > 1:
 			for i in range(0, count):
@@ -736,7 +737,22 @@ func slide(delta: float):
 			if downNorm:
 				if downNorm != normal:
 					normal = downNorm
-		slide_tick(delta, normal, preCollisionVelocity)
+		
+		
+		if normal.y < 0 and normal.y != -1:
+			isOnSlant = true
+			if abs(inputVector.y) > INPUT_DEADZONE or Input.is_action_pressed("duck"):
+				if not isOnGroundOld:
+					print(normal, ",     ", travel)
+					#if pos.y > global_position.y:
+						#print("above", pos, ",    ", global_position)
+						#pass
+					#else:
+						#print("side", pos, ",    ", global_position)
+						#pass
+					
+					pass
+		#slide_tick(delta, normal, preCollisionVelocity)
 	else:
 		if isOnGround:
 			var downNormal = get_down_normal()
@@ -781,37 +797,41 @@ func slide_tick(delta: float, normal:Vector2, preCollisionVelocity:Vector2):
 				var temp2 = abs(normal.angle_to(preCollisionVelocity))
 				var normToVel: float = normal.angle_to(preCollisionVelocity)
 				
-				var error: float = 0.1
-				var hasError: bool = false
-				if abs(normToVel) < 0.7853981 + error and abs(normToVel) > 0.7853981 - error:
-					print("error")
-					hasError = true
-					pass
-				var dir: int = 1
+				#var error: float = 0.1
+				#var hasError: bool = false
+				#if abs(normToVel) < PI/3 and abs(normToVel) > PI/6:
+					#print("error")
+					#hasError = true
+					#pass
+				#var dir: int = 1
+				#
+				#if normToVel > 0:
+					##sliding from left
+					#if abs(normal.angle_to(preCollisionVelocity)) < PI/4:
+						## go up
+						#print("left down")
+						#dir = -1
+					#else:
+						## go down
+						#print("left up")
+						#if hasError:
+							#dir *= -1
+				#else:
+					##sliding from right
+					#if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
+						## go up
+						#print("right up")
+						#dir = -1
+						#if hasError:
+							#dir *= -1
+					#else:
+						## go down
+						#print("right down")
 				
-				if normToVel > 0:
-					#sliding from left
-					if abs(normal.angle_to(preCollisionVelocity)) < PI/4:
-						# go up
-						print("left down")
-						dir = -1
-					else:
-						if preCollisionVelocity.x == 0.0:
-							dir = -1
-						# go down
-						print("left up")
-				else:
-					#sliding from right
-					if abs(normal.angle_to(preCollisionVelocity)) > PI/4:
-						# go up
-						print("right up")
-						dir = -1
-						if preCollisionVelocity.x == 0.0:
-							dir = 1
-					else:
-						# go down
-						print("right down")
-				velocity = preCollisionVelocity.length() * normal.rotated(dir*PI/2)
+				
+				
+				
+				#velocity = preCollisionVelocity.length() * normal.rotated(dir*PI/2)
 				
 				print("normal:",normal,",   norm->pre:",temp1, ",   abs:", temp2, ",    pre:",preCollisionVelocity,"      post:",velocity)
 				lastVelSlant = preCollisionVelocity

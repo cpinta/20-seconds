@@ -21,7 +21,7 @@ size = Vector2(8, 7)
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 57
-floor_snap_length = 3.0
+floor_snap_length = 5.0
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]

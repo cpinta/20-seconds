@@ -16,7 +16,7 @@ tile_set = ExtResource("2_1n5f3")
 script = ExtResource("3_shht6")
 
 [node name="start" type="Node2D" parent="." groups=["start"]]
-position = Vector2(384, -152)
+position = Vector2(396, -152)
 
 [node name="Target" parent="." instance=ExtResource("4_08wwq")]
 position = Vector2(248, -48)

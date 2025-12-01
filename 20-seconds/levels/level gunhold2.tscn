@@ -21,7 +21,7 @@ tile_set = ExtResource("2_jidjt")
 script = ExtResource("3_qbupi")
 
 [node name="start" type="Node2D" parent="." groups=["start"]]
-position = Vector2(-48, 0)
+position = Vector2(-16, -6)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
