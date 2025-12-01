@@ -28,14 +28,18 @@ var rightWallRay: RayCast2D
 var downRays: Array[RayCast2D]
 const DOWN_RAY_LENGTH: float = 0.01
 
-var SCARF_POS_LEFT_X: float = -112
-var SCARF_POS_RIGHT_X: float = 140
+const SCARF_POS_LEFT_X: float = -127
+const SCARF_POS_RIGHT_X: float = 127
+const SCARF_SPR_LEFT_X: float = -25
+const SCARF_SPR_RIGHT_X: float = 25
 var SCARF_CUR_BASE_ANGLE: float = 0
 var scarfAngle: float = 0
 
-const SCARF_ROTAT_MAX_X: float = 60
-const SCARF_ROTAT_MAX_Y: float = 117
-const SCARF_ROTAT_MIN: float = -17
+const SCARF_ROTAT_LERP: float = 200
+const SCARF_ROTAT_MAX: float = 110
+const SCARF_ROTAT_X_MAX: float = 50
+const SCARF_ROTAT_MIN: float = 0
+const SCARF_MIN_SPEED: float = 30
 
 const FACE_OFFSET_Y_MAX: float = -64
 const FACE_OFFSET_Y_BASE: float = 0
@@ -164,7 +168,7 @@ func _ready():
 	imgLegs = $sprites/legs
 	imgScarf = $"sprites/body/scarf parent/scarf back"
 	scarfParent = $"sprites/body/scarf parent"
-	scarfParent.visible = false
+	#scarfParent.visible = false
 	imgHand = $sprites/body/hands
 	
 	centerHead = $sprites/body/head/headCenter
@@ -199,7 +203,7 @@ func _process(delta):
 		set_direction(inputVector.x)
 		faceBaseTimer = FACE_BASE_IDLE_TIME
 	else:
-		scarfParent.rotation_degrees = lerp(scarfParent.rotation_degrees, SCARF_ROTAT_MIN, IMG_SPEED_LERP * delta)
+		pass
 	
 	if abs(inputVector.y) > INPUT_DEADZONE:
 		pass
@@ -208,6 +212,22 @@ func _process(delta):
 		
 	if faceBaseTimer > 0:
 		faceBaseTimer -= delta
+		
+	if velocity.y > 0:
+		scarfAngle = move_toward(scarfAngle, SCARF_ROTAT_MIN, delta * SCARF_ROTAT_LERP * 2)
+		pass
+	elif velocity.y < 0 or abs(velocity.x) > SCARF_MIN_SPEED:
+		if velocity.y < 0:
+			scarfAngle = move_toward(scarfAngle, SCARF_ROTAT_MAX, delta * SCARF_ROTAT_LERP)
+		else:
+			scarfAngle = move_toward(scarfAngle, SCARF_ROTAT_X_MAX, delta * SCARF_ROTAT_LERP)
+		pass
+	else:
+		scarfAngle = move_toward(scarfAngle, 0, delta * SCARF_ROTAT_LERP)
+		pass
+	
+	scarfParent.rotation_degrees = 0 + direction * scarfAngle
+	print(scarfParent.rotation_degrees)
 	
 	if abs(velocity.x) > IMG_SPEED_MIN:
 		imgEars.position.x = lerp(imgEars.position.x, (min(abs(velocity.x), IMG_SPEED_MAX)/IMG_SPEED_MAX) * EARS_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
@@ -815,9 +835,8 @@ func set_direction(dir: int):
 		imgEars.flip_h = true
 		imgFace.flip_h = true
 		imgScarf.flip_h = true
-		scarfParent.position.x = SCARF_POS_LEFT_X
-		SCARF_CUR_BASE_ANGLE = 180
-		scarfParent.scale.y = dir
+		scarfParent.position.x = SCARF_POS_RIGHT_X
+		imgScarf.position.x = SCARF_SPR_RIGHT_X
 		imgHand.flip_h = true
 		pass
 	if dir == 1:
@@ -826,8 +845,7 @@ func set_direction(dir: int):
 		imgFace.flip_h = false
 		imgScarf.flip_h = false
 		scarfParent.position.x = SCARF_POS_LEFT_X
-		SCARF_CUR_BASE_ANGLE = 0
-		scarfParent.scale.y = dir
+		imgScarf.position.x = SCARF_SPR_LEFT_X
 		imgHand.flip_h = false
 		pass
 	

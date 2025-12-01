@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cuehpdbgph7ck" path="res://scripts/player.gd" id="1_gsrtp"]
 [ext_resource type="Texture2D" uid="uid://ba78108ij5rgx" path="res://sprites/bear body.png" id="2_qlg0r"]
+[ext_resource type="Texture2D" uid="uid://jvyxrfi8fp8v" path="res://sprites/bear scarf.png" id="2_smehm"]
 [ext_resource type="Texture2D" uid="uid://br6ocpjyl2xf5" path="res://sprites/bear eyes nose.png" id="3_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://c14sjyamjq1wf" path="res://sprites/bear head.png" id="3_y4r1p"]
 [ext_resource type="Texture2D" uid="uid://cbjtkea6uv35x" path="res://sprites/bear ears.png" id="4_fjrip"]
-[ext_resource type="Texture2D" uid="uid://dsctv2u3ft8e8" path="res://sprites/bear back scarf.png" id="5_smehm"]
 [ext_resource type="Texture2D" uid="uid://cw4gkaramqcy2" path="res://sprites/bear hands.png" id="6_fjrip"]
 [ext_resource type="Texture2D" uid="uid://chd65a25f8qln" path="res://sprites/bear legs.png" id="10_d2wvv"]
 
@@ -21,7 +21,7 @@ size = Vector2(8, 7)
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 57
-floor_snap_length = 5.0
+floor_snap_length = 3.0
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -55,13 +55,13 @@ metadata/_aseprite_wizard_config_ = {
 metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
 
 [node name="scarf parent" type="Node2D" parent="sprites/body"]
-position = Vector2(-111.999985, 24)
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(-126.999985, 30.03598)
+scale = Vector2(0.9999994, 0.9999994)
 
 [node name="scarf back" type="Sprite2D" parent="sprites/body/scarf parent"]
 z_index = -1
-position = Vector2(112, -24)
-texture = ExtResource("5_smehm")
+position = Vector2(-25, 73.062)
+texture = ExtResource("2_smehm")
 metadata/_aseprite_wizard_interface_config_ = {
 "animation_section": false,
 "layer_section": true,

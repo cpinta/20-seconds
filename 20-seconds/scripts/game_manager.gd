@@ -15,7 +15,7 @@ var levelPaths: Array[String]
 var backgrounds: Array[Background] = []
 
 const BACKGROUND_COUNT: int = 3
-const BACKGROUND_SCALE_MULT: float = 1.5
+const BACKGROUND_SCALE_MULT: float = 1
 const BACKGROUND_SPEED_MULT: float = 0.5
 const BACKGROUND_ALPHA_MULT: float = 0.8
 
@@ -97,7 +97,7 @@ func spawn_backgrounds():
 		backgrounds.back().z_index -= i
 		backgrounds.back().OFFSET_SPEED *= BACKGROUND_SPEED_MULT/i
 		backgrounds.back().texture_scale *= BACKGROUND_SCALE_MULT * i
-		backgrounds.back().color.a *= BACKGROUND_ALPHA_MULT/i
+		backgrounds.back().color.a *= BACKGROUND_ALPHA_MULT/(i * 0.01)
 		pass
 
 func pause_backgrounds():

@@ -5,7 +5,7 @@ func _init() -> void:
 	damage = 1
 	knockback = 1
 	speed = 50
-	health = 50
+	health = 100
 	originalScale = 0.01
 	desiredScale = 0.1
 	
