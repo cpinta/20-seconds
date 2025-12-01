@@ -15,7 +15,7 @@ var direction: Vector2
 var health: int = 1
 
 var dist_traveled: float = 0
-const MAX_DIST: float = 300
+const MAX_DIST: float = 1000
 
 var originalScale: float = 0.01
 var desiredScale: float = 0.05

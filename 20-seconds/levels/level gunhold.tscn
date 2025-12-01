@@ -1,0 +1,256 @@
+[gd_scene load_steps=6 format=4 uid="uid://bhuxcf1jlaq8y"]
+
+[ext_resource type="Script" uid="uid://c7hvg3bh87tev" path="res://levels/level_gunhold.gd" id="1_g8ooy"]
+[ext_resource type="TileSet" uid="uid://ct0y8s1mnvw7l" path="res://tileset.tres" id="2_jhx7k"]
+[ext_resource type="Script" uid="uid://15sj45ac5qbs" path="res://scripts/tiles_platform.gd" id="3_aferk"]
+[ext_resource type="PackedScene" uid="uid://c3qp05vstbspj" path="res://scenes/button_hint.tscn" id="4_j5ddf"]
+[ext_resource type="PackedScene" uid="uid://b4geu3gunpjal" path="res://scenes/target.tscn" id="5_k0hyl"]
+
+[node name="level" type="Node2D"]
+script = ExtResource("1_g8ooy")
+paletteName = "gun"
+
+[node name="platform" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD//wAAAAAAAAkAAAD//wEAAAAAAAkAAAD//wIAAAAAAAkAAAAAAAAAAAAAAAkAAAAAAAEAAAAAAAkAAAAAAAIAAAAAAAkAAAABAAAAAAAAAAkAAAABAAEAAAAAAAkAAAABAAIAAAAAAAkAAAD+/wAAAAAAAAkAAAD+/wEAAAAAAAkAAAD+/wIAAAAAAAkAAAACAAAAAAAAAAkAAAACAAEAAAAAAAkAAAACAAIAAAAAAAkAAAADAAAAAAAAAAkAAAADAAEAAAAAAAkAAAADAAIAAAAAAAkAAAAEAAAAAAAAAAkAAAAEAAEAAAAAAAkAAAAEAAIAAAAAAAkAAAAFAAAAAAAAAAkAAAAFAAEAAAAAAAkAAAAFAAIAAAAAAAkAAAAGAAAAAAAAAAkAAAAGAAEAAAAAAAkAAAAGAAIAAAAAAAkAAAAHAAAAAAAAAAkAAAAHAAEAAAAAAAkAAAAHAAIAAAAAAAkAAAAIAAAAAAAAAAkAAAAIAAEAAAAAAAkAAAAIAAIAAAAAAAkAAAAJAAAAAAAAAAkAAAAJAAEAAAAAAAkAAAAJAAIAAAAAAAkAAAAKAAAAAAAAAAkAAAAKAAEAAAAAAAkAAAAKAAIAAAAAAAkAAAALAAAAAAAAAAkAAAALAAEAAAAAAAkAAAALAAIAAAAAAAkAAAAMAAAAAAAAAAkAAAAMAAEAAAAAAAkAAAAMAAIAAAAAAAkAAAANAAAAAAAAAAkAAAANAAEAAAAAAAkAAAANAAIAAAAAAAkAAAAOAAAAAAAAAAkAAAAOAAEAAAAAAAkAAAAOAAIAAAAAAAkAAAAPAAAAAAAAAAkAAAAPAAEAAAAAAAkAAAAPAAIAAAAAAAkAAAAQAAAAAAAAAAkAAAAQAAEAAAAAAAkAAAAQAAIAAAAAAAkAAAARAAAAAAAAAAkAAAARAAEAAAAAAAkAAAARAAIAAAAAAAkAAAASAAAAAAAAAAkAAAASAAEAAAAAAAkAAAASAAIAAAAAAAkAAAATAAAAAAAAAAkAAAATAAEAAAAAAAkAAAATAAIAAAAAAAkAAAAUAAAAAAAAAAkAAAAUAAEAAAAAAAkAAAAUAAIAAAAAAAkAAAAVAAAAAAAAAAkAAAAVAAEAAAAAAAkAAAAVAAIAAAAAAAkAAAAWAAAAAAAAAAkAAAAWAAEAAAAAAAkAAAAWAAIAAAAAAAkAAAACAP7/AAADAAgAAAADAP7/AAADAAgAAAAEAP7/AAADAAgAAAAFAP7/AAADAAgAAAAGAP7/AAADAAgAAAAHAP7/AAADAAgAAAAIAP7/AAADAAgAAAAJAP7/AAADAAgAAAAKAP7/AAADAAgAAAALAP7/AAADAAgAAAAMAP7/AAADAAgAAAANAP7/AAADAAgAAAAOAP//AAADAAgAACAWAP//AAADAAgAACARAP//AAADAAgAACAQAP//AAADAAgAACAPAP//AAADAAgAACASAP//AAADAAgAACATAP//AAADAAgAACAUAP//AAADAAgAACAVAP//AAADAAgAACAOAP7/AAADAAgAAAAPAP7/AAADAAgAAAAQAP7/AAADAAgAAAARAP7/AAADAAgAAAASAP7/AAADAAgAAAATAP7/AAADAAgAAAAUAP7/AAADAAgAAAAVAP7/AAADAAgAAAAWAP7/AAADAAgAAAAAAP//AAADAAgAACABAP//AAADAAgAACACAP//AAADAAgAACADAP//AAADAAgAACAEAP//AAADAAgAACAFAP//AAADAAgAACAGAP//AAADAAgAACAHAP//AAADAAgAACAIAP//AAADAAgAACAJAP//AAADAAgAACAKAP//AAADAAgAACALAP//AAADAAgAACAMAP//AAADAAgAACANAP//AAADAAgAACAXAAAAAAAAAAkAAAAXAAEAAAAAAAkAAAAXAAIAAAAAAAkAAAAYAAAAAAAAAAkAAAAYAAEAAAAAAAkAAAAYAAIAAAAAAAkAAAAZAAAAAAAAAAkAAAAZAAEAAAAAAAkAAAAZAAIAAAAAAAkAAAAaAAAAAAAAAAkAAAAaAAEAAAAAAAkAAAAaAAIAAAAAAAkAAAAbAAAAAAAAAAkAAAAbAAEAAAAAAAkAAAAbAAIAAAAAAAkAAAAaAP7/AAAAAAkAAAAaAP//AAAAAAkAAAAbAP7/AAAAAAkAAAAbAP//AAAAAAkAAAAXAP7/AAADAAgAAAAYAP7/AAADAAgAAAAZAP7/AAADAAgAAAAXAP//AAADAAgAACAYAP//AAADAAgAACAZAP//AAADAAgAACD+////AAADAAgAACD/////AAADAAgAACD7//L/AAAAAAkAAAD7//P/AAAAAAkAAAD7//T/AAAAAAkAAAD7//X/AAAAAAkAAAD7//b/AAAAAAkAAAD7//f/AAAAAAkAAAD7//j/AAAAAAkAAAD7//n/AAAAAAkAAAD7//r/AAAAAAkAAAD7//v/AAAAAAkAAAD7//z/AAAAAAkAAAD7//3/AAAAAAkAAAD7//7/AAAAAAkAAAD7////AAAAAAkAAAD7/wAAAAAAAAkAAAD7/wEAAAAAAAkAAAD7/wIAAAAAAAkAAAD8//L/AAAAAAkAAAD8//P/AAAAAAkAAAD8//T/AAAAAAkAAAD8//X/AAAAAAkAAAD8//b/AAAAAAkAAAD8//f/AAAAAAkAAAD8//j/AAAAAAkAAAD8//n/AAAAAAkAAAD8//r/AAAAAAkAAAD8//v/AAAAAAkAAAD8//z/AAAAAAkAAAD8//3/AAAAAAkAAAD8//7/AAAAAAkAAAD8////AAAAAAkAAAD8/wAAAAAAAAkAAAD8/wEAAAAAAAkAAAD8/wIAAAAAAAkAAAD7/+X/AAAAAAkAAAD7/+b/AAAAAAkAAAD7/+f/AAAAAAkAAAD7/+j/AAAAAAkAAAD7/+n/AAAAAAkAAAD7/+r/AAAAAAkAAAD7/+v/AAAAAAkAAAD7/+z/AAAAAAkAAAD7/+3/AAAAAAkAAAD7/+7/AAAAAAkAAAD7/+//AAAAAAkAAAD7//D/AAAAAAkAAAD7//H/AAAAAAkAAAD8/+X/AAAAAAkAAAD8/+b/AAAAAAkAAAD8/+f/AAAAAAkAAAD8/+j/AAAAAAkAAAD8/+n/AAAAAAkAAAD8/+r/AAAAAAkAAAD8/+v/AAAAAAkAAAD8/+z/AAAAAAkAAAD8/+3/AAAAAAkAAAD8/+7/AAAAAAkAAAD8/+//AAAAAAkAAAD8//D/AAAAAAkAAAD8//H/AAAAAAkAAAD6/97/AAAAAAkAAAD6/9//AAAAAAkAAAD6/+D/AAAAAAkAAAD6/+H/AAAAAAkAAAD6/+L/AAAAAAkAAAD6/+P/AAAAAAkAAAD6/+T/AAAAAAkAAAD6/+X/AAAAAAkAAAD6/+b/AAAAAAkAAAD6/+f/AAAAAAkAAAD6/+j/AAAAAAkAAAD6/+n/AAAAAAkAAAD6/+r/AAAAAAkAAAD6/+v/AAAAAAkAAAD6/+z/AAAAAAkAAAD6/+3/AAAAAAkAAAD6/+7/AAAAAAkAAAD6/+//AAAAAAkAAAD6//D/AAAAAAkAAAD6//H/AAAAAAkAAAD6//L/AAAAAAkAAAD6//P/AAAAAAkAAAD6//T/AAAAAAkAAAD6//X/AAAAAAkAAAD6//b/AAAAAAkAAAD6//f/AAAAAAkAAAD6//j/AAAAAAkAAAD6//n/AAAAAAkAAAD6//r/AAAAAAkAAAD6//v/AAAAAAkAAAD6//z/AAAAAAkAAAD6//3/AAAAAAkAAAD6//7/AAAAAAkAAAD6////AAAAAAkAAAD6/wAAAAAAAAkAAAD6/wEAAAAAAAkAAAD6/wIAAAAAAAkAAAD7/97/AAAAAAkAAAD7/9//AAAAAAkAAAD7/+D/AAAAAAkAAAD7/+H/AAAAAAkAAAD7/+L/AAAAAAkAAAD7/+P/AAAAAAkAAAD7/+T/AAAAAAkAAAD9////AAADAAgAACD9/wAAAAAAAAkAAAD9/wEAAAAAAAkAAAD9/wIAAAAAAAkAAAAGAOH/AAAAAAkAAAAGAOL/AAAAAAkAAAAGAOP/AAAAAAkAAAAGAOT/AAAAAAkAAAAGAOX/AAAAAAkAAAAGAOb/AAAAAAkAAAAGAOf/AAAAAAkAAAAGAOj/AAAAAAkAAAAGAOn/AAAAAAkAAAAGAOr/AAAAAAkAAAAGAOv/AAAAAAkAAAAGAOz/AAAAAAkAAAAGAO3/AAAAAAkAAAAGAO7/AAAAAAkAAAAGAO//AAAAAAkAAAAGAPD/AAAAAAkAAAAGAPH/AAAAAAkAAAAGAPL/AAAAAAkAAAAGAPP/AAAAAAkAAAAGAPT/AAAAAAkAAAAGAPX/AAAAAAkAAAAGAPb/AAAAAAkAAAAGAPf/AAAAAAkAAAAGAPj/AAAAAAkAAAAGAPn/AAAAAAkAAAAGAPr/AAAAAAkAAAAGAPv/AAAAAAkAAAAGAPz/AAAAAAkAAAAGAP3/AAAAAAkAAAAHAOH/AAAAAAkAAAAHAOL/AAAAAAkAAAAHAOP/AAAAAAkAAAAHAOT/AAAAAAkAAAAHAOX/AAAAAAkAAAAHAOb/AAAAAAkAAAAHAOf/AAAAAAkAAAAHAOj/AAAAAAkAAAAHAOn/AAAAAAkAAAAHAOr/AAAAAAkAAAAHAOv/AAAAAAkAAAAHAOz/AAAAAAkAAAAHAO3/AAAAAAkAAAAHAO7/AAAAAAkAAAAHAO//AAAAAAkAAAAHAPD/AAAAAAkAAAAHAPH/AAAAAAkAAAAHAPL/AAAAAAkAAAAHAPP/AAAAAAkAAAAHAPT/AAAAAAkAAAAHAPX/AAAAAAkAAAAHAPb/AAAAAAkAAAAHAPf/AAAAAAkAAAAHAPj/AAAAAAkAAAAHAPn/AAAAAAkAAAAHAPr/AAAAAAkAAAAHAPv/AAAAAAkAAAAHAPz/AAAAAAkAAAAHAP3/AAAAAAkAAAAIAOH/AAAAAAkAAAAIAOL/AAAAAAkAAAAIAOP/AAAAAAkAAAAIAOT/AAAAAAkAAAAIAOX/AAAAAAkAAAAIAOb/AAAAAAkAAAAIAOf/AAAAAAkAAAAIAOj/AAAAAAkAAAAIAOn/AAAAAAkAAAAIAOr/AAAAAAkAAAAIAOv/AAAAAAkAAAAIAOz/AAAAAAkAAAAIAO3/AAAAAAkAAAAIAO7/AAAAAAkAAAAIAO//AAAAAAkAAAAIAPD/AAAAAAkAAAAIAPH/AAAAAAkAAAAIAPL/AAAAAAkAAAAIAPP/AAAAAAkAAAAIAPT/AAAAAAkAAAAIAPX/AAAAAAkAAAAIAPb/AAAAAAkAAAAIAPf/AAAAAAkAAAAIAPj/AAAAAAkAAAAIAPn/AAAAAAkAAAAIAPr/AAAAAAkAAAAIAPv/AAAAAAkAAAAIAPz/AAAAAAkAAAAIAP3/AAAAAAkAAAA=")
+tile_set = ExtResource("2_jhx7k")
+script = ExtResource("3_aferk")
+
+[node name="start" type="Node2D" parent="." groups=["start"]]
+position = Vector2(-16, -6)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -16.0
+offset_top = 8.0
+offset_right = 116.0
+offset_bottom = 84.0
+scale = Vector2(0.25, 0.25)
+
+[node name="key left" parent="Control" instance=ExtResource("4_j5ddf")]
+layout_mode = 0
+offset_left = -12.0
+offset_top = 16.0
+offset_right = 30.0
+offset_bottom = 52.0
+actionName = "shoot"
+
+[node name="key left2" parent="Control" instance=ExtResource("4_j5ddf")]
+layout_mode = 0
+offset_left = -12.0
+offset_top = 80.0
+offset_right = 30.0
+offset_bottom = 116.0
+actionName = "shoot"
+actionIndex = 1
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -140.0
+offset_top = 12.0
+offset_right = -71.0
+offset_bottom = 57.0
+theme_override_font_sizes/font_size = 32
+text = "hold"
+
+[node name="Label4" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -140.0
+offset_top = 76.0
+offset_right = -71.0
+offset_bottom = 121.0
+theme_override_font_sizes/font_size = 32
+text = "hold"
+
+[node name="Label3" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -44.0
+offset_top = 52.0
+offset_right = -4.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 16
+text = "or"
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Target37" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -54)
+
+[node name="Target38" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -66)
+
+[node name="Target39" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -78)
+
+[node name="Target40" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -90)
+
+[node name="Target41" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -102)
+
+[node name="Target42" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -114)
+
+[node name="Target43" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -126)
+
+[node name="Target44" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -138)
+
+[node name="Target45" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -150)
+
+[node name="Target46" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -162)
+
+[node name="Target47" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -174)
+
+[node name="Target48" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -186)
+
+[node name="Target49" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -198)
+
+[node name="Target50" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -210)
+
+[node name="Target51" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -222)
+
+[node name="Target52" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -234)
+
+[node name="Target53" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -246)
+
+[node name="Target54" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -258)
+
+[node name="Target55" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -270)
+
+[node name="Target56" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -282)
+
+[node name="Target57" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -294)
+
+[node name="Target58" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -306)
+
+[node name="Target59" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-8, -318)
+
+[node name="Target60" parent="Node2D" instance=ExtResource("5_k0hyl")]
+position = Vector2(-12, -330)
+
+[node name="horizontal" type="Node2D" parent="."]
+
+[node name="Target" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(32, -18)
+
+[node name="Target3" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(56, -18)
+
+[node name="Target4" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(44, -14)
+
+[node name="Target5" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(80, -18)
+
+[node name="Target6" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(68, -14)
+
+[node name="Target7" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(80, -18)
+
+[node name="Target8" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(92, -14)
+
+[node name="Target9" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(104, -18)
+
+[node name="Target10" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(116, -14)
+
+[node name="Target11" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(128, -18)
+
+[node name="Target12" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(152, -18)
+
+[node name="Target13" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(140, -14)
+
+[node name="Target14" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(176, -18)
+
+[node name="Target15" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(164, -14)
+
+[node name="Target16" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(176, -18)
+
+[node name="Target17" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(188, -14)
+
+[node name="Target18" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(200, -18)
+
+[node name="Target19" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(212, -14)
+
+[node name="Target2" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(224, -18)
+
+[node name="Target20" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(248, -18)
+
+[node name="Target21" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(236, -14)
+
+[node name="Target22" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(272, -18)
+
+[node name="Target23" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(260, -14)
+
+[node name="Target24" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(272, -18)
+
+[node name="Target25" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(284, -14)
+
+[node name="Target26" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(296, -18)
+
+[node name="Target27" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(308, -14)
+
+[node name="Target28" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(320, -18)
+
+[node name="Target29" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(344, -18)
+
+[node name="Target30" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(332, -14)
+
+[node name="Target31" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(368, -18)
+
+[node name="Target32" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(356, -14)
+
+[node name="Target33" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(368, -18)
+
+[node name="Target34" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(380, -14)
+
+[node name="Target35" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(392, -18)
+
+[node name="Target36" parent="horizontal" instance=ExtResource("5_k0hyl")]
+position = Vector2(404, -14)

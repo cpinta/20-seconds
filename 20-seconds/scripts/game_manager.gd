@@ -70,7 +70,8 @@ func _ready():
 	levelPaths.append("res://levels/level slantslide1.tscn");
 	levelPaths.append("res://levels/level gun1.tscn");
 	levelPaths.append("res://levels/level gun2.tscn");
-	levelPaths.append("res://levels/level gun3.tscn");
+	levelPaths.append("res://levels/level gunhold.tscn");
+	levelPaths.append("res://levels/level gunhold2.tscn");
 	levelPaths.append("res://levels/level gun island.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");

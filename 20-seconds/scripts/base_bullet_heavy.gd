@@ -4,8 +4,8 @@ class_name BaseBulletHeavy
 func _init() -> void:
 	damage = 1
 	knockback = 1
-	speed = 150
-	health = 4
+	speed = 50
+	health = 50
 	originalScale = 0.01
 	desiredScale = 0.1
 	
