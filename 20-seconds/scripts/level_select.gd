@@ -9,7 +9,7 @@ signal level_selected(index: int)
 func _ready() -> void:
 	grid = $Control/Buttons/Grid
 
-func initialize(gameInfo: SaveInfo.GameInfo):
+func initialize(gameInfo: Save.GameInfo):
 	for i in range(0, gameInfo.lastLevelBeat):
 		if not gameInfo.levelInfos[i].selectable:
 			if gameInfo.lastLevelBeat > 0:

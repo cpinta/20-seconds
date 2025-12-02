@@ -2,6 +2,7 @@ extends CanvasLayer
 class_name TitleScreen
 
 var start: Button
+var lblBottomLeft: Label
 
 signal startPressed
 
@@ -9,6 +10,8 @@ signal startPressed
 func _ready() -> void:
 	start = $"Control/Buttons/VBoxContainer/Start Button"
 	start.pressed.connect(_start_pressed)
+	
+	lblBottomLeft = $Control/lblBottomLeft
 	pass # Replace with function body.
 
 

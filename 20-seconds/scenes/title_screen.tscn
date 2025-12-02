@@ -59,3 +59,12 @@ text = "Super Secret Polar Bear Agent Simulator"
 label_settings = SubResource("LabelSettings_fgkus")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="lblBottomLeft" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0

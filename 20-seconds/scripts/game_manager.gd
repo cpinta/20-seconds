@@ -3,7 +3,7 @@ extends Node2D
 
 enum State {TITLE_SCREEN=0, IN_GAME=1, PAUSED=2, END=3}
 
-var gameSaveInfo: SaveInfo.GameInfo = SaveInfo.GameInfo.new()
+var gameSave: Save.GameInfo = Save.GameInfo.new()
 
 var state: State = State.IN_GAME
 
@@ -83,12 +83,19 @@ func _ready():
 	pass # Replace with function body.
 
 func load_save_info():
-	for i in range(0, levelPaths.size()):
-		gameSaveInfo.levelInfos.append(SaveInfo.LevelInfo.new())
-		if i == 0:
-			gameSaveInfo.levelInfos.back().selectable = false
-			pass
-	gameSaveInfo.lastLevelBeat = levelPaths.size()
+	#var save: Save.GameInfo = Save.create_blank(levelPaths.size())
+	#save.lastLevelBeat = 10
+	#Save.write_save(save)
+	gameSave = Save.get_save(levelPaths.size())
+	if gameSave:
+		titleScreen.lblBottomLeft.text = "Completed "+str(gameSave.lastLevelBeat)+" Levels"
+		pass
+	else:
+		gameSave = Save.create_blank(levelPaths.size())
+	
+	if titleScreen:
+		pass
+		#titleScreen.lblBottomLeft.text = "Completed "+str(gameSave.lastLevelBeat)+" levels"
 
 func spawn_backgrounds():
 	for i in range(0, BACKGROUND_COUNT):
@@ -132,7 +139,7 @@ func load_level_select():
 	if pauseScreen:
 		pauseScreen.queue_free()
 	levelSelect = await spawn(levelSelectScene)
-	levelSelect.initialize(gameSaveInfo)
+	levelSelect.initialize(gameSave)
 	levelSelect.level_selected.connect(load_level)
 
 func spawn_ui():
@@ -250,14 +257,16 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func next_level():
-	if gameSaveInfo:
-		gameSaveInfo.levelInfos[levelIndex].timesFinished += 1
-		if gameSaveInfo.lastLevelBeat < levelIndex:
-			gameSaveInfo.lastLevelBeat = levelIndex
+	if gameSave:
+		gameSave.levelInfos[levelIndex].timesFinished += 1
+		if gameSave.lastLevelBeat < levelIndex:
+			gameSave.lastLevelBeat = levelIndex
 			pass 
 		if inGameUI.timer.timer:
-			if gameSaveInfo.levelInfos[levelIndex].bestTime < inGameUI.timer.timer:
-				gameSaveInfo.levelInfos[levelIndex].bestTime = inGameUI.timer.timer
+			if gameSave.levelInfos[levelIndex].bestTime < inGameUI.timer.timer:
+				gameSave.levelInfos[levelIndex].bestTime = inGameUI.timer.timer
+		
+		Save.write_save(gameSave)
 	
 	levelIndex += 1
 	if await(load_level(levelIndex)):
@@ -308,7 +317,7 @@ func load_level(index: int, isRetry = false) -> bool:
 		curLevelObj.levelGoalReached.connect(_level_goal_reached)
 		curLevelObj.index = index
 		
-		gameSaveInfo.levelInfos[index].timesStarted += 1
+		gameSave.levelInfos[index].timesStarted += 1
 		
 		gm_message_box_finished.connect(curLevelObj._message_box_finished)
 		gm_player_spawning_anim_finished.connect(curLevelObj._player_spawning_animation_finished)
