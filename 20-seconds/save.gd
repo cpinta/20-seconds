@@ -62,7 +62,7 @@ static func get_save(levelCount: int) -> Variant:
 		if not val:
 			print("gameInfo is null")
 			var blank = create_blank(levelCount)
-			write_save(blank)
+			set_save(blank)
 			return blank
 		print("gameInfo not null")
 		var json: JSON = JSON.new()
@@ -74,14 +74,14 @@ static func get_save(levelCount: int) -> Variant:
 		if gameInfo is not Save.GameInfo:
 			print("gameInfo not right type")
 			var blank = create_blank(levelCount)
-			write_save(blank)
+			set_save(blank)
 			return blank
 		return gameInfo
 	else:
 		print("not web. didnt grab save")
 		return null
 
-static func write_save(saveInfo: Save.GameInfo) -> bool:
+static func set_save(saveInfo: Save.GameInfo) -> bool:
 	if OS.has_feature('web'):
 		var config_file = ConfigFile.new()
 		if saveInfo:

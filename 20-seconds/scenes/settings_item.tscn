@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1ig0cg0kvnnv"]
+
+[ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="1_8juqm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_assm4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
+
+[node name="setting" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxEmpty_assm4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_8juqm")
+theme_override_font_sizes/font_size = 24
+text = "Clear Save Data"
+
+[node name="Start Button" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme = ExtResource("1_8juqm")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "Clear"

@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b67ktu5hqqt6u"]
+
+[ext_resource type="FontFile" uid="uid://gcel8py47lh" path="res://font/MonacoB2.otf" id="1_b0jva"]
+
+[resource]
+default_font = ExtResource("1_b0jva")

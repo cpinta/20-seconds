@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://h8yhgdboi3g6"]
+[gd_scene load_steps=6 format=3 uid="uid://h8yhgdboi3g6"]
 
 [ext_resource type="Script" uid="uid://o7sjcmj12xyf" path="res://scripts/level_select.gd" id="1_3shnc"]
+[ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_2epne"]
+[ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_rif6e"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_chg43"]
 
 [node name="level select" type="CanvasLayer"]
 script = ExtResource("1_3shnc")
@@ -47,7 +51,25 @@ offset_right = 20.0
 offset_bottom = -78.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_2epne")
 text = "Select A Simulation Stage!"
 label_settings = SubResource("LabelSettings_fgkus")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Exit" type="Button" parent="Control"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -78.0
+offset_right = 251.0
+offset_bottom = -25.0
+grow_vertical = 0
+theme = ExtResource("2_2epne")
+theme_override_fonts/font = ExtResource("3_rif6e")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_chg43")
+text = "Return"

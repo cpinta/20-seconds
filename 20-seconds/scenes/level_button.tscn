@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://ba7ldc3pl7cgo"]
+[gd_scene load_steps=4 format=3 uid="uid://ba7ldc3pl7cgo"]
 
-[ext_resource type="Script" uid="uid://duecmmdknwi51" path="res://scenes/level_button.gd" id="1_i0sit"]
+[ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="1_hrusj"]
+[ext_resource type="Script" uid="uid://duecmmdknwi51" path="res://scripts/level_button.gd" id="1_i0sit"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
 
 [node name="Level Button" type="Button"]
 custom_minimum_size = Vector2(200, 0)
+theme = ExtResource("1_hrusj")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
 text = "1

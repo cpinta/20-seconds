@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://es2m312mcrqp"]
+[gd_scene load_steps=6 format=3 uid="uid://es2m312mcrqp"]
 
 [ext_resource type="Script" uid="uid://nm3tk2ttl8mv" path="res://scripts/title_screen.gd" id="1_fgkus"]
+[ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_sa3yf"]
+[ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_s4lrb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
 
@@ -38,9 +40,27 @@ layout_mode = 2
 [node name="Start Button" type="Button" parent="Control/Buttons/VBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+theme = ExtResource("2_sa3yf")
+theme_override_fonts/font = ExtResource("3_s4lrb")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
 text = "Start"
+
+[node name="Level Select Button" type="Button" parent="Control/Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("2_sa3yf")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "Level Select"
+
+[node name="Settings Button" type="Button" parent="Control/Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme = ExtResource("2_sa3yf")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
+text = "Settings"
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 1
@@ -55,6 +75,7 @@ offset_right = 20.0
 offset_bottom = -78.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_sa3yf")
 text = "Super Secret Polar Bear Agent Simulator"
 label_settings = SubResource("LabelSettings_fgkus")
 horizontal_alignment = 1

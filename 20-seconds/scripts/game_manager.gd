@@ -25,6 +25,9 @@ var inGameUIScene: PackedScene = preload("res://scenes/ingame_ui.tscn")
 var levelSelect: LevelSelect
 var levelSelectScene: PackedScene = preload("res://scenes/level_select.tscn")
 
+var settingsScreen
+var settingsScreenScene: PackedScene = preload("res://scenes/settings_screen.tscn")
+
 var pauseScreen: PauseScreen
 var pauseScreenScene: PackedScene = preload("res://scenes/pause_screen.tscn")
 
@@ -76,26 +79,23 @@ func _ready():
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	levelPaths.append("res://levels/level bigtarget.tscn");
+	
+	load_save_info()
+	
+	
 	await load_titlescreen()
 	spawn_backgrounds()
 	
-	load_save_info()
 	pass # Replace with function body.
 
 func load_save_info():
-	#var save: Save.GameInfo = Save.create_blank(levelPaths.size())
-	#save.lastLevelBeat = 10
-	#Save.write_save(save)
 	gameSave = Save.get_save(levelPaths.size())
 	if gameSave:
-		titleScreen.lblBottomLeft.text = "Completed "+str(gameSave.lastLevelBeat)+" Levels"
+		if titleScreen:
+			titleScreen.lblBottomLeft.text = "Completed "+str(gameSave.lastLevelBeat)+" Levels"
 		pass
 	else:
 		gameSave = Save.create_blank(levelPaths.size())
-	
-	if titleScreen:
-		pass
-		#titleScreen.lblBottomLeft.text = "Completed "+str(gameSave.lastLevelBeat)+" levels"
 
 func spawn_backgrounds():
 	for i in range(0, BACKGROUND_COUNT):
@@ -127,20 +127,42 @@ func set_backgrounds_color_from_level(level: Level):
 		set_backgrounds_color(palettes[level.paletteName])
 
 func load_titlescreen():
+	queue_free_menus()
 	state = State.TITLE_SCREEN
 	titleScreen = await spawn(load("res://scenes/title_screen.tscn"))
 	titleScreen.startPressed.connect(start_game)
+	titleScreen.settingsPressed.connect(load_settings_screen)
+	titleScreen.levelSelectPressed.connect(load_level_select)
+	
+	if gameSave.lastLevelBeat == 0:
+		titleScreen.btnLevelSelect.visible = false
+	else:
+		titleScreen.btnLevelSelect.visible = true
 
-func load_level_select():
+func load_settings_screen():
+	queue_free_menus()
+	settingsScreen = await spawn(settingsScreenScene)
+	settingsScreen.exitPressed.connect(load_titlescreen)
+
+func queue_free_menus():
 	if levelSelect:
-		return
+		levelSelect.queue_free()
 	if titleScreen:
 		titleScreen.queue_free()
 	if pauseScreen:
 		pauseScreen.queue_free()
+	if settingsScreen:
+		settingsScreen.queue_free()
+
+func load_level_select(type: LevelSelect.Type):
+	queue_free_menus()
 	levelSelect = await spawn(levelSelectScene)
-	levelSelect.initialize(gameSave)
+	levelSelect.initialize(gameSave, type)
 	levelSelect.level_selected.connect(load_level)
+	if type == LevelSelect.Type.FromPause:
+		levelSelect.exitPressed.connect(load_pause_screen)
+	else:
+		levelSelect.exitPressed.connect(load_titlescreen)
 
 func spawn_ui():
 	inGameUI = await spawn(inGameUIScene)
@@ -171,9 +193,10 @@ func pause_game():
 		load_pause_screen()
 
 func load_pause_screen():
+	queue_free_menus()
 	pauseScreen = await spawn(pauseScreenScene)
 	pauseScreen.btnResume.pressed.connect(resume_game)
-	pauseScreen.btnLevelSelect.pressed.connect(load_level_select)
+	pauseScreen.levelSelectPressed.connect(load_level_select)
 
 func start_game(loadLevel: bool = true):
 	if titleScreen:
@@ -236,7 +259,7 @@ func _physics_process(delta: float) -> void:
 	match state:
 		State.TITLE_SCREEN:
 			if Input.is_action_just_pressed("pause"):
-				load_level_select()
+				load_level_select(LevelSelect.Type.FromTitle)
 			pass
 		State.IN_GAME:
 			if Input.is_action_just_pressed("pause"):
@@ -266,7 +289,7 @@ func next_level():
 			if gameSave.levelInfos[levelIndex].bestTime < inGameUI.timer.timer:
 				gameSave.levelInfos[levelIndex].bestTime = inGameUI.timer.timer
 		
-		Save.write_save(gameSave)
+		Save.set_save(gameSave)
 	
 	levelIndex += 1
 	if await(load_level(levelIndex)):
