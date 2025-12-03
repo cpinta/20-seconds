@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends Panel
 class_name SecTimer
 
 enum State {

@@ -1,20 +1,20 @@
 [gd_scene load_steps=3 format=3 uid="uid://cwnldookuoxx2"]
 
 [ext_resource type="Texture2D" uid="uid://vp1aks3djbd" path="res://sprites/target.png" id="1_dbdxt"]
-[ext_resource type="Script" uid="uid://cotuq286r7dvd" path="res://scenes/target_ui.gd" id="1_yhugk"]
+[ext_resource type="Script" uid="uid://cotuq286r7dvd" path="res://scripts/target_ui.gd" id="1_yhugk"]
 
 [node name="Target UI" type="HBoxContainer"]
 offset_right = 82.0
 offset_bottom = 80.0
 script = ExtResource("1_yhugk")
 
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "x2"
+
 [node name="TextureRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 texture = ExtResource("1_dbdxt")
 expand_mode = 2
-
-[node name="Label" type="Label" parent="."]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "x2"
