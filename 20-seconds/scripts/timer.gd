@@ -1,4 +1,4 @@
-extends Panel
+extends Control
 class_name SecTimer
 
 enum State {
@@ -10,6 +10,9 @@ enum State {
 var state: State = State.Countdown
 
 const SECONDS = 20
+
+const NEW_RECORD: String = "NEW RECORD!!!"
+const FIRST_CLEAR: String = "FIRST CLEAR!"
 
 var timer: float = 20
 var oldTimer: float = 20
@@ -32,10 +35,10 @@ signal timeRanOut
 
 func _ready() -> void:
 	
-	numbers.append($"0")
-	numbers.append($"1")
-	numbers.append($"2")
-	numbers.append($"3")
+	numbers.append($"Panel/0")
+	numbers.append($"Panel/1")
+	numbers.append($"Panel/2")
+	numbers.append($"Panel/3")
 	
 	set_timer()
 	state = State.Frozen
@@ -84,6 +87,10 @@ func pause_timer():
 	
 func resume_timer():
 	state = State.Countdown
+
+func level_finished():
+	
+	pass
 
 func _show_timer_time(time: float):
 	var string: String = "0000"

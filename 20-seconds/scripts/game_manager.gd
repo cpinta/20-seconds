@@ -398,6 +398,7 @@ func load_level(index: int, isRetry = false) -> bool:
 		if not inGameUI:
 			await spawn_ui()
 		inGameUI.timer.set_timer()
+		inGameUI.timer.pause_timer()
 		levelLoaded.emit()
 		return true
 	return false

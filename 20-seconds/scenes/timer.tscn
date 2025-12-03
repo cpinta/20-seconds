@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://cp0rfiy543qbj"]
+[gd_scene load_steps=6 format=3 uid="uid://cp0rfiy543qbj"]
 
 [ext_resource type="Script" uid="uid://d3sgbcowqol5g" path="res://scripts/timer.gd" id="1_g5y8c"]
 [ext_resource type="Texture2D" uid="uid://bb0tmgtsb53dj" path="res://sprites/timer sprite0.png" id="2_bi5oq"]
 [ext_resource type="Texture2D" uid="uid://duw2ede05edj6" path="res://sprites/timer sprite colon.png" id="3_uktcg"]
+[ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="4_uktcg"]
+[ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="5_qso1l"]
 
-[node name="Timer" type="Panel"]
+[node name="Timer" type="VBoxContainer"]
 anchors_preset = -1
 anchor_left = 0.61200005
 anchor_right = 1.0
@@ -13,42 +15,39 @@ offset_left = 0.6399536
 offset_bottom = 0.31999207
 grow_horizontal = 0
 pivot_offset = Vector2(496, 0)
+size_flags_horizontal = 8
+size_flags_vertical = 0
 script = ExtResource("1_g5y8c")
 
-[node name="0" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 96.0
-offset_bottom = 176.0
-texture = ExtResource("2_bi5oq")
-stretch_mode = 4
+[node name="Panel" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
 
-[node name="1" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 100.0
-offset_right = 196.0
-offset_bottom = 176.0
+[node name="0" type="TextureRect" parent="Panel"]
+layout_mode = 2
 texture = ExtResource("2_bi5oq")
-stretch_mode = 4
 
-[node name="_" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 200.0
-offset_right = 296.0
-offset_bottom = 176.0
+[node name="1" type="TextureRect" parent="Panel"]
+layout_mode = 2
+texture = ExtResource("2_bi5oq")
+
+[node name="_" type="TextureRect" parent="Panel"]
+layout_mode = 2
 texture = ExtResource("3_uktcg")
 
-[node name="2" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 300.0
-offset_right = 396.0
-offset_bottom = 176.0
+[node name="2" type="TextureRect" parent="Panel"]
+layout_mode = 2
 texture = ExtResource("2_bi5oq")
-stretch_mode = 4
 
-[node name="3" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 400.0
-offset_right = 496.0
-offset_bottom = 176.0
+[node name="3" type="TextureRect" parent="Panel"]
+layout_mode = 2
 texture = ExtResource("2_bi5oq")
-stretch_mode = 4
+
+[node name="LowerText" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("4_uktcg")
+theme_override_fonts/font = ExtResource("5_qso1l")
+theme_override_font_sizes/font_size = 64
+text = "FIRST CLEAR!"
+horizontal_alignment = 3

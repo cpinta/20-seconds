@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bon2jdlcwqgiw"]
+[gd_scene load_steps=7 format=3 uid="uid://bon2jdlcwqgiw"]
 
 [ext_resource type="Script" uid="uid://ci377c1f123v5" path="res://scripts/ingame_ui.gd" id="1_v3yap"]
 [ext_resource type="PackedScene" uid="uid://cp0rfiy543qbj" path="res://scenes/timer.tscn" id="2_cm6yq"]
 [ext_resource type="PackedScene" uid="uid://cwnldookuoxx2" path="res://scenes/target_ui.tscn" id="2_f6424"]
+[ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="3_npobg"]
 [ext_resource type="PackedScene" uid="uid://cn4umnxmqbesx" path="res://scenes/textbox.tscn" id="4_hifx3"]
+[ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="4_i42rf"]
 
 [node name="ingameUI" type="CanvasLayer"]
 script = ExtResource("1_v3yap")
@@ -56,23 +58,32 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_bottom = 0.0
-offset_left = -492.0
-offset_right = 4.0
-offset_bottom = 176.0
+offset_left = -502.0
+offset_top = 10.0
+offset_right = -6.000061
+offset_bottom = 186.0
 scale = Vector2(0.5, 0.5)
-size_flags_horizontal = 8
-size_flags_vertical = 0
 
-[node name="Target UI" parent="Control/topHalf/right" instance=ExtResource("2_f6424")]
+[node name="Label" type="Label" parent="Control/topHalf/right/Timer"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -85.0
-offset_top = 100.0
-offset_right = 0.0
-offset_bottom = 145.00015
+offset_left = -421.99994
+offset_top = 180.0
+offset_right = 6.1035156e-05
+offset_bottom = 260.0
 grow_horizontal = 0
+theme = ExtResource("3_npobg")
+theme_override_fonts/font = ExtResource("4_i42rf")
+theme_override_font_sizes/font_size = 64
+text = "NEW RECORD!"
+
+[node name="Target UI" parent="Control/topHalf/right" instance=ExtResource("2_f6424")]
+layout_mode = 1
+offset_left = -85.0
+offset_top = 150.0
+offset_bottom = 195.0
 alignment = 2
 
 [node name="Control" type="Control" parent="Control/topHalf"]

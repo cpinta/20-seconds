@@ -4,8 +4,13 @@
 [ext_resource type="Script" uid="uid://cotuq286r7dvd" path="res://scripts/target_ui.gd" id="1_yhugk"]
 
 [node name="Target UI" type="HBoxContainer"]
-offset_right = 82.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
 offset_bottom = 80.0
+grow_horizontal = 0
+size_flags_horizontal = 8
 script = ExtResource("1_yhugk")
 
 [node name="Label" type="Label" parent="."]
