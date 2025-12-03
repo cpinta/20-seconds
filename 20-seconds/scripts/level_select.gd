@@ -10,6 +10,9 @@ var grid: Control
 var levelButtonScene: PackedScene = preload("res://scenes/level_button.tscn")
 var type: Type
 
+var messageQueue: Array[Textbox.MsgInfo] = []
+
+
 signal level_selected(index: int)
 signal exitPressed()
 

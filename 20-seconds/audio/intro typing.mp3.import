@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ce1tr20t40my2"
+path="res://.godot/imported/intro typing.mp3-c4e90ad2f4bf6ee00a642405adf65614.mp3str"
+
+[deps]
+
+source_file="res://audio/intro typing.mp3"
+dest_files=["res://.godot/imported/intro typing.mp3-c4e90ad2f4bf6ee00a642405adf65614.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

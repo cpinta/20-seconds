@@ -31,6 +31,9 @@ var settingsScreenScene: PackedScene = preload("res://scenes/settings_screen.tsc
 var pauseScreen: PauseScreen
 var pauseScreenScene: PackedScene = preload("res://scenes/pause_screen.tscn")
 
+var introScreen: IntroScreen
+var introScreenScene: PackedScene = preload("res://scenes/intro_screen.tscn")
+
 var titleScreen: TitleScreen
 
 var player: Player
@@ -82,11 +85,13 @@ func _ready():
 	
 	load_save_info()
 	
-	
-	await load_titlescreen()
-	spawn_backgrounds()
-	
+	load_intro()
 	pass # Replace with function body.
+
+func intro_end():
+	await load_titlescreen()
+	if not backgrounds:
+		spawn_backgrounds()
 
 func load_save_info():
 	gameSave = Save.get_save(levelPaths.size())
@@ -139,6 +144,12 @@ func load_titlescreen():
 	else:
 		titleScreen.btnLevelSelect.visible = true
 
+func load_intro():
+	queue_free_menus()
+	introScreen = await spawn(introScreenScene)
+	introScreen.skipPressed.connect(intro_end)
+	introScreen.loadBackground.connect(spawn_backgrounds)
+
 func load_settings_screen():
 	queue_free_menus()
 	settingsScreen = await spawn(settingsScreenScene)
@@ -153,6 +164,8 @@ func queue_free_menus():
 		pauseScreen.queue_free()
 	if settingsScreen:
 		settingsScreen.queue_free()
+	if introScreen:
+		introScreen.queue_free()
 
 func load_level_select(type: LevelSelect.Type):
 	queue_free_menus()
@@ -215,10 +228,6 @@ func restart_current_level():
 
 func restart_game():
 	unload_current_level()
-	load_intro()
-
-func load_intro():
-	#Game.gameUI.centerText.set_color(Color.WHITE)
 	state = State.IN_GAME
 
 func intro_ended():
