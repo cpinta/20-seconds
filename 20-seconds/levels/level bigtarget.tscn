@@ -4,9 +4,9 @@
 [ext_resource type="TileSet" uid="uid://ct0y8s1mnvw7l" path="res://tileset.tres" id="2_k4ksk"]
 [ext_resource type="Script" uid="uid://15sj45ac5qbs" path="res://scripts/tiles_platform.gd" id="3_2v02g"]
 [ext_resource type="Texture2D" uid="uid://cg7ov38clb2it" path="res://sprites/big target.png" id="5_2v02g"]
-[ext_resource type="Script" uid="uid://dyd01lrprkbo" path="res://levels/bigtarget_eye.gd" id="6_2v02g"]
+[ext_resource type="Script" uid="uid://dyd01lrprkbo" path="res://scripts/bigtarget_eye.gd" id="6_2v02g"]
 [ext_resource type="Texture2D" uid="uid://qiy750ybgnrt" path="res://sprites/big circle.png" id="6_k4ksk"]
-[ext_resource type="Script" uid="uid://b33hspc8nvdlx" path="res://levels/bigtarget_eye_inner.gd" id="8_vdls4"]
+[ext_resource type="Script" uid="uid://b33hspc8nvdlx" path="res://scripts/bigtarget_eye_inner.gd" id="8_vdls4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b5a2r"]
 radius = 51.223167

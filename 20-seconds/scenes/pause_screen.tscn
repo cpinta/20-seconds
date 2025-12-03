@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b2iue32ndn5wh"]
 
 [ext_resource type="Script" uid="uid://bursccaau0w2t" path="res://scripts/pause_screen.gd" id="1_gchx3"]
-[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scenes/focus_button.gd" id="2_qeunj"]
+[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scripts/focus_button.gd" id="2_qeunj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48

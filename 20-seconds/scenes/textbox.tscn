@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c3qp05vstbspj" path="res://scenes/button_hint.tscn" id="2_1rgox"]
 [ext_resource type="Texture2D" uid="uid://cj63eubyckeia" path="res://sprites/text square.png" id="3_6occq"]
 [ext_resource type="Texture2D" uid="uid://dp4kmvdbneviv" path="res://sprites/penguin/penguin_1.png" id="4_1rgox"]
-[ext_resource type="Script" uid="uid://bftmiqkdsgfdd" path="res://scenes/textbox_portrait.gd" id="4_6occq"]
+[ext_resource type="Script" uid="uid://bftmiqkdsgfdd" path="res://scripts/textbox_portrait.gd" id="4_6occq"]
 [ext_resource type="FontFile" uid="uid://gcel8py47lh" path="res://font/MonacoB2.otf" id="4_b4n6f"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="5_van45"]
 

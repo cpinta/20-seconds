@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://o7sjcmj12xyf" path="res://scripts/level_select.gd" id="1_3shnc"]
 [ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_2epne"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_rif6e"]
-[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scenes/focus_button.gd" id="4_rif6e"]
+[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scripts/focus_button.gd" id="4_rif6e"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48

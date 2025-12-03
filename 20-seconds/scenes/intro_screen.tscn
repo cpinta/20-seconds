@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7ib5v7prcp1g"]
 
-[ext_resource type="Script" uid="uid://bf16v5pkwh0f4" path="res://scenes/intro_screen.gd" id="1_knwjy"]
+[ext_resource type="Script" uid="uid://bf16v5pkwh0f4" path="res://scripts/intro_screen.gd" id="1_knwjy"]
 [ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_2i7sm"]
 
 [node name="intro screen" type="CanvasLayer"]

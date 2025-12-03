@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=3 uid="uid://cyixp0u4wiouk"]
 
-[ext_resource type="Script" uid="uid://c83pgfwsbqsjf" path="res://scenes/settings_screen.gd" id="1_qrqa7"]
+[ext_resource type="Script" uid="uid://c83pgfwsbqsjf" path="res://scripts/settings_screen.gd" id="1_qrqa7"]
 [ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_assm4"]
-[ext_resource type="Script" uid="uid://ckgvjdjdgwqyt" path="res://scenes/clear_save_data.gd" id="3_pt01f"]
+[ext_resource type="Script" uid="uid://ckgvjdjdgwqyt" path="res://scripts/clear_save_data.gd" id="3_pt01f"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_qrqa7"]
-[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scenes/focus_button.gd" id="5_n20dh"]
+[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scripts/focus_button.gd" id="5_n20dh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48
