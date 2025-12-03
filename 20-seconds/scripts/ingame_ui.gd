@@ -4,6 +4,8 @@ class_name InGameUI
 var rootControl: Control
 var topHalf: Control
 
+var savingLabel: Label
+
 var lblDebug: Label
 var target: Player
 var textbox: Textbox
@@ -25,6 +27,10 @@ func _ready() -> void:
 	textbox = $Control/bottomHalf/Textbox
 	timer = $Control/topHalf/right/Panel/Timer
 	targetUI = $"Control/topHalf/left/MarginContainer/VBoxContainer/Target UI"
+	savingLabel = $Control/bottomHalf/MarginContainer/Saving
+	savingLabel.visible = false
+	
+	lblDebug.visible = G.debug
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
@@ -55,6 +61,12 @@ func _process(delta: float) -> void:
 		frameCount = 0
 		pass
 	pass
+
+func show_saving():
+	savingLabel.visible = true
+
+func hide_saving():
+	savingLabel.visible = false
 
 func show_ui():
 	topHalf.visible = true

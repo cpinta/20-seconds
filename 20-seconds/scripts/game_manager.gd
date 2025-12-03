@@ -64,6 +64,9 @@ var palettes = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if OS.has_feature('web'):
+		debug = false
+	
 	levelPaths.append("res://levels/intro_level.tscn");
 	levelPaths.append("res://levels/level1.tscn");
 	levelPaths.append("res://levels/level2.tscn");
@@ -87,7 +90,6 @@ func _ready():
 	load_save_info()
 	
 	load_intro()
-	pass # Replace with function body.
 
 func intro_end():
 	await load_titlescreen()
@@ -95,6 +97,12 @@ func intro_end():
 		spawn_backgrounds()
 
 func load_save_info():
+	if debug:
+		var save = Save.create_blank(levelPaths.size())
+		save.lastLevelBeat = levelPaths.size()-1
+		gameSave = save
+		return
+	
 	gameSave = Save.get_save(levelPaths.size())
 	if gameSave:
 		if titleScreen:
@@ -188,6 +196,9 @@ func spawn_ui():
 	gm_pause.connect(inGameUI.timer.pause_timer)
 	gm_resume.connect(inGameUI.timer.resume_timer)
 	sendMessageQueue.connect(inGameUI.textbox.add_queue)
+	
+	savingStarted.connect(inGameUI.show_saving)
+	savingFinished.connect(inGameUI.hide_saving)
 
 signal gm_resume
 func resume_game():
@@ -300,7 +311,7 @@ func next_level():
 			if gameSave.levelInfos[levelIndex].bestTime < inGameUI.timer.timer:
 				gameSave.levelInfos[levelIndex].bestTime = inGameUI.timer.timer
 		
-		Save.set_save(gameSave)
+		save_game()
 	
 	levelIndex += 1
 	if await(load_level(levelIndex)):
@@ -316,6 +327,14 @@ func send_queue_to_message_box(messages: Array[Textbox.MsgInfo]):
 	sendMessageQueue.emit(messages)
 	disablePlayerInput.emit()
 	pass
+
+signal savingStarted
+signal savingFinished
+func save_game():
+	savingStarted.emit()
+	Save.set_save(gameSave)
+	savingFinished.emit()
+	
 
 signal gm_message_box_finished
 func message_box_finished():

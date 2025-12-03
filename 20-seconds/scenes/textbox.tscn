@@ -81,7 +81,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 0.101960786, 0.5058824, 1)
+color = Color(0.57254905, 0.47843137, 0.49803922, 1)
 
 [node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Portrait"]
 clip_contents = true
@@ -107,5 +107,4 @@ theme_override_fonts/normal_font = ExtResource("4_b4n6f")
 theme_override_fonts/bold_font = ExtResource("5_van45")
 theme_override_font_sizes/normal_font_size = 24
 theme_override_font_sizes/bold_font_size = 24
-text = "asdfasdfadsdf"
 shortcut_keys_enabled = false

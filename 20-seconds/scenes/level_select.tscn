@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://h8yhgdboi3g6"]
+[gd_scene load_steps=6 format=3 uid="uid://h8yhgdboi3g6"]
 
 [ext_resource type="Script" uid="uid://o7sjcmj12xyf" path="res://scripts/level_select.gd" id="1_3shnc"]
 [ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_2epne"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_rif6e"]
-[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scripts/focus_button.gd" id="4_rif6e"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48
@@ -74,4 +73,3 @@ theme_override_fonts/font = ExtResource("3_rif6e")
 theme_override_font_sizes/font_size = 32
 theme_override_styles/focus = SubResource("StyleBoxEmpty_chg43")
 text = "Return"
-script = ExtResource("4_rif6e")

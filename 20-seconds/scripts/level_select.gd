@@ -30,6 +30,8 @@ func initialize(gameInfo: Save.GameInfo, type: Type):
 		btn.initialize(i, gameInfo.levelInfos[i].bestTime)
 		btn.sbtn_pressed.connect(_level_selected)
 		btn.reparent(grid)
+		if i == gameInfo.lastLevelBeat-1:
+			btn.grab_focus()
 
 func _level_selected(index: int):
 	level_selected.emit(index)

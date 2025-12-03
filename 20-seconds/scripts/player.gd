@@ -19,6 +19,8 @@ const gunScene: PackedScene = preload("res://scenes/gun.tscn")
 var col: CollisionShape2D
 var visibleOnScreen: VisibleOnScreenNotifier2D
 
+var audio: Array[AudioStreamPlayer] = []
+
 var centerHead: Node2D
 var centerBody: Node2D
 var centerLegs: Node2D
@@ -118,7 +120,6 @@ const LEG_AIR_SWING: float = 60
 
 var groundDetect: Area2D
 var groundRayR: RayCast2D
-var audio: AudioStreamPlayer2D
 
 const ACCELERATION = 160
 const DECCELERATION = 80
@@ -132,6 +133,9 @@ const MAX_COLLISIONS = 6
 const stepEmitterScene: PackedScene = preload("res://scenes/step_emitter.tscn")
 const STEP_EMITTER_GAP: float = 0.05
 var stepEmitterTimer: float = 0
+
+const STEP_SOUND_GAP: float = 0.1
+var stepSoundTimer: float = 0
 
 const spawnEmitterScene: PackedScene = preload("res://scenes/reanimate_emitter.tscn")
 var spawnEmitters: Array[OneShotEmitter] = []
@@ -154,10 +158,22 @@ var isDuckingSlide: bool
 var isOnSlant: bool
 var canUnDuck: bool
 
+var asSteps: Array[AudioStream] = [
+	load("res://audio/ministep1.mp3"),
+	load("res://audio/ministep2.mp3"),
+	load("res://audio/ministep3.mp3"),
+	load("res://audio/ministep4.mp3"),
+	load("res://audio/ministep5.mp3"),
+]
+
 
 func _ready():
 	groundDetect = $groundDetect
-	audio = $audio
+	audio = [
+		$AudioStreamPlayer,
+		$AudioStreamPlayer2,
+		$AudioStreamPlayer3,
+	]
 	col = $collider
 	
 	spriteParent = $sprites
@@ -189,9 +205,16 @@ func _ready():
 	#spawn_gun()
 
 func play_sound(stream: AudioStream):
-	audio.stream = stream
-	audio.play()
-	pass
+	for i in range(0, audio.size()):
+		if not audio[i].playing:
+			audio[i].stream = stream
+			audio[i].play()
+			return
+	audio[0].stream = stream
+	audio[0].play()
+
+func play_random_sound(arr: Array[AudioStream]):
+	play_sound(arr.pick_random())
 
 func _process(delta):
 	match state:
@@ -240,7 +263,11 @@ func _process(delta):
 			if not isDucking:
 				if abs(velocity.x) > SLIDE_MIN_SPEED:
 					_step_emit(delta)
-					pass
+					if stepSoundTimer > 0:
+						stepSoundTimer -= delta
+					else:
+						stepSoundTimer = STEP_SOUND_GAP
+						play_random_sound(asSteps)
 				if abs(velocity.x) > IMG_SPEED_MIN:
 					if abs(curStepAngle) < abs(stepDirection * STEP_ANGLE):
 						curStepAngle += stepDirection * STEP_SPEED * abs(velocity.x) * delta

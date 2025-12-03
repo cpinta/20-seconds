@@ -13,12 +13,15 @@ var tiles: TilesPlatform
 @export var color: Color = Color.CORNFLOWER_BLUE
 @export var paletteName: String = ""
 
+var audio: AudioStreamPlayer
+
 var start: Node2D
 
 # index is set by GameManager
 var index: int = -1
 
 var targets: Array[Target] = []
+var targetTotal: int
 
 const POST_TARGET_BREAK_WAIT: float = 3
 var HAS_POST_LEVEL_SCENE: bool = false
@@ -33,7 +36,9 @@ signal levelGoalReached
 signal levelConcluded
 signal levelInputStarted
 
-# Called when the node enters the scene tree for the first time.
+const TARGET_HIT_PITCH_BASE: float = 0.2
+const TARGET_HIT_PITCH_MAX: float = 1
+
 func _init():
 	pass
 
@@ -48,6 +53,14 @@ func _ready():
 		set_descendant_tiles_color(self, G.palettes[paletteName])
 		
 	find_descendant_target_nodes(self)
+	targetTotal = targets.size()
+	
+	audio = AudioStreamPlayer.new()
+	self.add_child.call_deferred(audio)
+	if not audio.is_inside_tree():
+		await audio.ready
+	audio.reparent(self)
+	audio.stream = load("res://audio/kalimba4.mp3")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @warning_ignore("unused_parameter")
@@ -79,6 +92,8 @@ func set_level_color(color: Color):
 func target_was_destroyed(target: Target):
 	target.wasDestroyed.disconnect(target_was_destroyed)
 	targets.erase(target)
+	audio.pitch_scale = ((targetTotal - targets.size())/float(targetTotal)) * (TARGET_HIT_PITCH_MAX - TARGET_HIT_PITCH_BASE) + TARGET_HIT_PITCH_BASE
+	audio.play()
 	if targets.size() == 0:
 		state = State.POST_LEVEL
 		levelGoalReached.emit()

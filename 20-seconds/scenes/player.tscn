@@ -207,8 +207,6 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_smehm")
 debug_color = Color(0.9574571, 2.5027991e-06, 0.53508174, 0.41960785)
 
-[node name="audio" type="AudioStreamPlayer2D" parent="."]
-
 [node name="testray" type="RayCast2D" parent="."]
 visible = false
 z_index = 100
@@ -236,3 +234,9 @@ target_position = Vector2(10, 0)
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-0.20802307, 0.06934166)
 rect = Rect2(-7, -17, 14, 20)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
