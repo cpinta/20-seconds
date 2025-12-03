@@ -15,6 +15,7 @@ var levelPaths: Array[String]
 var backgrounds: Array[Background] = []
 
 const BACKGROUND_COUNT: int = 3
+const DELAY_BT_BACKGROUNDS: int = 1
 const BACKGROUND_SCALE_MULT: float = 1
 const BACKGROUND_SPEED_MULT: float = 0.5
 const BACKGROUND_ALPHA_MULT: float = 0.8
@@ -104,6 +105,7 @@ func load_save_info():
 
 func spawn_backgrounds():
 	for i in range(0, BACKGROUND_COUNT):
+		await get_tree().create_timer(DELAY_BT_BACKGROUNDS, true, false, true).timeout
 		backgrounds.append(await spawn(load("res://scenes/background.tscn")))
 		if i == 0:
 			continue
@@ -111,7 +113,7 @@ func spawn_backgrounds():
 		backgrounds.back().OFFSET_SPEED *= BACKGROUND_SPEED_MULT/i
 		backgrounds.back().texture_scale *= BACKGROUND_SCALE_MULT * i
 		backgrounds.back().color.a *= BACKGROUND_ALPHA_MULT/(i * 0.01)
-		pass
+
 
 func pause_backgrounds():
 	for i in range(0, backgrounds.size()):
