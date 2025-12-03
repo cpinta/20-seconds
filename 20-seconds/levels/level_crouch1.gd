@@ -25,7 +25,7 @@ func _player_spawning_animation_finished():
 		return
 	var queue: Array[Textbox.MsgInfo] = [
 		Textbox.MsgInfo.new(G.agentName, "After gaining a running start, you can slide under crevices like this one!", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new(G.agentName, "Again, as your host, I have to explain that.", Textbox.Mode.PerChar),
+		Textbox.MsgInfo.new(G.agentName, "Again, policy requires that I explain that.", Textbox.Mode.PerChar),
 	]
 	G.send_queue_to_message_box(queue)
 
