@@ -12,13 +12,17 @@ class MsgInfo:
 	var text: String = ""
 	var mode: Mode = Mode.PerChar
 	var forTime: float = 0
+	var emotion: TextboxPortrait.Emotion
+	var isTalking: bool = true
 	
 	@warning_ignore("shadowed_variable")
-	func _init(username: String, text:String, mode: Mode = Mode.PerChar, forTime: float = 0) -> void:
+	func _init(username: String, text:String, mode: Mode = Mode.PerChar, forTime: float = 0, emotion: TextboxPortrait.Emotion = TextboxPortrait.Emotion.Default, isTalking = true) -> void:
 		self.username = username
 		self.text = text
 		self.mode = mode
 		self.forTime = forTime
+		self.emotion = emotion
+		self.isTalking = isTalking
 		
 
 const TIME_PER_CHAR: float = 0.0025
@@ -28,6 +32,7 @@ var mode: Mode
 
 var lblText: RichTextLabel
 var buttonHint: ButtonHint
+var portrait: TextboxPortrait
 
 var allowSkipInput: bool = true
 var isActive: bool = false
@@ -41,8 +46,10 @@ var talkTimer: float = 0
 signal textboxClosed
 
 func _ready() -> void:
-	lblText = $"margin text/Text"
+	lblText = $"Control/margin text/Text"
 	buttonHint = $"margin icons/key icon"
+	portrait = $Control/MarginContainer/Portrait
+	
 	close()
 	pass
 
@@ -55,8 +62,8 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_released("skip_text"):
 				_skip_input_pressed()
 		
-		if currentText != currentDestText:
-			if mode == Mode.PerChar or mode == Mode.PerCharContinuing:
+		if mode == Mode.PerChar or mode == Mode.PerCharContinuing:
+			if currentText != currentDestText:
 				if charTimer < TIME_PER_CHAR:
 					charTimer += delta
 				else:
@@ -64,8 +71,9 @@ func _process(delta: float) -> void:
 						currentText += currentDestText[currentText.length()]
 						_set_text(currentText)
 						charTimer = charTimer - TIME_PER_CHAR
-						pass
-					
+			else:
+				if portrait.isTalking:
+					portrait.stop_talking()
 		
 		if talkTimer > 0:
 			talkTimer -= delta
@@ -107,7 +115,7 @@ func close():
 func _open():
 	visible = true
 
-func _set_text(text:String):
+func _set_text(text:String, emotion: TextboxPortrait.Emotion = TextboxPortrait.Emotion.Default):
 	if currentSpeaker != "":
 		lblText.text = currentSpeaker + "> "+ text
 	else:
@@ -133,16 +141,22 @@ func speak(mode: Mode, text: String):
 	pass
 
 func _speak_info(info: MsgInfo):
+	if not messageQueue.has(info):
+		return
 	set_allow_input(true)
 	currentSpeaker = info.username
 	if info.mode != Mode.PerCharContinuing:
 		currentText = ""
 	if info.forTime != 0:
-		await speak_for_time(info.mode, info.text, info.forTime)
+		speak_for_time(info.mode, info.text, info.forTime)
 	else:
 		speak(info.mode, info.text)
-	pass
-
+	
+	if info.username != "":
+		portrait.visible = true
+		portrait.set_state(info.emotion, info.isTalking)
+	else:
+		portrait.visible = false
 
 func set_allow_input(value: bool):
 	allowSkipInput = value
@@ -156,4 +170,5 @@ func speak_for_time(mode: Mode, text: String, time:float):
 	self.mode = mode
 	speak(mode, text)
 	await get_tree().create_timer(time, true, false, true).timeout
+	portrait.stop_talking()
 	_speak_next_message_in_queue()

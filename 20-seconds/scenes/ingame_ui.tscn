@@ -1,13 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bon2jdlcwqgiw"]
+[gd_scene load_steps=5 format=3 uid="uid://bon2jdlcwqgiw"]
 
 [ext_resource type="Script" uid="uid://ci377c1f123v5" path="res://scripts/ingame_ui.gd" id="1_v3yap"]
-[ext_resource type="Texture2D" uid="uid://cj63eubyckeia" path="res://sprites/text square.png" id="2_031h6"]
 [ext_resource type="PackedScene" uid="uid://cp0rfiy543qbj" path="res://scenes/timer.tscn" id="2_cm6yq"]
 [ext_resource type="PackedScene" uid="uid://cwnldookuoxx2" path="res://scenes/target_ui.tscn" id="2_f6424"]
-[ext_resource type="Script" uid="uid://cfa6h7edswosd" path="res://scenes/textbox.gd" id="2_hifx3"]
-[ext_resource type="FontFile" uid="uid://gcel8py47lh" path="res://font/MonacoB2.otf" id="3_h2rwu"]
-[ext_resource type="PackedScene" uid="uid://c3qp05vstbspj" path="res://scenes/button_hint.tscn" id="3_i42rf"]
-[ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="7_f6424"]
+[ext_resource type="PackedScene" uid="uid://cn4umnxmqbesx" path="res://scenes/textbox.tscn" id="4_hifx3"]
 
 [node name="ingameUI" type="CanvasLayer"]
 script = ExtResource("1_v3yap")
@@ -87,68 +83,8 @@ offset_top = -324.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Textbox" type="Control" parent="Control/bottomHalf"]
+[node name="Textbox" parent="Control/bottomHalf" instance=ExtResource("4_hifx3")]
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -196.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 0
-script = ExtResource("2_hifx3")
-
-[node name="margin icons" type="MarginContainer" parent="Control/bottomHalf/Textbox"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 32
-
-[node name="key icon" parent="Control/bottomHalf/Textbox/margin icons" instance=ExtResource("3_i42rf")]
-layout_mode = 2
-actionName = "advance_text"
-
-[node name="background" type="NinePatchRect" parent="Control/bottomHalf/Textbox"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_031h6")
-patch_margin_left = 64
-patch_margin_top = 64
-patch_margin_right = 64
-patch_margin_bottom = 64
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 1
-
-[node name="margin text" type="MarginContainer" parent="Control/bottomHalf/Textbox"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 48
-theme_override_constants/margin_right = 64
-theme_override_constants/margin_bottom = 48
-
-[node name="Text" type="RichTextLabel" parent="Control/bottomHalf/Textbox/margin text"]
-layout_mode = 2
-theme_override_fonts/normal_font = ExtResource("3_h2rwu")
-theme_override_fonts/bold_font = ExtResource("7_f6424")
-theme_override_font_sizes/normal_font_size = 24
-theme_override_font_sizes/bold_font_size = 24
-shortcut_keys_enabled = false
 
 [node name="Panel" type="Panel" parent="Control"]
 visible = false

@@ -48,7 +48,7 @@ var debug: bool = true
 
 var audio: AudioStreamPlayer2D
 
-var agentName: String = "AGENT"
+var agentName: String = "BILL"
 
 signal disablePlayerInput()
 signal sendMessageQueue(messages: Array[Textbox.MsgInfo])

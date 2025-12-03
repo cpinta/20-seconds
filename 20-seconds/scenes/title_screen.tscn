@@ -3,8 +3,7 @@
 [ext_resource type="Script" uid="uid://nm3tk2ttl8mv" path="res://scripts/title_screen.gd" id="1_fgkus"]
 [ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_sa3yf"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_s4lrb"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
+[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scenes/focus_button.gd" id="4_mgrm8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48
@@ -43,15 +42,14 @@ layout_mode = 2
 theme = ExtResource("2_sa3yf")
 theme_override_fonts/font = ExtResource("3_s4lrb")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
 text = "Start"
+script = ExtResource("4_mgrm8")
 
 [node name="Level Select Button" type="Button" parent="Control/Buttons/VBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_sa3yf")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
 text = "Level Select"
 
 [node name="Settings Button" type="Button" parent="Control/Buttons/VBoxContainer"]
@@ -59,7 +57,6 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 theme = ExtResource("2_sa3yf")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
 text = "Settings"
 
 [node name="Label" type="Label" parent="Control"]

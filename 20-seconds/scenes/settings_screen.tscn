@@ -1,18 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://cyixp0u4wiouk"]
+[gd_scene load_steps=8 format=3 uid="uid://cyixp0u4wiouk"]
 
 [ext_resource type="Script" uid="uid://c83pgfwsbqsjf" path="res://scenes/settings_screen.gd" id="1_qrqa7"]
 [ext_resource type="Theme" uid="uid://b67ktu5hqqt6u" path="res://default_font_style.tres" id="2_assm4"]
 [ext_resource type="Script" uid="uid://ckgvjdjdgwqyt" path="res://scenes/clear_save_data.gd" id="3_pt01f"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="3_qrqa7"]
+[ext_resource type="Script" uid="uid://ceola0r3pxu0x" path="res://scenes/focus_button.gd" id="5_n20dh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fgkus"]
 font_size = 48
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_assm4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fgkus"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qrqa7"]
 
 [node name="settings" type="CanvasLayer"]
 script = ExtResource("1_qrqa7")
@@ -65,7 +62,6 @@ layout_mode = 2
 size_flags_horizontal = 8
 theme = ExtResource("2_assm4")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_fgkus")
 text = "Clear"
 script = ExtResource("3_pt01f")
 
@@ -86,5 +82,5 @@ grow_vertical = 0
 theme = ExtResource("2_assm4")
 theme_override_fonts/font = ExtResource("3_qrqa7")
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_qrqa7")
 text = "Return"
+script = ExtResource("5_n20dh")

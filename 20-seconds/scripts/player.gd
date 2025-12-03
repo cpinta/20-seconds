@@ -584,6 +584,8 @@ func _physics_process(delta):
 				if spawnTimer > SPAWN_SHOW_TIME:
 					spriteParent.visible = true
 			pass
+		State.DISABLE_COMPLETELY:
+			pass
 		State.DYING:
 			
 			pass

@@ -1,0 +1,111 @@
+[gd_scene load_steps=8 format=3 uid="uid://cn4umnxmqbesx"]
+
+[ext_resource type="Script" uid="uid://cfa6h7edswosd" path="res://scripts/textbox.gd" id="1_c4wvf"]
+[ext_resource type="PackedScene" uid="uid://c3qp05vstbspj" path="res://scenes/button_hint.tscn" id="2_1rgox"]
+[ext_resource type="Texture2D" uid="uid://cj63eubyckeia" path="res://sprites/text square.png" id="3_6occq"]
+[ext_resource type="Texture2D" uid="uid://dp4kmvdbneviv" path="res://sprites/penguin/penguin_1.png" id="4_1rgox"]
+[ext_resource type="Script" uid="uid://bftmiqkdsgfdd" path="res://scenes/textbox_portrait.gd" id="4_6occq"]
+[ext_resource type="FontFile" uid="uid://gcel8py47lh" path="res://font/MonacoB2.otf" id="4_b4n6f"]
+[ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="5_van45"]
+
+[node name="Textbox" type="Control"]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -196.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_c4wvf")
+
+[node name="margin icons" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 32
+
+[node name="key icon" parent="margin icons" instance=ExtResource("2_1rgox")]
+layout_mode = 2
+actionName = "advance_text"
+
+[node name="background" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_6occq")
+patch_margin_left = 64
+patch_margin_top = 64
+patch_margin_right = 64
+patch_margin_bottom = 64
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="Control" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="Portrait" type="TextureRect" parent="Control/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+texture = ExtResource("3_6occq")
+expand_mode = 2
+script = ExtResource("4_6occq")
+
+[node name="ColorRect" type="ColorRect" parent="Control/MarginContainer/Portrait"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.101960786, 0.5058824, 1)
+
+[node name="TextureRect" type="TextureRect" parent="Control/MarginContainer/Portrait"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_1rgox")
+expand_mode = 2
+
+[node name="margin text" type="MarginContainer" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 48
+
+[node name="Text" type="RichTextLabel" parent="Control/margin text"]
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("4_b4n6f")
+theme_override_fonts/bold_font = ExtResource("5_van45")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+text = "asdfasdfadsdf"
+shortcut_keys_enabled = false

@@ -61,6 +61,8 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_released("skip_text"):
 		skipPressed.emit()
+	if Input.is_action_just_released("pause"):
+		skipPressed.emit()
 	if isActive:
 		
 		if currentText != currentDestText:
@@ -124,6 +126,7 @@ func _speak_info(info: MsgInfo):
 		pass
 	if info.text == "WELCOME TO THE FIELD TRAINING SIMULATION":
 		loadBackground.emit()
+		audio2.stop()
 		pass
 	if info.mode != Mode.PerCharContinuing:
 		currentText = ""

@@ -14,6 +14,8 @@ func _loaded():
 
 func _process(delta):
 	super._process(delta)
+	if G.player:
+		G.player.set_state(Player.State.DISABLE_COMPLETELY)
 	pass
 
 func _player_spawning_animation_finished():
@@ -40,10 +42,6 @@ func _player_spawning_loading_finished():
 	G.inGameUI.hide_ui()
 
 	var queue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new("", "", Textbox.Mode.Instant, 1),
-		Textbox.MsgInfo.new("", "PENGNU v11.27.25\n>", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("", "sim -gj -s 20", Textbox.Mode.PerCharContinuing),
-		Textbox.MsgInfo.new("", "WELCOME TO THE FIELD TRAINING SIMULATION", Textbox.Mode.Instant),
 		Textbox.MsgInfo.new("", "CONNECTING TO HOST", Textbox.Mode.Instant, 0.25),
 		Textbox.MsgInfo.new("", "CONNECTING TO HOST.", Textbox.Mode.Instant, 0.25),
 		Textbox.MsgInfo.new("", "CONNECTING TO HOST..", Textbox.Mode.Instant, 0.25),
@@ -63,11 +61,11 @@ func _message_box_finished():
 			G.inGameUI.show_ui()
 			var queue: Array[Textbox.MsgInfo] = [
 				Textbox.MsgInfo.new(G.agentName, "So, without further ado! Let's get this training started for you!", Textbox.Mode.PerChar),
-				Textbox.MsgInfo.new(G.agentName, ".", Textbox.Mode.Instant, 1),
-				Textbox.MsgInfo.new(G.agentName, "..", Textbox.Mode.Instant, 1),
-				Textbox.MsgInfo.new(G.agentName, "...", Textbox.Mode.Instant, 1),
-				Textbox.MsgInfo.new(G.agentName, "OH I'M SO SORRY!", Textbox.Mode.Instant),
-				Textbox.MsgInfo.new(G.agentName, "LET ME ENABLE YOUR VISOR FIRST HAHA", Textbox.Mode.Instant),
+				Textbox.MsgInfo.new(G.agentName, ".", Textbox.Mode.Instant, 1, TextboxPortrait.Emotion.Default, false),
+				Textbox.MsgInfo.new(G.agentName, "..", Textbox.Mode.Instant, 1, TextboxPortrait.Emotion.Default, false),
+				Textbox.MsgInfo.new(G.agentName, "...", Textbox.Mode.Instant, 1, TextboxPortrait.Emotion.Default, false),
+				Textbox.MsgInfo.new(G.agentName, "OH I'M SO SORRY!", Textbox.Mode.Instant, 0, TextboxPortrait.Emotion.Surprised),
+				Textbox.MsgInfo.new(G.agentName, "LET ME ENABLE YOUR VISOR FIRST HAHA", Textbox.Mode.Instant, 0, TextboxPortrait.Emotion.Surprised),
 			]
 			G.send_queue_to_message_box(queue)
 		LvlState.TimerOn:
