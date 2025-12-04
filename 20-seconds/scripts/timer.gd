@@ -12,8 +12,10 @@ var lbl: Label
 
 const SECONDS = 20
 
-const NEW_RECORD: String = "NEW RECORD!!!"
+const NEW_RECORD: String = "NEW RECORD!!"
 const FIRST_CLEAR: String = "FIRST CLEAR!"
+const LBL_TIME: float = 0.5
+var lblTimer: float = 0
 
 var timer: float = 20
 var oldTimer: float = 20
@@ -36,10 +38,10 @@ signal timeRanOut
 
 func _ready() -> void:
 	
-	numbers.append($"Panel/0")
-	numbers.append($"Panel/1")
-	numbers.append($"Panel/2")
-	numbers.append($"Panel/3")
+	numbers.append($"MarginContainer/Timer/Panel/0")
+	numbers.append($"MarginContainer/Timer/Panel/1")
+	numbers.append($"MarginContainer/Timer/Panel/2")
+	numbers.append($"MarginContainer/Timer/Panel/3")
 	
 	lbl = $LowerText
 	lbl.visible = false
@@ -55,6 +57,7 @@ func set_timer():
 	_show_timer_time(timer)
 
 func _process(delta: float) -> void:
+	get_parent().size.y = 0
 	if Input.is_action_just_released("toggle_timer"):
 		if state == State.Blank:
 			resume_timer()
@@ -80,7 +83,14 @@ func _process(delta: float) -> void:
 			_show_timer_time(timer)
 			oldTimer = timer
 			pass
-	pass
+	if lbl.text != "":
+		if lblTimer > 0:
+			lblTimer -= delta
+		else:
+			lblTimer = LBL_TIME
+			lbl.visible = not lbl.visible
+	else:
+		lbl.visible = false
 
 func start_timer():
 	set_timer()
@@ -89,6 +99,7 @@ func start_timer():
 
 func pause_timer():
 	state = State.Frozen
+	lbl.text = ""
 	
 func resume_timer():
 	state = State.Countdown
@@ -96,13 +107,10 @@ func resume_timer():
 func level_finished(earlierTime: float, timesPlayed: int):
 	if timesPlayed == 0:
 		lbl.text = FIRST_CLEAR
-		lbl.visible = true
 		return
-	if earlierTime > timer:
+	if earlierTime < timer:
 		lbl.text = NEW_RECORD
-		lbl.visible = true
 		return
-	lbl.visible = false
 
 func _show_timer_time(time: float):
 	var string: String = "0000"

@@ -66,7 +66,11 @@ grow_horizontal = 0
 scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(512, 0)
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/topHalf/right/Panel"]
+[node name="Timer" type="VBoxContainer" parent="Control/topHalf/right/Panel"]
+layout_mode = 2
+script = ExtResource("2_uyn70")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/topHalf/right/Panel/Timer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -75,38 +79,37 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Timer" type="VBoxContainer" parent="Control/topHalf/right/Panel/MarginContainer"]
+[node name="Timer" type="VBoxContainer" parent="Control/topHalf/right/Panel/Timer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
 alignment = 2
-script = ExtResource("2_uyn70")
 
-[node name="Panel" type="HBoxContainer" parent="Control/topHalf/right/Panel/MarginContainer/Timer"]
+[node name="Panel" type="HBoxContainer" parent="Control/topHalf/right/Panel/Timer/MarginContainer/Timer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="0" type="TextureRect" parent="Control/topHalf/right/Panel/MarginContainer/Timer/Panel"]
+[node name="0" type="TextureRect" parent="Control/topHalf/right/Panel/Timer/MarginContainer/Timer/Panel"]
 layout_mode = 2
 texture = ExtResource("3_yrj12")
 
-[node name="1" type="TextureRect" parent="Control/topHalf/right/Panel/MarginContainer/Timer/Panel"]
+[node name="1" type="TextureRect" parent="Control/topHalf/right/Panel/Timer/MarginContainer/Timer/Panel"]
 layout_mode = 2
 texture = ExtResource("3_yrj12")
 
-[node name="_" type="TextureRect" parent="Control/topHalf/right/Panel/MarginContainer/Timer/Panel"]
+[node name="_" type="TextureRect" parent="Control/topHalf/right/Panel/Timer/MarginContainer/Timer/Panel"]
 layout_mode = 2
 texture = ExtResource("4_r7y21")
 
-[node name="2" type="TextureRect" parent="Control/topHalf/right/Panel/MarginContainer/Timer/Panel"]
+[node name="2" type="TextureRect" parent="Control/topHalf/right/Panel/Timer/MarginContainer/Timer/Panel"]
 layout_mode = 2
 texture = ExtResource("3_yrj12")
 
-[node name="3" type="TextureRect" parent="Control/topHalf/right/Panel/MarginContainer/Timer/Panel"]
+[node name="3" type="TextureRect" parent="Control/topHalf/right/Panel/Timer/MarginContainer/Timer/Panel"]
 layout_mode = 2
 texture = ExtResource("3_yrj12")
 
-[node name="LowerText" type="Label" parent="Control/topHalf/right/Panel/MarginContainer/Timer"]
+[node name="LowerText" type="Label" parent="Control/topHalf/right/Panel/Timer"]
 layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("3_npobg")

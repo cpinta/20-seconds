@@ -25,7 +25,7 @@ func _ready() -> void:
 	
 	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
 	textbox = $Control/bottomHalf/Textbox
-	timer = $Control/topHalf/right/Panel/MarginContainer/Timer
+	timer = $Control/topHalf/right/Panel/Timer
 	targetUI = $"Control/topHalf/right/Target UI"
 	savingLabel = $Control/MarginContainer/Saving
 	savingLabel.visible = false
