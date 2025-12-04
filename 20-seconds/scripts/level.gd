@@ -32,7 +32,7 @@ var SELECTABLE: bool = true
 
 # pre concluded
 signal levelGoalReached
-# last action done by level
+# last action done by level object
 signal levelConcluded
 signal levelInputStarted
 

@@ -15,7 +15,10 @@ func initialize(index: int, time: float):
 	text = str(index)
 	levelIndex = index
 	if time != 20:
-		lblTime.text = str(time)
+		lblTime.text = str(floor(100*(20-time))/100)
+		#while lblTime.text.length() < 5:
+			#lblTime.text = "0" + lblTime.text
+			#pass
 	pass
 
 func btn_pressed():

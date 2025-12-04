@@ -308,7 +308,7 @@ func next_level():
 			gameSave.lastLevelBeat = levelIndex
 			pass 
 		if inGameUI.timer.timer:
-			if gameSave.levelInfos[levelIndex].bestTime < inGameUI.timer.timer:
+			if gameSave.levelInfos[levelIndex].bestTime > inGameUI.timer.timer:
 				gameSave.levelInfos[levelIndex].bestTime = inGameUI.timer.timer
 		
 		save_game()
@@ -406,6 +406,7 @@ func load_level(index: int, isRetry = false) -> bool:
 signal gm_level_goal_reached
 func _level_goal_reached():
 	gm_level_goal_reached.emit()
+	inGameUI.timer.level_finished(gameSave.levelInfos[levelIndex].bestTime, gameSave.levelInfos[levelIndex].timesFinished)
 	pause_backgrounds()
 
 func _level_input_started():

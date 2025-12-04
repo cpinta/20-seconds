@@ -8,6 +8,7 @@ enum State {
 }
 
 var state: State = State.Countdown
+var lbl: Label
 
 const SECONDS = 20
 
@@ -40,6 +41,9 @@ func _ready() -> void:
 	numbers.append($"Panel/2")
 	numbers.append($"Panel/3")
 	
+	lbl = $LowerText
+	lbl.visible = false
+	
 	set_timer()
 	state = State.Frozen
 	pass
@@ -47,6 +51,7 @@ func _ready() -> void:
 func set_timer():
 	timer = SECONDS
 	oldTimer = SECONDS
+	lbl.visible = false
 	_show_timer_time(timer)
 
 func _process(delta: float) -> void:
@@ -88,9 +93,16 @@ func pause_timer():
 func resume_timer():
 	state = State.Countdown
 
-func level_finished():
-	
-	pass
+func level_finished(earlierTime: float, timesPlayed: int):
+	if timesPlayed == 0:
+		lbl.text = FIRST_CLEAR
+		lbl.visible = true
+		return
+	if earlierTime > timer:
+		lbl.text = NEW_RECORD
+		lbl.visible = true
+		return
+	lbl.visible = false
 
 func _show_timer_time(time: float):
 	var string: String = "0000"
