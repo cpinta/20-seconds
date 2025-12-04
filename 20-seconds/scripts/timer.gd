@@ -9,6 +9,12 @@ enum State {
 
 var state: State = State.Countdown
 var lbl: Label
+var audio: AudioStreamPlayer
+
+var asDadada: Array[AudioStream] = [
+	load("res://audio/kalimba6.mp3"),
+	load("res://audio/kalimba chime 1.mp3")
+	]
 
 const SECONDS = 20
 
@@ -43,12 +49,20 @@ func _ready() -> void:
 	numbers.append($"MarginContainer/Timer/Panel/2")
 	numbers.append($"MarginContainer/Timer/Panel/3")
 	
+	audio = $AudioStreamPlayer
 	lbl = $LowerText
 	lbl.visible = false
 	
 	set_timer()
 	state = State.Frozen
 	pass
+
+func play_sound(stream: AudioStream):
+	audio.stream = stream
+	audio.play()
+
+func play_random_sound(arr: Array[AudioStream]):
+	play_sound(arr.pick_random())
 
 func set_timer():
 	timer = SECONDS
@@ -107,9 +121,11 @@ func resume_timer():
 func level_finished(earlierTime: float, timesPlayed: int):
 	if timesPlayed == 0:
 		lbl.text = FIRST_CLEAR
+		play_sound(asDadada[0])
 		return
 	if earlierTime < timer:
 		lbl.text = NEW_RECORD
+		play_sound(asDadada[1])
 		return
 
 func _show_timer_time(time: float):

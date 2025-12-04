@@ -3,6 +3,7 @@ class_name TextboxPortrait
 
 var texRect: TextureRect
 var colorRect: ColorRect
+var audio: AudioStreamPlayer
 
 const TIME_BT_FRAMES: float = 0.1
 const TIME_BT_FRAMES_SURPRISED: float = 0.2
@@ -32,6 +33,17 @@ var surprisedFrames: Array[Texture] = [
 	load("res://sprites/penguin/penguin_4.png")
 ]
 
+var defaultSound: Array[AudioStream]= [
+	load('res://audio/peng1.mp3'),
+	load('res://audio/peng2.mp3'),
+]
+var surprisedSound: Array[AudioStream]= [
+	load('res://audio/peng surp1.mp3'),
+	load('res://audio/peng surp2.mp3'),
+	load('res://audio/peng surp3.mp3'),
+	load('res://audio/peng surp4.mp3'),
+]
+
 var isTalking: bool = false
 var animIndex: int = 0
 
@@ -41,6 +53,7 @@ var currentFrames: Array[Texture]
 func _ready() -> void:
 	texRect = $TextureRect
 	colorRect = $ColorRect
+	audio = $AudioStreamPlayer
 	visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -57,6 +70,13 @@ func _process(delta: float) -> void:
 		pass
 	pass
 
+func play_sound(stream: AudioStream):
+	audio.stream = stream
+	audio.play()
+
+func play_random_sound(arr: Array[AudioStream]):
+	play_sound(arr.pick_random())
+
 func stop_talking():
 	isTalking = false
 	if currentFrames:
@@ -71,7 +91,11 @@ func set_state(newEmotion: Emotion, newTalking: bool = true):
 		Emotion.Default:
 			currentFrames = defaultFrames
 			CURRENT_TIME_BT_FRAMES = TIME_BT_FRAMES
+			if isTalking:
+				play_random_sound(defaultSound)
 		Emotion.Surprised:
 			currentFrames = surprisedFrames
 			CURRENT_TIME_BT_FRAMES = TIME_BT_FRAMES_SURPRISED
+			if isTalking:
+				play_random_sound(surprisedSound)
 	texRect.texture = currentFrames[animIndex]

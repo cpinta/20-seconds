@@ -48,6 +48,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Level Select"
 
+[node name="Main Menu" type="Button" parent="Control/Buttons/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Main Menu"
+
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 1
 anchors_preset = 8

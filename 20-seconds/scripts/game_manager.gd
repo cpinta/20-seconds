@@ -223,6 +223,7 @@ func load_pause_screen():
 	pauseScreen = await spawn(pauseScreenScene)
 	pauseScreen.btnResume.pressed.connect(resume_game)
 	pauseScreen.levelSelectPressed.connect(load_level_select)
+	pauseScreen.mainMenuPressed.connect(load_titlescreen)
 
 func start_game(loadLevel: bool = true):
 	if titleScreen:

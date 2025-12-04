@@ -166,6 +166,16 @@ var asSteps: Array[AudioStream] = [
 	load("res://audio/ministep5.mp3"),
 ]
 
+var asWalljumps: Array[AudioStream] = [
+	load("res://audio/walljump.mp3"),
+	load("res://audio/walljump2.mp3"),
+	load("res://audio/walljump3.mp3"),
+	load("res://audio/walljump4.mp3"),
+]
+
+var asRevive: AudioStream = load("res://audio/hawooosh4.mp3")
+var asDie: AudioStream = load("res://audio/explode3 loud.mp3")
+
 
 func _ready():
 	groundDetect = $groundDetect
@@ -447,6 +457,9 @@ func _process(delta):
 				pos = (GUN_CHARGE_SHAKE_Y * gunChargeShakeDir) - gunChargeShakeDir
 				pass
 			gun.position.y = pos
+			
+			if not gun.audio.playing:
+				gun.play_sound(gun.asCharge)
 	else:
 		if gun:
 			gun.position.y = 0
@@ -628,6 +641,7 @@ func _try_wall_jump():
 func wall_jump(dir: int):
 	velocity.y = WALL_JUMP_VELOCITY.y
 	velocity.x = dir * WALL_JUMP_VELOCITY.x
+	play_random_sound(asWalljumps)
 	#set_direction(dir)
 	pass
 
@@ -678,6 +692,7 @@ func set_state(newState: State):
 			pass
 		State.SPAWNING:
 			@warning_ignore("unused_variable")
+			play_sound(asRevive)
 			var temp = 0
 			for i in range(0, spawnEmitters.size()):
 				if spawnEmitters[i]:
@@ -700,6 +715,7 @@ func set_state(newState: State):
 				spawnEmitters[0].dead.connect(_spawning_ended)
 			pass
 		State.DYING:
+			play_sound(asDie)
 			spriteParent.visible = false
 			for i in range(0, 3):
 				spawnEmitters.append(await G.spawn(deathEmitterScene))

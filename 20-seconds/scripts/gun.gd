@@ -14,14 +14,34 @@ var gunPointScale: float = 0.01
 
 var activeBullets: Array[Bullet] = []
 
-# Called when the node enters the scene tree for the first time.
+var audio: AudioStreamPlayer
+var asSmallShot: Array[AudioStream] = [
+	load("res://audio/spow1.mp3"),
+	load("res://audio/spow2.mp3"),
+	load("res://audio/spow3.mp3"),
+]
+var asLargeShot: AudioStream = load("res://audio/big shot.mp3")
+var asCharge: AudioStream = load("res://audio/gun charge.mp3")
+
 func _ready() -> void:
 	sprite = $gun
 	gunPoint = $gun/gunPoint
 	gunPointPos = gunPoint.position
+	audio = $AudioStreamPlayer
 	pass # Replace with function body.
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func play_sound(stream: AudioStream):
+	if stream == asLargeShot:
+		pass
+	else:
+		audio.pitch_scale = 1
+	audio.pitch_scale = randf_range(0.5, 1.5)
+		
+	audio.stream = stream
+	audio.play()
+
+func play_random_sound(arr: Array[AudioStream]):
+	play_sound(arr.pick_random())
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
@@ -44,10 +64,12 @@ func shoot_bullet(dir: Vector2, isCharged: bool):
 		if dir.x != 0:
 			bullet.global_position.y = holder.global_position.y - (bullet.shape.shape.height/4 * bullet.desiredScale)
 			pass
+		play_sound(asLargeShot)
 	else:
 		emit(dir)
 		bullet = await G.spawn(bulletScene)
 		bullet.global_position = gunPoint.global_position
+		play_random_sound(asSmallShot)
 	bullet.initialize(holder, dir)
 	bullet.rotation = dir.angle()
 	bullet.wasDestroyed.connect(bullet_was_destroyed)

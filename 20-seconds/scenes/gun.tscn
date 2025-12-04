@@ -33,3 +33,5 @@ metadata/_aseprite_wizard_source_file_hash_ = "a2a7f1641ba47f95991eab92fe012a2f"
 [node name="gunPoint" type="Node2D" parent="gun"]
 position = Vector2(248.42538, 76.018135)
 scale = Vector2(40.000004, 40.000004)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

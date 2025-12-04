@@ -94,6 +94,8 @@ grow_vertical = 2
 texture = ExtResource("4_1rgox")
 expand_mode = 2
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control/MarginContainer/Portrait"]
+
 [node name="margin text" type="MarginContainer" parent="Control"]
 layout_mode = 2
 size_flags_horizontal = 3
