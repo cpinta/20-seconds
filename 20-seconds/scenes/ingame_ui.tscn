@@ -127,9 +127,6 @@ offset_top = 150.0
 offset_bottom = 195.0
 alignment = 2
 
-[node name="Control" type="Control" parent="Control/topHalf"]
-layout_mode = 2
-
 [node name="bottomHalf" type="Control" parent="Control"]
 layout_mode = 1
 anchors_preset = 12
@@ -140,8 +137,23 @@ offset_top = -324.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Textbox" parent="Control/bottomHalf" instance=ExtResource("4_hifx3")]
+[node name="MarginContainer" type="MarginContainer" parent="Control/bottomHalf"]
 layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -192.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(640, 96)
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Textbox" parent="Control/bottomHalf/MarginContainer" instance=ExtResource("4_hifx3")]
+layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1

@@ -48,6 +48,8 @@ func initialize(sender: Entity, direction: Vector2):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if G.state == G.State.PAUSED:
+		return
 	
 	if fullScaleTimer < TIME_TIL_FULL_SCALE:
 		scale = Vector2.ONE * (originalScale + (fullScaleTimer/TIME_TIL_FULL_SCALE) * (desiredScale - originalScale))
@@ -58,6 +60,8 @@ func _process(delta: float) -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
+	if G.state == G.State.PAUSED:
+		return
 	
 	var moveDelta: Vector2 = speed * direction * delta
 	global_position += moveDelta

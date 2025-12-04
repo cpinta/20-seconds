@@ -7,9 +7,12 @@ func _init() -> void:
 	speed = 200
 	originalScale = 0.01
 	desiredScale = 0.025
-	pass
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super._ready()
-	pass # Replace with function body.
+
+func _process(delta: float) -> void:
+	super._process(delta)
+
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)

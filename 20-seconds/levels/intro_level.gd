@@ -60,7 +60,7 @@ func _message_box_finished():
 			lvlstate = LvlState.TimerOn
 			G.inGameUI.show_ui()
 			var queue: Array[Textbox.MsgInfo] = [
-				Textbox.MsgInfo.new(G.agentName, "So, without further ado! Let's get this training started for you!", Textbox.Mode.PerChar),
+				Textbox.MsgInfo.new(G.agentName, "So, without further adieu! Let's get this training started for you!", Textbox.Mode.PerChar),
 				Textbox.MsgInfo.new(G.agentName, ".", Textbox.Mode.Instant, 1, TextboxPortrait.Emotion.Default, false),
 				Textbox.MsgInfo.new(G.agentName, "..", Textbox.Mode.Instant, 1, TextboxPortrait.Emotion.Default, false),
 				Textbox.MsgInfo.new(G.agentName, "...", Textbox.Mode.Instant, 1, TextboxPortrait.Emotion.Default, false),

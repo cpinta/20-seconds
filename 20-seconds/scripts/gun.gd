@@ -7,6 +7,14 @@ var gunPoint: Node2D
 var gunPointPos: Vector2
 var bulletScene: PackedScene = preload("res://scenes/base_bullet.tscn")
 var bulletHeavyScene: PackedScene = preload("res://scenes/base_bullet_heavy.tscn")
+var chargeSprite: Sprite2D
+
+const CHARGE_SCALE_MIN: float = 0.015
+const CHARGE_SCALE_MAX: float = 0.1
+const CHARGE_LERP: float = 20
+var chargeIsShrinking: bool = false
+
+var isCharging: bool = false
 
 var emitterScene: PackedScene = preload("res://scenes/gun_emitter.tscn")
 
@@ -28,14 +36,15 @@ func _ready() -> void:
 	gunPoint = $gun/gunPoint
 	gunPointPos = gunPoint.position
 	audio = $AudioStreamPlayer
-	pass # Replace with function body.
+	chargeSprite = $gun/gunPoint/chargeSprite
+	chargeSprite.visible = false
 
 func play_sound(stream: AudioStream):
 	if stream == asLargeShot:
 		pass
 	else:
 		audio.pitch_scale = 1
-	audio.pitch_scale = randf_range(0.5, 1.5)
+	audio.pitch_scale = randf_range(0.9, 1.5)
 		
 	audio.stream = stream
 	audio.play()
@@ -45,6 +54,23 @@ func play_random_sound(arr: Array[AudioStream]):
 
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
+	if isCharging:
+		chargeSprite.visible = true
+		if chargeIsShrinking:
+			if chargeSprite.scale.y > CHARGE_SCALE_MIN + 0.01:
+				chargeSprite.scale = lerp(chargeSprite.scale, Vector2.ONE * CHARGE_SCALE_MIN, CHARGE_LERP * delta)
+			else:
+				chargeIsShrinking = false
+		else:
+			if chargeSprite.scale.y < CHARGE_SCALE_MAX - 0.01:
+				chargeSprite.scale = lerp(chargeSprite.scale, Vector2.ONE * CHARGE_SCALE_MAX, CHARGE_LERP * delta)
+			else:
+				chargeIsShrinking = true
+		
+		if not audio.playing:
+			play_sound(asCharge)
+	else:
+		chargeSprite.visible = false
 	pass
 
 @warning_ignore("unused_parameter")

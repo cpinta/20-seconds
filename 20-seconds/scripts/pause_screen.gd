@@ -11,6 +11,7 @@ func _ready() -> void:
 	btnResume = $Control/Buttons/VBoxContainer/Resume
 	btnLevelSelect = $Control/Buttons/VBoxContainer/LevelSelect
 	btnLevelSelect.pressed.connect(_level_select_pressed)
+	$"Control/Buttons/VBoxContainer/Main Menu".pressed.connect(_main_menu_pressed)
 
 
 func _level_select_pressed():

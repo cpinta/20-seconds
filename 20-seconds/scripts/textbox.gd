@@ -28,6 +28,8 @@ class MsgInfo:
 const TIME_PER_CHAR: float = 0.0025
 var charTimer: float = 0
 
+const SCALE_CHANGE: float = 5
+
 var mode: Mode
 
 var lblText: RichTextLabel
@@ -43,12 +45,17 @@ var currentText: String = ""
 var currentSpeaker: String = ""
 var talkTimer: float = 0
 
+var audio: AudioStreamPlayer
+var asOpen: AudioStream = load("res://audio/open msg.mp3")
+var asClose: AudioStream = load("res://audio/close msg.mp3")
+
 signal textboxClosed
 
 func _ready() -> void:
 	lblText = $"Control/margin text/Text"
 	buttonHint = $"margin icons/key icon"
 	portrait = $Control/MarginContainer/Portrait
+	audio = $AudioStreamPlayer
 	
 	close()
 	pass
@@ -56,6 +63,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	if isActive:
+		if get_parent().scale.y < 1:
+			get_parent().scale.y += delta * SCALE_CHANGE
+			if get_parent().scale.y > 1:
+				get_parent().scale.y = 1 
+		
 		if allowSkipInput:
 			if Input.is_action_just_released("advance_text"):
 				_input_pressed()
@@ -80,6 +92,13 @@ func _process(delta: float) -> void:
 		else:
 			pass
 		pass
+	else:
+		if get_parent().scale.y > 0.01:
+			get_parent().scale.y -= delta * SCALE_CHANGE
+			if get_parent().scale.y < 0.01:
+				get_parent().scale.y = 0.01 
+				visible = false
+				
 
 func add_queue(messages: Array[MsgInfo]):
 	messageQueue.clear()
@@ -106,14 +125,18 @@ func _skip_input_pressed():
 		pass
 
 func close():
-	visible = false
 	isActive = false
 	messageQueue.clear()
 	_set_text("")
-	pass
+	audio.stream = asClose
+	audio.play()
+	get_parent().scale.y = 1
 
 func _open():
 	visible = true
+	get_parent().scale.y = 0
+	audio.stream = asOpen
+	audio.play()
 
 func _set_text(text:String, emotion: TextboxPortrait.Emotion = TextboxPortrait.Emotion.Default):
 	if currentSpeaker != "":

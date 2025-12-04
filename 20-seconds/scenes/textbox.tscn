@@ -110,3 +110,5 @@ theme_override_fonts/bold_font = ExtResource("5_van45")
 theme_override_font_sizes/normal_font_size = 24
 theme_override_font_sizes/bold_font_size = 24
 shortcut_keys_enabled = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

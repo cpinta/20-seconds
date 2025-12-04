@@ -11,7 +11,6 @@ var levelIndex = 0
 var curLevelObj: Level
 var levelPaths: Array[String]
 
-
 var backgrounds: Array[Background] = []
 
 const BACKGROUND_COUNT: int = 3
@@ -43,11 +42,13 @@ var playerScene: PackedScene = preload("res://scenes/player.tscn")
 var camera: GameCamera
 var cameraScene: PackedScene = preload("res://scenes/game_camera.tscn")
 
+var audio: AudioStreamPlayer
+var song: AudioStream = load("res://audio/Driving In The Rain.mp3")
+var songLoop: AudioStream = load("res://audio/Driving In The Rain loop.mp3")
+
 var coinCount: int = 0
 
 var debug: bool = true
-
-var audio: AudioStreamPlayer2D
 
 var agentName: String = "BILL"
 
@@ -90,6 +91,13 @@ func _ready():
 	load_save_info()
 	
 	load_intro()
+	
+	audio = AudioStreamPlayer.new()
+	self.add_child.call_deferred(audio)
+	if not audio.is_inside_tree():
+		await audio.ready
+	audio.volume_db = -10
+	
 
 func intro_end():
 	await load_titlescreen()
@@ -153,6 +161,9 @@ func load_titlescreen():
 		titleScreen.btnLevelSelect.visible = false
 	else:
 		titleScreen.btnLevelSelect.visible = true
+	
+	audio.stream = songLoop
+	audio.play(0)
 
 func load_intro():
 	queue_free_menus()
@@ -209,6 +220,12 @@ func resume_game():
 		levelSelect.queue_free()
 	if pauseScreen:
 		pauseScreen.queue_free()
+	if audio.stream == song:
+		if audio.get_playback_position() != 0.0:
+			audio.stream_paused = false
+	else:
+		audio.stream = song
+		audio.play()
 
 signal gm_pause
 func pause_game():
@@ -217,6 +234,7 @@ func pause_game():
 	pause_backgrounds()
 	if not pauseScreen:
 		load_pause_screen()
+	audio.stream_paused = true
 
 func load_pause_screen():
 	queue_free_menus()
@@ -283,7 +301,9 @@ func _physics_process(delta: float) -> void:
 		State.TITLE_SCREEN:
 			if Input.is_action_just_pressed("pause"):
 				load_level_select(LevelSelect.Type.FromTitle)
-			pass
+			if not audio.playing:
+				audio.stream = songLoop
+				audio.play(0)
 		State.IN_GAME:
 			if Input.is_action_just_pressed("pause"):
 				if curLevelObj:
@@ -401,6 +421,7 @@ func load_level(index: int, isRetry = false) -> bool:
 		inGameUI.timer.set_timer()
 		inGameUI.timer.pause_timer()
 		levelLoaded.emit()
+		
 		return true
 	return false
 
@@ -409,9 +430,13 @@ func _level_goal_reached():
 	gm_level_goal_reached.emit()
 	inGameUI.timer.level_finished(gameSave.levelInfos[levelIndex].bestTime, gameSave.levelInfos[levelIndex].timesFinished)
 	pause_backgrounds()
+	audio.stop()
+	
 
 func _level_input_started():
 	gm_levelInputStarted.emit()
+	audio.stream = song
+	audio.play(0)
 
 func spawn_camera():
 	camera = await spawn(cameraScene)

@@ -77,8 +77,8 @@ const GUN_RECOIL_HEAVY: Vector2 = Vector2(-150, 200)
 const GUN_HAND_RECOIL_X: float = 100
 const GUN_EAR_RECOIL_X: float = 50
 const GUN_CHARGE_TIME: float = 1
-const GUN_CHARGE_SHAKE_Y: float = 10
-const GUN_CHARGE_SHAKE_SPEED: float = 1000
+const GUN_CHARGE_SHAKE_Y: float = 7
+const GUN_CHARGE_SHAKE_SPEED: float = 100
 var gunChargeShakeDir: int = 1
 var isChargingGun: bool = false
 var gunChargeTimer: float = 0
@@ -175,7 +175,7 @@ var asWalljumps: Array[AudioStream] = [
 
 var asRevive: AudioStream = load("res://audio/hawooosh4.mp3")
 var asDie: AudioStream = load("res://audio/explode3 loud.mp3")
-
+var asSlide: AudioStream = load("res://audio/slide.mp3")
 
 func _ready():
 	groundDetect = $groundDetect
@@ -214,7 +214,11 @@ func _ready():
 	
 	#spawn_gun()
 
-func play_sound(stream: AudioStream):
+func play_sound(stream: AudioStream, index: int = -1):
+	if index != -1:
+		audio[index].stream = stream
+		audio[index].play()
+		return
 	for i in range(0, audio.size()):
 		if not audio[i].playing:
 			audio[i].stream = stream
@@ -371,6 +375,13 @@ func _process(delta):
 			curStepAngle = stepDirection * STEP_ANGLE + (stepDirection * -1)
 	imgLegs.rotation_degrees = curStepAngle
 	
+	if isDuckingSlide:
+		if not audio[audio.size()-1].playing:
+			audio[audio.size()-1].stream = asSlide
+			audio[audio.size()-1].play()
+		audio[audio.size()-1].volume_db = -20 + (1 * (min(abs(velocity.length()), 200)/200))
+		audio[audio.size()-1].pitch_scale = 0.5 + min(abs(velocity.length()), 200)/200
+	
 	if not isDucking:
 		imgHead.z_index = -1
 		imgLegs.z_index = -1
@@ -447,21 +458,21 @@ func _process(delta):
 			gunChargeTimer = 0
 		if gunChargeTimer > GUN_CHARGE_TIME:
 			imgFace.position.x = lerp(imgFace.position.x, FACE_OFFSET_X_MAX * -direction, IMG_SPEED_LERP * delta)
+			gun.isCharging = true
+			if(true):
+				var pos: float = gun.position.y
+				if abs(pos) < GUN_CHARGE_SHAKE_Y:
+					pos += delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
+					pass
+				else:
+					gunChargeShakeDir = -gunChargeShakeDir
+					pos = (GUN_CHARGE_SHAKE_Y * gunChargeShakeDir) - gunChargeShakeDir
+					pass
+				gun.position.y = pos
 			
-			var pos: float = gun.position.y
-			if abs(pos) < GUN_CHARGE_SHAKE_Y:
-				pos += delta * GUN_CHARGE_SHAKE_SPEED * -gunChargeShakeDir
-				pass
-			else:
-				gunChargeShakeDir = -gunChargeShakeDir
-				pos = (GUN_CHARGE_SHAKE_Y * gunChargeShakeDir) - gunChargeShakeDir
-				pass
-			gun.position.y = pos
-			
-			if not gun.audio.playing:
-				gun.play_sound(gun.asCharge)
 	else:
 		if gun:
+			gun.isCharging = false
 			gun.position.y = 0
 		pass
 	pass
@@ -544,7 +555,7 @@ func _physics_process(delta):
 				_try_wall_jump()
 
 			if gun:
-				if Input.is_action_just_pressed("shoot"):
+				if Input.is_action_pressed("shoot"):
 					isChargingGun = true
 					pass
 				if Input.is_action_just_released("shoot"):

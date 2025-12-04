@@ -24,7 +24,7 @@ func _ready() -> void:
 	topHalf = $Control/topHalf
 	
 	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
-	textbox = $Control/bottomHalf/Textbox
+	textbox = $Control/bottomHalf/MarginContainer/Textbox
 	timer = $Control/topHalf/right/Panel/Timer
 	targetUI = $"Control/topHalf/right/Target UI"
 	savingLabel = $Control/MarginContainer/Saving

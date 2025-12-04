@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func initialize(gameInfo: Save.GameInfo, type: Type):
 	self.type = type
-	for i in range(0, gameInfo.lastLevelBeat):
+	for i in range(0, gameInfo.lastLevelBeat+1):
 		if not gameInfo.levelInfos[i].selectable:
 			if gameInfo.lastLevelBeat > 0:
 				continue
