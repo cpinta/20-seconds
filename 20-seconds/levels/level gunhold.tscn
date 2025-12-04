@@ -11,6 +11,7 @@ script = ExtResource("1_g8ooy")
 paletteName = "gun"
 
 [node name="platform" type="TileMapLayer" parent="."]
+scale = Vector2(0.1, 0.1)
 tile_map_data = PackedByteArray("AAD9/wAAAAAAAAkAAAD9/wEAAAAAAAkAAAD9/wIAAAAAAAkAAAD+/wAAAAAAAAkAAAD+/wEAAAAAAAkAAAD+/wIAAAAAAAkAAAD//wAAAAAAAAkAAAD//wEAAAAAAAkAAAD//wIAAAAAAAkAAAAAAAAAAAAAAAkAAAAAAAEAAAAAAAkAAAAAAAIAAAAAAAkAAAAAAP//AAAHAAcAAFD9////AAAHAAcAAED9//7/AAADAAgAAGAAAP7/AAADAAgAAHA=")
 tile_set = ExtResource("2_jhx7k")
 script = ExtResource("3_aferk")
