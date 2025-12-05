@@ -30,6 +30,9 @@ var rightWallRay: RayCast2D
 var downRays: Array[RayCast2D]
 const DOWN_RAY_LENGTH: float = 0.01
 
+var leftDetect: Area2D
+var rightDetect: Area2D
+
 const SCARF_POS_LEFT_X: float = -127
 const SCARF_POS_RIGHT_X: float = 127
 const SCARF_SPR_LEFT_X: float = -25
@@ -207,6 +210,9 @@ func _ready():
 	downRays[0].target_position.y = DOWN_RAY_LENGTH
 	downRays.append($downray2)
 	downRays[1].target_position.y = DOWN_RAY_LENGTH
+	
+	leftDetect = $leftDetect
+	rightDetect = $rightDetect
 	
 	crouchDetect = $crouchDetect
 	
@@ -644,9 +650,9 @@ func _physics_process(delta):
 			pass
 
 func _try_wall_jump():
-	if leftWallRay.is_colliding() and leftWallRay.get_collision_normal() == Vector2.RIGHT:
+	if len(leftDetect.get_overlapping_bodies()) > 0:
 		wall_jump(1)
-	if rightWallRay.is_colliding() and rightWallRay.get_collision_normal() == Vector2.LEFT:
+	if len(rightDetect.get_overlapping_bodies()) > 0:
 		wall_jump(-1)
 
 func wall_jump(dir: int):

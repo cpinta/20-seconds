@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://wwfhpeosv5a8"]
+[gd_scene load_steps=13 format=3 uid="uid://wwfhpeosv5a8"]
 
 [ext_resource type="Script" uid="uid://cuehpdbgph7ck" path="res://scripts/player.gd" id="1_gsrtp"]
 [ext_resource type="Texture2D" uid="uid://ba78108ij5rgx" path="res://sprites/bear body.png" id="2_qlg0r"]
@@ -17,6 +17,9 @@ size = Vector2(8, 3.2424998)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_smehm"]
 size = Vector2(8, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ur7pv"]
+size = Vector2(6, 8)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
@@ -205,6 +208,24 @@ collision_layer = 0
 [node name="shape" type="CollisionShape2D" parent="crouchDetect"]
 position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_smehm")
+debug_color = Color(0.9574571, 2.5027991e-06, 0.53508174, 0.41960785)
+
+[node name="leftDetect" type="Area2D" parent="."]
+position = Vector2(-4, -6)
+collision_layer = 0
+
+[node name="shape" type="CollisionShape2D" parent="leftDetect"]
+position = Vector2(-3, 0)
+shape = SubResource("RectangleShape2D_ur7pv")
+debug_color = Color(0.9574571, 2.5027991e-06, 0.53508174, 0.41960785)
+
+[node name="rightDetect" type="Area2D" parent="."]
+position = Vector2(4, -6)
+collision_layer = 0
+
+[node name="shape" type="CollisionShape2D" parent="rightDetect"]
+position = Vector2(3, 0)
+shape = SubResource("RectangleShape2D_ur7pv")
 debug_color = Color(0.9574571, 2.5027991e-06, 0.53508174, 0.41960785)
 
 [node name="testray" type="RayCast2D" parent="."]
