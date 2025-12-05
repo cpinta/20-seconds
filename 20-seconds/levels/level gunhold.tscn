@@ -12,7 +12,7 @@ paletteName = "gun"
 
 [node name="platform" type="TileMapLayer" parent="."]
 scale = Vector2(0.1, 0.1)
-tile_map_data = PackedByteArray("AAD9/wAAAAAAAAkAAAD9/wEAAAAAAAkAAAD9/wIAAAAAAAkAAAD+/wAAAAAAAAkAAAD+/wEAAAAAAAkAAAD+/wIAAAAAAAkAAAD//wAAAAAAAAkAAAD//wEAAAAAAAkAAAD//wIAAAAAAAkAAAAAAAAAAAAAAAkAAAAAAAEAAAAAAAkAAAAAAAIAAAAAAAkAAAAAAP//AAADAAgAAFD9////AAAHAAcAAED9//7/AAAAAAkAAAAAAP7/AAADAAgAAFD0//3/AAADAAgAAFD0//z/AAADAAgAAFD0//v/AAADAAgAAFD0//r/AAADAAgAAFD0//n/AAADAAgAAFD0//j/AAADAAgAAFD0//f/AAADAAgAAFAAAPz/AAAGAAcAADAAAPv/AAADAAgAAGAAAPr/AAADAAgAAGAAAPn/AAADAAgAAGAAAPj/AAADAAgAAGAAAPf/AAADAAgAAGAAAPb/AAADAAgAAGAAAPX/AAADAAgAAGAAAPT/AAADAAgAAGAAAPP/AAADAAgAAGD0//b/AAADAAgAAHD0//X/AAADAAgAAHD0//T/AAADAAgAAHD0//P/AAADAAgAAHD0//L/AAADAAgAAHD0//H/AAADAAgAAHD0//D/AAADAAgAAHD+//7/AAAFAAgAAAD///7/AAAAAAcAACD9//3/AAACAAYAAAD8//3/AAADAAgAACD7//3/AAADAAgAACD6//3/AAADAAgAACD5//3/AAADAAgAACD4//3/AAADAAgAACD3//3/AAADAAgAACD2//3/AAADAAgAACD1//3/AAADAAgAACA=")
+tile_map_data = PackedByteArray("AAD9/wAAAAAAAAkAAAD9/wEAAAAAAAkAAAD9/wIAAAAAAAkAAAD+/wAAAAAAAAkAAAD+/wEAAAAAAAkAAAD+/wIAAAAAAAkAAAD//wAAAAAAAAkAAAD//wEAAAAAAAkAAAD//wIAAAAAAAkAAAAAAAAAAAAAAAkAAAAAAAEAAAAAAAkAAAAAAAIAAAAAAAkAAAAAAP//AAADAAgAAFD9////AAAHAAcAAED9//7/AAAAAAkAAAAAAP7/AAADAAgAAFD0//3/AAADAAgAAFD0//z/AAADAAgAAFD0//n/AAADAAYAAFD0//j/AAADAAgAAFD0//f/AAADAAgAAFAAAPz/AAAGAAcAADAAAPv/AAADAAgAAGAAAPr/AAADAAgAAGAAAPn/AAADAAgAAGAAAPj/AAADAAgAAGAAAPf/AAADAAgAAGAAAPb/AAADAAgAAGAAAPX/AAADAAgAAGAAAPT/AAADAAgAAGAAAPP/AAADAAgAAGD0//b/AAADAAgAAHD0//X/AAADAAgAAHD0//T/AAADAAgAAHD0//P/AAADAAgAAHD0//L/AAADAAgAAHD0//H/AAADAAgAAHD0//D/AAADAAgAAHD+//7/AAAFAAgAAAD///7/AAAAAAcAACD9//3/AAACAAYAAAD8//3/AAADAAgAACD7//3/AAADAAgAACD6//3/AAADAAgAACD5//3/AAADAAgAACD4//3/AAADAAgAACD3//3/AAADAAgAACD2//3/AAADAAgAACD1//3/AAADAAgAACD3//v/AAADAAgAACD4//v/AAADAAgAACD5//v/AAADAAgAACD6//v/AAADAAgAACD7//v/AAADAAgAACD8//v/AAADAAgAACD9//v/AAADAAgAACD+//v/AAADAAgAACD///v/AAADAAgAACD0//v/AAADAAgAACD2//v/AAAAAAcAADA=")
 tile_set = ExtResource("2_jhx7k")
 script = ExtResource("3_aferk")
 
@@ -73,7 +73,7 @@ theme_override_font_sizes/font_size = 16
 text = "or"
 
 [node name="vertical" type="Node2D" parent="."]
-position = Vector2(-156, -20)
+position = Vector2(-156, -40)
 
 [node name="Target37" parent="vertical" instance=ExtResource("5_k0hyl")]
 position = Vector2(-8, -54)
@@ -367,6 +367,117 @@ position = Vector2(380, -14)
 position = Vector2(392, -18)
 
 [node name="Target36" parent="horizontal2" instance=ExtResource("5_k0hyl")]
+position = Vector2(404, -14)
+
+[node name="horizontal4" type="Node2D" parent="."]
+position = Vector2(-596, -64)
+
+[node name="Target" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(32, -18)
+
+[node name="Target3" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(56, -18)
+
+[node name="Target4" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(44, -14)
+
+[node name="Target5" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(80, -18)
+
+[node name="Target6" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(68, -14)
+
+[node name="Target7" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(80, -18)
+
+[node name="Target8" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(92, -14)
+
+[node name="Target9" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(104, -18)
+
+[node name="Target10" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(116, -14)
+
+[node name="Target11" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(128, -18)
+
+[node name="Target12" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(152, -18)
+
+[node name="Target13" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(140, -14)
+
+[node name="Target14" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(176, -18)
+
+[node name="Target15" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(164, -14)
+
+[node name="Target16" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(176, -18)
+
+[node name="Target17" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(188, -14)
+
+[node name="Target18" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(200, -18)
+
+[node name="Target19" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(212, -14)
+
+[node name="Target2" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(224, -18)
+
+[node name="Target20" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(248, -18)
+
+[node name="Target21" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(236, -14)
+
+[node name="Target22" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(272, -18)
+
+[node name="Target23" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(260, -14)
+
+[node name="Target24" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(272, -18)
+
+[node name="Target25" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(284, -14)
+
+[node name="Target26" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(296, -18)
+
+[node name="Target27" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(308, -14)
+
+[node name="Target28" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(320, -18)
+
+[node name="Target29" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(344, -18)
+
+[node name="Target30" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(332, -14)
+
+[node name="Target31" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(368, -18)
+
+[node name="Target32" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(356, -14)
+
+[node name="Target33" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(368, -18)
+
+[node name="Target34" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(380, -14)
+
+[node name="Target35" parent="horizontal4" instance=ExtResource("5_k0hyl")]
+position = Vector2(392, -18)
+
+[node name="Target36" parent="horizontal4" instance=ExtResource("5_k0hyl")]
 position = Vector2(404, -14)
 
 [node name="Target" parent="." instance=ExtResource("5_k0hyl")]
