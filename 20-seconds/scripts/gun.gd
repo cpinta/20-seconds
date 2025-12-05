@@ -127,4 +127,5 @@ func reset():
 			activeBullets[i].queue_free()
 		pass
 	activeBullets.clear()
+	isCharging = false
 	pass

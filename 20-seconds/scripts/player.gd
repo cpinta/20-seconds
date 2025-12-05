@@ -107,6 +107,7 @@ const CROUCH_SPEED: float = 300
 const CROUCH_LERP: float = 30
 const SLIDE_MIN_SPEED: float = 40
 var crouchDetect: Area2D
+const MIN_SLIDE_BOOST_SPEED = 200
 
 const COL_STAND_HEIGHT: float = 13.5
 const COL_CROUCH_HEIGHT: float = 9
@@ -521,7 +522,7 @@ func _cast_ray(dir: Vector2, length: float):
 func _physics_process(delta):
 	match state:
 		State.FREE:
-			if abs(global_position.x) > 2000 or abs(global_position.y) > 2000:
+			if abs(global_position.x) > 4000 or abs(global_position.y) > 1000:
 				die()
 			
 			
@@ -656,8 +657,13 @@ func _try_wall_jump():
 		wall_jump(-1)
 
 func wall_jump(dir: int):
-	velocity.y = WALL_JUMP_VELOCITY.y
-	velocity.x = dir * WALL_JUMP_VELOCITY.x
+	if velocity.y < -MIN_SLIDE_BOOST_SPEED:
+		velocity.y = velocity.y
+		velocity.x = dir * WALL_JUMP_VELOCITY.x
+	else:
+		velocity.y = WALL_JUMP_VELOCITY.y
+		velocity.x = dir * WALL_JUMP_VELOCITY.x
+		pass
 	play_random_sound(asWalljumps)
 	#set_direction(dir)
 	pass
@@ -805,7 +811,7 @@ func slide(delta: float):
 			isOnSlant = true
 			if abs(inputVector.y) > INPUT_DEADZONE or Input.is_action_pressed("duck"):
 				if not isOnGroundOld:
-					if preCollisionVelocity.y < -200:
+					if preCollisionVelocity.y < -MIN_SLIDE_BOOST_SPEED:
 						if abs(normal.x) > PI/6 and abs(normal.x) < PI/3:
 							if normal.x > 0:
 								velocity.y = 0
