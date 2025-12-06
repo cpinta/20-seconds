@@ -31,6 +31,8 @@ func _ready() -> void:
 	area.body_entered.connect(_area_entered)
 	scale = Vector2.ONE * originalScale
 	
+	
+	
 	shape = $area/CollisionShape2D
 	pass # Replace with function body.
 
@@ -42,7 +44,6 @@ func destroy():
 func initialize(sender: Entity, direction: Vector2):
 	self.sender = sender
 	self.direction = direction
-	print(global_position)
 
 	pass
 
@@ -63,6 +64,11 @@ func _physics_process(delta: float) -> void:
 	if G.state == G.State.PAUSED:
 		return
 	
+	
+	for node in area.get_overlapping_bodies():
+		_area_entered(node)
+		pass
+	
 	var moveDelta: Vector2 = speed * direction * delta
 	global_position += moveDelta
 	if dist_traveled < MAX_DIST:
@@ -71,11 +77,15 @@ func _physics_process(delta: float) -> void:
 	else:
 		destroy()
 		pass
+	force_update_transform()
+	
 
 func _area_entered(body: Node2D):
 	if body is Entity:
 		var entity = body as Entity
-		if entity == sender:
+		if entity is Player and sender is Player:
+			return
+		if entity is not Player and sender is not Player:
 			return
 		if !entity.invulnerable:
 			entity.get_hit(damage, knockback)

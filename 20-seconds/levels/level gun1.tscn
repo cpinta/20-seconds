@@ -8,7 +8,6 @@
 
 [node name="level" type="Node2D"]
 script = ExtResource("1_yd65e")
-color = Color(0.62, 0.5962333, 0.33479998, 1)
 paletteName = "gun"
 
 [node name="platform" type="TileMapLayer" parent="."]

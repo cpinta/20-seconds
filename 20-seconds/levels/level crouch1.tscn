@@ -10,6 +10,7 @@
 script = ExtResource("1_8b204")
 color = Color(0, 0.7058824, 0.34901962, 1)
 paletteName = "crouch"
+HAS_GUN = false
 
 [node name="platform" type="TileMapLayer" parent="."]
 scale = Vector2(0.1, 0.1)
@@ -132,7 +133,7 @@ offset_top = 144.0
 offset_right = 26.0
 offset_bottom = 180.0
 actionName = "down"
-actionIndex = 1
+actionIndex = 2
 
 [node name="Label3" type="Label" parent="Control2"]
 layout_mode = 0
@@ -184,7 +185,7 @@ offset_top = 144.0
 offset_right = 26.0
 offset_bottom = 180.0
 actionName = "down"
-actionIndex = 1
+actionIndex = 2
 
 [node name="Label3" type="Label" parent="Control3"]
 layout_mode = 0

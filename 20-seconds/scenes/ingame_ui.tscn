@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bon2jdlcwqgiw"]
+[gd_scene load_steps=11 format=3 uid="uid://bon2jdlcwqgiw"]
 
 [ext_resource type="Script" uid="uid://ci377c1f123v5" path="res://scripts/ingame_ui.gd" id="1_v3yap"]
 [ext_resource type="PackedScene" uid="uid://cwnldookuoxx2" path="res://scenes/target_ui.tscn" id="2_f6424"]
@@ -8,6 +8,12 @@
 [ext_resource type="PackedScene" uid="uid://cn4umnxmqbesx" path="res://scenes/textbox.tscn" id="4_hifx3"]
 [ext_resource type="FontFile" uid="uid://xpjs2mvyhmku" path="res://font/MonacoB2-Bold.otf" id="4_i42rf"]
 [ext_resource type="Texture2D" uid="uid://duw2ede05edj6" path="res://sprites/timer sprite colon.png" id="4_r7y21"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uyn70"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f6424"]
+bg_color = Color(0.80611193, 0.12575388, 0, 1)
 
 [node name="ingameUI" type="CanvasLayer"]
 script = ExtResource("1_v3yap")
@@ -19,6 +25,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="boss health" type="ProgressBar" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -212.0
+offset_right = 212.0
+offset_bottom = 27.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_uyn70")
+theme_override_styles/fill = SubResource("StyleBoxFlat_f6424")
+max_value = 20.0
+step = 1.0
+value = 20.0
+show_percentage = false
 
 [node name="topHalf" type="HBoxContainer" parent="Control"]
 layout_mode = 1
@@ -50,6 +73,9 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 text = "Speed:"
+
+[node name="lblLevelNum" type="Label" parent="Control/topHalf/left/MarginContainer/VBoxContainer"]
+layout_mode = 2
 
 [node name="right" type="Control" parent="Control/topHalf"]
 layout_mode = 2

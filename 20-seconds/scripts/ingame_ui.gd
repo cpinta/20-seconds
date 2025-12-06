@@ -13,15 +13,24 @@ var timer: SecTimer
 
 var targetUI: TargetUI
 
+var bigtargethealth: ProgressBar
+var bigtarget: BigTarget
 
 var frameCount: int = 0
 const FRAME_COUNT_MAX: int = 10000
 const UPDATE_UI_EVERY: int = 10
 
+var lblLevelNum: Label
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rootControl = $Control
 	topHalf = $Control/topHalf
+	
+	lblLevelNum = $Control/topHalf/left/MarginContainer/VBoxContainer/lblLevelNum
+	lblLevelNum.visible =false
+	
+	bigtargethealth = $"Control/boss health"
+	bigtargethealth.visible = false
 	
 	lblDebug = $Control/topHalf/left/MarginContainer/VBoxContainer/lblDebug
 	textbox = $Control/bottomHalf/MarginContainer/Textbox
@@ -40,6 +49,24 @@ func _process(delta: float) -> void:
 		else:
 			return
 	
+	if G.isBossFight:
+		if bigtarget:
+			bigtargethealth.visible = true
+			bigtargethealth.value = bigtarget.health
+		else:
+			bigtargethealth.visible = false
+	else:
+		bigtargethealth.visible = false
+	
+	if G.curLevelObj:
+		if G.curLevelObj.index > 0:
+			lblLevelNum.visible = true
+			lblLevelNum.text = str(G.curLevelObj.index)
+		else:
+			lblLevelNum.visible = false
+	else:
+		lblLevelNum.visible = false
+		
 	if G.debug:
 		if target:
 			lblDebug.text = str(abs(floor(target.velocity.length())))

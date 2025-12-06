@@ -7,10 +7,13 @@ enum PhaseState{
 	Post
 }
 
-var CENTER_SHOOT_POSITION: Vector2 = Vector2(0,-130.0)
-var SHOOT_HORIZONTAL_RANGE: float = 200 
+var CENTER_SHOOT_POSITION: Vector2 = Vector2(0,-75.0)
+var SHOOT_HORIZONTAL_RANGE: float = 100
 var SHOOT_VERTICAL_HEIGHT: float = -133.503
-
+var SHOOT_BULLET_EVERY: float = 1
+var shootBulletMult: float = 2
+var shootBulletMultTime: float =10
+var bulletTimer: float = 0
 
 
 var phaseState: PhaseState = PhaseState.Pre
@@ -22,7 +25,6 @@ func _init(bigTarget: BigTarget) -> void:
 func start():
 	super.start()
 	bigTarget.set_is_tangible(false)
-	
 
 func _process(delta: float) -> void:
 	match phaseState:
@@ -37,6 +39,16 @@ func _process(delta: float) -> void:
 			pass
 		PhaseState.During:
 			eyeFollow = EyeFollow.Center
+			bigTarget.isShaking = true
+			
+			if bulletTimer > 0:
+				bulletTimer -= delta
+			else:
+				if G.inGameUI.timer.timer < shootBulletMultTime:
+					bulletTimer = SHOOT_BULLET_EVERY / shootBulletMult
+				else:
+					bulletTimer = SHOOT_BULLET_EVERY
+				shoot_random_bullet()
 		PhaseState.Post:
 			bigTarget.set_is_tangible(true)
 			
@@ -46,19 +58,13 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func timer_finished():
+	bigTarget.set_is_tangible(false)
 	
 	pass
 
 func shoot_random_bullet():
 	var pos:Vector2 = Vector2(bigTarget.global_position.x + randf_range(-SHOOT_HORIZONTAL_RANGE, SHOOT_HORIZONTAL_RANGE), bigTarget.global_position.y + SHOOT_VERTICAL_HEIGHT)
 	shoot_bullet(pos)
-
-func shoot_bullet(pos: Vector2):
-	var bullet: Bullet = null
-	bullet = await G.spawn(bigTarget.bulletHeavyScene)
-	bullet.global_position = pos
-	bullet.initialize(bigTarget, Vector2.DOWN)
-	bullet.rotation = Vector2.DOWN.angle()
 
 func set_phase_state(state: PhaseState):
 	phaseState = state

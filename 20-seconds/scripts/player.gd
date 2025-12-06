@@ -524,8 +524,6 @@ func _cast_ray(dir: Vector2, length: float):
 func _physics_process(delta):
 	match state:
 		State.FREE:
-			if abs(global_position.x) > 4000 or abs(global_position.y) > 1000:
-				die()
 			
 			
 			get_inputVector()
@@ -794,6 +792,9 @@ func slide(delta: float):
 		var pos = collision.get_position()
 		var count = get_slide_collision_count()
 		var travel = collision.get_travel()
+		var entity = collision.get_collider()
+
+		
 		
 		if count > 1:
 			for i in range(0, count):
@@ -934,6 +935,7 @@ func reset_and_spawn():
 func die():
 	super.die()
 	set_state(State.DYING)
+	
 
 func instantly_die():
 	spriteParent.visible = false

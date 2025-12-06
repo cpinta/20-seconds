@@ -8,6 +8,7 @@
 [node name="level" type="Node2D"]
 script = ExtResource("1_h2g5s")
 paletteName = "walljump"
+HAS_GUN = false
 
 [node name="platform" type="TileMapLayer" parent="."]
 scale = Vector2(0.1, 0.1)

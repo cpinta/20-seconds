@@ -16,6 +16,10 @@ func _loaded():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	super._process(delta)
+	if G.player:
+		if G.player.state != Player.State.DYING:
+			if abs(G.player.global_position.x) > 4000 or abs(G.player.global_position.y) > 1000:
+				G.player.die()
 	pass
 
 func _player_spawning_animation_finished():

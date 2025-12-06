@@ -64,6 +64,8 @@ var palettes = {
 	"gunjump" : Color.hex(0x6b3affff),
 }
 
+var isBossFight: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if OS.has_feature('web'):
@@ -90,7 +92,6 @@ func _ready():
 	levelPaths.append("res://levels/level gun island.tscn");
 	levelPaths.append("res://levels/level gunjump2.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
-	levelPaths.append("res://levels/slant heaven.tscn");
 	levelPaths.append("res://levels/level bigtarget.tscn");
 	
 	load_save_info()
@@ -206,7 +207,7 @@ func load_level_select(type: LevelSelect.Type):
 func spawn_ui():
 	inGameUI = await spawn(inGameUIScene)
 	inGameUI.textbox.textboxClosed.connect(message_box_finished)
-	inGameUI.timer.timeRanOut.connect(restart_current_level)
+	inGameUI.timer.timeRanOut.connect(_timer_ran_out)
 	gm_levelInputStarted.connect(inGameUI.timer.start_timer)
 	gm_level_goal_reached.connect(inGameUI.timer.pause_timer)
 	gm_pause.connect(inGameUI.timer.pause_timer)
@@ -256,6 +257,12 @@ func start_game(loadLevel: bool = true):
 	if loadLevel:
 		await load_level(0)
 	pass
+
+func _timer_ran_out():
+	if isBossFight:
+		pass
+	else:
+		restart_current_level()
 
 func restart_current_level():
 	await player.instantly_die()
@@ -389,6 +396,8 @@ func load_level(index: int, isRetry = false) -> bool:
 			curLevelObj.queue_free()
 			await get_tree().process_frame
 			
+		isBossFight = false
+
 		#gameUI.centerText.set_center_text("", 0, 0)
 		curLevelObj = await spawn(load(levelPaths[index]))
 		curLevelObj.levelConcluded.connect(next_level)
@@ -411,6 +420,11 @@ func load_level(index: int, isRetry = false) -> bool:
 		set_backgrounds_color_from_level(curLevelObj)
 		resume_backgrounds()
 		
+		if not inGameUI:
+			await spawn_ui()
+		inGameUI.timer.set_timer()
+		inGameUI.timer.pause_timer()
+		
 		if not player:
 			await spawn_player()
 		gm_player_spawning_load_finished.emit()
@@ -422,10 +436,6 @@ func load_level(index: int, isRetry = false) -> bool:
 		camera.global_position = player.global_position
 		camera.useBaseZoom = true
 		
-		if not inGameUI:
-			await spawn_ui()
-		inGameUI.timer.set_timer()
-		inGameUI.timer.pause_timer()
 		levelLoaded.emit()
 		
 		return true
@@ -458,7 +468,7 @@ func spawn_player():
 	
 	player.plyr_spawning_anim_finished.connect(_player_spawning_anim_finished)
 	player.dying_finished.connect(restart_current_level)
-	
+
 
 signal gm_player_spawning_anim_finished()
 func _player_spawning_anim_finished():

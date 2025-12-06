@@ -13,6 +13,8 @@ func _ready() -> void:
 		queue_free()
 
 func _process(delta: float) -> void:
+	if not enabled:
+		return
 	position = Vector2.ZERO
 	global_position = lerp(global_position, global_position.move_toward(global_position.direction_to(currentDestination) * radius, 3), EYE_LERP * delta)
 
