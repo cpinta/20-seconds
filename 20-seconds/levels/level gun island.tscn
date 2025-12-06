@@ -7,6 +7,7 @@
 
 [node name="level" type="Node2D"]
 script = ExtResource("1_fu7ha")
+paletteName = "gunjump"
 
 [node name="platform2" type="TileMapLayer" parent="."]
 scale = Vector2(0.1, 0.1)

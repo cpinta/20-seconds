@@ -61,6 +61,7 @@ var palettes = {
 	"crouch" : Color.hex(0xffc857ff),
 	"walljump" : Color.hex(0xd479c8ff),
 	"gun" : Color.hex(0x00b459ff),
+	"gunjump" : Color.hex(0x6b3affff),
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -87,6 +88,7 @@ func _ready():
 	levelPaths.append("res://levels/level gunhold2.tscn");
 	levelPaths.append("res://levels/level gunjump.tscn");
 	levelPaths.append("res://levels/level gun island.tscn");
+	levelPaths.append("res://levels/level gunjump2.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
 	levelPaths.append("res://levels/level bigtarget.tscn");
