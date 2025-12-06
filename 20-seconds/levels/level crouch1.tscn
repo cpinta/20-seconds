@@ -42,27 +42,53 @@ position = Vector2(204, -84)
 layout_mode = 3
 anchors_preset = 0
 offset_left = 76.0
-offset_top = 4.0
 offset_right = 208.0
-offset_bottom = 80.0
+offset_bottom = 76.0
 scale = Vector2(0.25, 0.25)
 
 [node name="key left" parent="Control" instance=ExtResource("5_8b204")]
 layout_mode = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 16.0
-offset_right = 30.0
+offset_right = 26.0
 offset_bottom = 52.0
 actionName = "down"
 
 [node name="key left2" parent="Control" instance=ExtResource("5_8b204")]
 layout_mode = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 80.0
-offset_right = 30.0
+offset_right = 26.0
 offset_bottom = 116.0
 actionName = "down"
 actionIndex = 1
+
+[node name="key left3" parent="Control" instance=ExtResource("5_8b204")]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 144.0
+offset_right = 26.0
+offset_bottom = 180.0
+actionName = "down"
+actionIndex = 2
+
+[node name="key left4" parent="Control" instance=ExtResource("5_8b204")]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 144.0
+offset_right = 26.0
+offset_bottom = 180.0
+actionName = "down"
+actionIndex = 2
+
+[node name="Label4" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 112.0
+offset_right = 8.0
+offset_bottom = 157.0
+theme_override_font_sizes/font_size = 16
+text = "or"
 
 [node name="Label3" type="Label" parent="Control"]
 layout_mode = 0
@@ -77,25 +103,34 @@ text = "or"
 layout_mode = 3
 anchors_preset = 0
 offset_left = -4.0
-offset_top = -128.0
+offset_top = -140.0
 offset_right = 128.0
-offset_bottom = -52.0
+offset_bottom = -64.0
 scale = Vector2(0.25, 0.25)
 
 [node name="key left" parent="Control2" instance=ExtResource("5_8b204")]
 layout_mode = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 16.0
-offset_right = 30.0
+offset_right = 26.0
 offset_bottom = 52.0
 actionName = "down"
 
 [node name="key left2" parent="Control2" instance=ExtResource("5_8b204")]
 layout_mode = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 80.0
-offset_right = 30.0
+offset_right = 26.0
 offset_bottom = 116.0
+actionName = "down"
+actionIndex = 1
+
+[node name="key left3" parent="Control2" instance=ExtResource("5_8b204")]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 144.0
+offset_right = 26.0
+offset_bottom = 180.0
 actionName = "down"
 actionIndex = 1
 
@@ -108,29 +143,46 @@ offset_bottom = 93.0
 theme_override_font_sizes/font_size = 16
 text = "or"
 
+[node name="Label3" type="Label" parent="Control2/Label3"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 40.0
+offset_bottom = 109.0
+theme_override_font_sizes/font_size = 16
+text = "or"
+
 [node name="Control3" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 76.0
-offset_top = -240.0
-offset_right = 208.0
-offset_bottom = -164.0
+offset_left = 80.0
+offset_top = -252.0
+offset_right = 212.0
+offset_bottom = -176.0
 scale = Vector2(0.25, 0.25)
 
 [node name="key left" parent="Control3" instance=ExtResource("5_8b204")]
 layout_mode = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 16.0
-offset_right = 30.0
+offset_right = 26.0
 offset_bottom = 52.0
 actionName = "down"
 
 [node name="key left2" parent="Control3" instance=ExtResource("5_8b204")]
 layout_mode = 0
-offset_left = -12.0
+offset_left = -16.0
 offset_top = 80.0
-offset_right = 30.0
+offset_right = 26.0
 offset_bottom = 116.0
+actionName = "down"
+actionIndex = 1
+
+[node name="key left3" parent="Control3" instance=ExtResource("5_8b204")]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 144.0
+offset_right = 26.0
+offset_bottom = 180.0
 actionName = "down"
 actionIndex = 1
 
@@ -140,5 +192,13 @@ offset_left = -32.0
 offset_top = 48.0
 offset_right = 8.0
 offset_bottom = 93.0
+theme_override_font_sizes/font_size = 16
+text = "or"
+
+[node name="Label3" type="Label" parent="Control3/Label3"]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 40.0
+offset_bottom = 109.0
 theme_override_font_sizes/font_size = 16
 text = "or"

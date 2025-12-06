@@ -8,7 +8,7 @@ var emitterScene: PackedScene = preload("res://scenes/gun_emitter.tscn")
 var area: Area2D
 var shape: CollisionShape2D
 
-var damage: float = 0
+var damage: int = 0
 var knockback: float = 0
 var speed: float = 0
 var direction: Vector2
@@ -87,7 +87,6 @@ func _area_entered(body: Node2D):
 
 
 func get_hit():
-	@warning_ignore("narrowing_conversion")
 	health -= damage
 	if health <= 0:
 		die()

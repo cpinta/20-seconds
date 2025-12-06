@@ -5,7 +5,7 @@ extends Level
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super._ready()
-	HAS_INTRO = true
+	HAS_INTRO = false
 	
 	pass # Replace with function body.
 
@@ -23,12 +23,6 @@ func _player_spawning_animation_finished():
 	
 	if not HAS_INTRO:
 		return
-	var testQueue: Array[Textbox.MsgInfo] = [
-		Textbox.MsgInfo.new("AGENT", "erm what the frick", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("AGENT", "yeah um... that was awkward", Textbox.Mode.PerChar),
-		Textbox.MsgInfo.new("AGENT", "FRICK", Textbox.Mode.Instant)
-	]
-	G.send_queue_to_message_box(testQueue)
 
 func _player_spawning_loading_finished():
 	super._player_spawning_loading_finished()

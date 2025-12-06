@@ -85,6 +85,7 @@ func _ready():
 	levelPaths.append("res://levels/level gun4.tscn");
 	levelPaths.append("res://levels/level gunhold.tscn");
 	levelPaths.append("res://levels/level gunhold2.tscn");
+	levelPaths.append("res://levels/level gunjump.tscn");
 	levelPaths.append("res://levels/level gun island.tscn");
 	levelPaths.append("res://levels/big level with slants.tscn");
 	levelPaths.append("res://levels/slant heaven.tscn");
@@ -413,10 +414,11 @@ func load_level(index: int, isRetry = false) -> bool:
 		gm_player_spawning_load_finished.emit()
 		if not camera:
 			await spawn_camera()
-			
+		
 		reset_player()
 		player.global_position = curLevelObj.start.global_position
 		camera.global_position = player.global_position
+		camera.useBaseZoom = true
 		
 		if not inGameUI:
 			await spawn_ui()

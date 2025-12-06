@@ -20,9 +20,12 @@ func _ready() -> void:
 	grid = $Control/Buttons/Grid
 	$Control/Exit.pressed.connect(_exit_pressed)
 
+@warning_ignore("shadowed_variable")
 func initialize(gameInfo: Save.GameInfo, type: Type):
 	self.type = type
-	for i in range(0, gameInfo.lastLevelBeat+1):
+	for i in range(0, gameInfo.lastLevelBeat+2):
+		if i > gameInfo.levelInfos.size()-1:
+			return
 		if not gameInfo.levelInfos[i].selectable:
 			if gameInfo.lastLevelBeat > 0:
 				continue

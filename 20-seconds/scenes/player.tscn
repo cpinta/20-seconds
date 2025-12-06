@@ -19,12 +19,12 @@ size = Vector2(8, 3.2424998)
 size = Vector2(8, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ur7pv"]
-size = Vector2(6, 8)
+size = Vector2(5, 8)
 
 [node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
 collision_mask = 57
-floor_snap_length = 6.0
+floor_snap_length = 5.0
 script = ExtResource("1_gsrtp")
 
 [node name="collider" type="CollisionShape2D" parent="."]
@@ -215,7 +215,7 @@ position = Vector2(-4, -6)
 collision_layer = 0
 
 [node name="shape" type="CollisionShape2D" parent="leftDetect"]
-position = Vector2(-3, 0)
+position = Vector2(-2.5, 0)
 shape = SubResource("RectangleShape2D_ur7pv")
 debug_color = Color(0.9574571, 2.5027991e-06, 0.53508174, 0.41960785)
 
@@ -224,7 +224,7 @@ position = Vector2(4, -6)
 collision_layer = 0
 
 [node name="shape" type="CollisionShape2D" parent="rightDetect"]
-position = Vector2(3, 0)
+position = Vector2(2.5, 0)
 shape = SubResource("RectangleShape2D_ur7pv")
 debug_color = Color(0.9574571, 2.5027991e-06, 0.53508174, 0.41960785)
 
@@ -237,20 +237,20 @@ collision_mask = 0
 [node name="downray" type="RayCast2D" parent="."]
 z_index = 100
 position = Vector2(-4, 0)
-target_position = Vector2(0, 1.99)
+target_position = Vector2(0, 2)
 
 [node name="downray2" type="RayCast2D" parent="."]
 z_index = 100
 position = Vector2(4, 0)
-target_position = Vector2(0, 1.99)
+target_position = Vector2(0, 2)
 
 [node name="leftwallray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
-target_position = Vector2(-10, 0)
+target_position = Vector2(-9, 0)
 
 [node name="rightwallray" type="RayCast2D" parent="."]
 position = Vector2(0, -6)
-target_position = Vector2(10, 0)
+target_position = Vector2(9, 0)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-0.20802307, 0.06934166)

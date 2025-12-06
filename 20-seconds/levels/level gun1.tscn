@@ -50,3 +50,12 @@ offset_right = 30.0
 offset_bottom = 116.0
 actionName = "shoot"
 actionIndex = 1
+
+[node name="Label3" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = -44.0
+offset_top = 52.0
+offset_right = -4.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 16
+text = "or"

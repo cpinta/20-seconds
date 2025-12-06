@@ -42,7 +42,7 @@ func _process(delta: float) -> void:
 	
 	if G.debug:
 		if target:
-			lblDebug.text = str(abs(floor(target.velocity.x)))
+			lblDebug.text = str(abs(floor(target.velocity.length())))
 			lblDebug.text += "\nInput:\t"+str(target.inputVector)
 			lblDebug.text += "\nPlr:  \t"+str(floor(target.global_position.x))+", "+str(floor(target.global_position.y))
 			lblDebug.text += "\nPlr Spd:  \t"+str(floor(target.velocity.x))+", "+str(floor(target.velocity.y))

@@ -3,8 +3,14 @@ class_name GameCamera
 
 var target: Player
 
-var TARGET_LEAD: Vector2 = Vector2(20, 20)
+var TARGET_LEAD: Vector2 = Vector2(1, 20)
+var TARGET_LEAD_MULT: float = 2
+var TARGET_LEAD_MULT_SPEED: float = 150
+var TARGET_LEAD_FAST_ZOOM: float = 3
+var BASE_ZOOM: float = 4.5
 var TARGET_LERP: Vector2 = Vector2(8, 4)
+
+var useBaseZoom: bool
 
 const POST_LEAVE_SCREEN_TIME: float = 5
 var postLeaveTimer: float = 0
@@ -20,6 +26,10 @@ func _process(delta: float) -> void:
 	else:
 		if G.state == G.State.PAUSED:
 			return
+		if useBaseZoom:
+			#zoom = BASE_ZOOM * Vector2.ONE
+			pass
+			
 		var target_position: Vector2 = _get_target_position()
 		if not target.visibleOnScreen.is_on_screen():
 			postLeaveTimer = POST_LEAVE_SCREEN_TIME
@@ -36,7 +46,7 @@ func _process(delta: float) -> void:
 
 func _get_target_position():
 	var vertical: float = 0
-	if target.isDucking:
+	if target.isDucking and not (target.isDuckingSlide and target.velocity.y > 0):
 		vertical = 0
 		pass
 	else:

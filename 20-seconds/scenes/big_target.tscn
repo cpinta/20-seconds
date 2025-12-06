@@ -1,0 +1,108 @@
+[gd_scene load_steps=8 format=3 uid="uid://bn61u40q7bu2a"]
+
+[ext_resource type="Script" uid="uid://b0b8vteb705qt" path="res://scripts/big_target.gd" id="1_trr4m"]
+[ext_resource type="Texture2D" uid="uid://cg7ov38clb2it" path="res://sprites/big target.png" id="2_q2byy"]
+[ext_resource type="Script" uid="uid://dyd01lrprkbo" path="res://scripts/bigtarget_eye.gd" id="3_rt4ds"]
+[ext_resource type="Texture2D" uid="uid://qiy750ybgnrt" path="res://sprites/big circle.png" id="4_fa04i"]
+[ext_resource type="Script" uid="uid://b33hspc8nvdlx" path="res://scripts/bigtarget_eye_inner.gd" id="5_tjuua"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b5a2r"]
+radius = 51.223167
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3kc4l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_q2byy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="big target" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 10
+motion_mode = 1
+script = ExtResource("1_trr4m")
+INTANGIBLE_FILTER = Color(0.52906674, 0.5290667, 0.5290667, 1)
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_b5a2r")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.6378432, 0.6378432, 0.63784313, 1)
+z_index = -3
+scale = Vector2(0.05, 0.05)
+sprite_frames = SubResource("SpriteFrames_3kc4l")
+
+[node name="leye" type="Node2D" parent="sprite"]
+position = Vector2(-482.23352, 57.664307)
+scale = Vector2(0.29999995, 0.29999995)
+script = ExtResource("3_rt4ds")
+
+[node name="Sprite2D" type="Sprite2D" parent="sprite/leye"]
+self_modulate = Color(0.69411767, 0, 0.16078432, 1)
+texture = ExtResource("4_fa04i")
+
+[node name="Sprite2D2" type="Sprite2D" parent="sprite/leye"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_fa04i")
+
+[node name="Sprite2D3" type="Sprite2D" parent="sprite/leye"]
+self_modulate = Color(0.69411767, 0, 0.16078432, 1)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_fa04i")
+script = ExtResource("5_tjuua")
+radius = 200.0
+
+[node name="Sprite2D4" type="Sprite2D" parent="sprite/leye/Sprite2D3"]
+scale = Vector2(0.6666666, 0.6666666)
+texture = ExtResource("4_fa04i")
+script = ExtResource("5_tjuua")
+radius = 340.0
+enabled = false
+
+[node name="Sprite2D5" type="Sprite2D" parent="sprite/leye/Sprite2D3/Sprite2D4"]
+self_modulate = Color(0.69411767, 0, 0.16078432, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_fa04i")
+script = ExtResource("5_tjuua")
+radius = 510.0
+enabled = false
+
+[node name="reye" type="Node2D" parent="sprite"]
+position = Vector2(477.76642, 57.664307)
+scale = Vector2(0.29999995, 0.29999995)
+script = ExtResource("3_rt4ds")
+
+[node name="Sprite2D" type="Sprite2D" parent="sprite/reye"]
+self_modulate = Color(0.69411767, 0, 0.16078432, 1)
+texture = ExtResource("4_fa04i")
+
+[node name="Sprite2D2" type="Sprite2D" parent="sprite/reye"]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_fa04i")
+
+[node name="Sprite2D3" type="Sprite2D" parent="sprite/reye"]
+self_modulate = Color(0.69411767, 0, 0.16078432, 1)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("4_fa04i")
+script = ExtResource("5_tjuua")
+radius = 200.0
+
+[node name="Sprite2D4" type="Sprite2D" parent="sprite/reye/Sprite2D3"]
+scale = Vector2(0.6666666, 0.6666666)
+texture = ExtResource("4_fa04i")
+script = ExtResource("5_tjuua")
+radius = 340.0
+enabled = false
+
+[node name="Sprite2D5" type="Sprite2D" parent="sprite/reye/Sprite2D3/Sprite2D4"]
+self_modulate = Color(0.69411767, 0, 0.16078432, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_fa04i")
+script = ExtResource("5_tjuua")
+radius = 510.0
+enabled = false

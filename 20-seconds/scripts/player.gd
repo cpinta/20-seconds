@@ -134,6 +134,8 @@ const JUMP_VELOCITY = 160.0
 const WALL_JUMP_VELOCITY: Vector2 = Vector2(120, 160)
 const MAX_COLLISIONS = 6
 
+const SPEED_LIMIT: float = 300
+
 const stepEmitterScene: PackedScene = preload("res://scenes/step_emitter.tscn")
 const STEP_EMITTER_GAP: float = 0.05
 var stepEmitterTimer: float = 0
@@ -527,6 +529,11 @@ func _physics_process(delta):
 			
 			
 			get_inputVector()
+			if velocity.length() > SPEED_LIMIT:
+				velocity = velocity.normalized() * SPEED_LIMIT
+				pass
+			if velocity.x > SPEED_LIMIT:
+				velocity.x = SPEED_LIMIT
 			slide(delta)
 			
 			isOnGround = len(groundDetect.get_overlapping_bodies()) > 0
@@ -626,6 +633,7 @@ func _physics_process(delta):
 							pass
 					else:
 						velocity.x = move_toward(velocity.x, 0.0, DECCELERATION * delta)
+			
 			
 			publicVelocity = velocity
 		State.DISABLE_INPUT:
@@ -840,6 +848,10 @@ func slide(delta: float):
 			isOnSlant = false
 		
 	velocity.y = -velocity.y
+	
+	if isOnGroundOld and not isOnGround:
+		print(velocity)
+		pass
 	isOnGroundOld = isOnGround
 
 func get_down_normal() -> Variant:
